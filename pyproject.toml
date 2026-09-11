@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "grounded-vla"
+version = "0.1.0"
+description = "Evidence-grounded contracts and intervenable execution for vision-language-action policies"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "Asil Kaan Bozcuoglu"}]
+keywords = ["robotics", "neurosymbolic", "knowrob", "vla", "explainability"]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.9,<1"]
+learning = ["torch>=2.5,<3"]
+openpi = ["numpy>=1.26,<3"]
+
+[project.scripts]
+grounded-vla = "grounded_vla.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+grounded_vla = ["data/*.json", "data/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B", "UP"]

@@ -1,0 +1,8 @@
+{
+  "scenario": "disturbance",
+  "seed": 0,
+  "method": "grounded",
+  "candidates": 3,
+  "prefix_length": 2,
+  "max_ticks": 100
+}

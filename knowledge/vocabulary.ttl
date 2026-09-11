@@ -1,0 +1,14 @@
+@prefix gv: <https://example.org/grounded-vla#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Project example vocabulary. These are not official KnowRob or SOMA terms.
+# Runtime triples are inserted by the mirror; this file documents their schema.
+gv:TaskFact a rdfs:Class .
+gv:TruthState a rdfs:Class .
+gv:supported a gv:TruthState .
+gv:refuted a gv:TruthState .
+gv:unknown a gv:TruthState .
+gv:hasTruth a rdf:Property ;
+    rdfs:domain gv:TaskFact ;
+    rdfs:range gv:TruthState .

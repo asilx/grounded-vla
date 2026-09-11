@@ -1,0 +1,1935 @@
+{
+  "scope": "Synthetic event-emulator ablations; not \u03c00.5/KnowRob performance evidence",
+  "seeds_per_condition": 10,
+  "started_episodes": 180,
+  "summary": [
+    {
+      "scenario": "clean",
+      "method": "grounded",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 16
+    },
+    {
+      "scenario": "clean",
+      "method": "no_retraction",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 16
+    },
+    {
+      "scenario": "clean",
+      "method": "no_semantic_guard",
+      "episodes": 10,
+      "success_rate": 0,
+      "mean_ticks": 16
+    },
+    {
+      "scenario": "unknown",
+      "method": "grounded",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 22.4
+    },
+    {
+      "scenario": "unknown",
+      "method": "no_retraction",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 22.4
+    },
+    {
+      "scenario": "unknown",
+      "method": "no_semantic_guard",
+      "episodes": 10,
+      "success_rate": 0,
+      "mean_ticks": 22.4
+    },
+    {
+      "scenario": "stale",
+      "method": "grounded",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 28.4
+    },
+    {
+      "scenario": "stale",
+      "method": "no_retraction",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 28.4
+    },
+    {
+      "scenario": "stale",
+      "method": "no_semantic_guard",
+      "episodes": 10,
+      "success_rate": 0,
+      "mean_ticks": 28.4
+    },
+    {
+      "scenario": "conflict",
+      "method": "grounded",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 26.4
+    },
+    {
+      "scenario": "conflict",
+      "method": "no_retraction",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 26.4
+    },
+    {
+      "scenario": "conflict",
+      "method": "no_semantic_guard",
+      "episodes": 10,
+      "success_rate": 0,
+      "mean_ticks": 26.4
+    },
+    {
+      "scenario": "grasp_failure",
+      "method": "grounded",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 26.4
+    },
+    {
+      "scenario": "grasp_failure",
+      "method": "no_retraction",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 26.4
+    },
+    {
+      "scenario": "grasp_failure",
+      "method": "no_semantic_guard",
+      "episodes": 10,
+      "success_rate": 0,
+      "mean_ticks": 26.4
+    },
+    {
+      "scenario": "disturbance",
+      "method": "grounded",
+      "episodes": 10,
+      "success_rate": 1,
+      "mean_ticks": 42.4
+    },
+    {
+      "scenario": "disturbance",
+      "method": "no_retraction",
+      "episodes": 10,
+      "success_rate": 0,
+      "mean_ticks": 34.4
+    },
+    {
+      "scenario": "disturbance",
+      "method": "no_semantic_guard",
+      "episodes": 10,
+      "success_rate": 0,
+      "mean_ticks": 42.4
+    }
+  ],
+  "episodes": [
+    {
+      "scenario": "clean",
+      "seed": 0,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 0,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 0,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 1,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 1,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 1,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 2,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 2,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 2,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 3,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 3,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 3,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 4,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 4,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 4,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 5,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 5,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 5,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 6,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 6,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 6,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 7,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 7,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 7,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 8,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 8,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 8,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 9,
+      "method": "grounded",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 9,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 16,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "clean",
+      "seed": 9,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 16,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 0,
+      "method": "grounded",
+      "success": true,
+      "ticks": 20,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 0,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 20,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 0,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 20,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 1,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 1,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 1,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 2,
+      "method": "grounded",
+      "success": true,
+      "ticks": 20,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 2,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 20,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 2,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 20,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 3,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 3,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 3,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 4,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 4,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 4,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 5,
+      "method": "grounded",
+      "success": true,
+      "ticks": 20,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 5,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 20,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 5,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 20,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 6,
+      "method": "grounded",
+      "success": true,
+      "ticks": 20,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 6,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 20,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 6,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 20,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 7,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 7,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 7,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 8,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 8,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 8,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 9,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 9,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "unknown",
+      "seed": 9,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 0,
+      "method": "grounded",
+      "success": true,
+      "ticks": 26,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 0,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 26,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 0,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 26,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 1,
+      "method": "grounded",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 1,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 1,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 30,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 2,
+      "method": "grounded",
+      "success": true,
+      "ticks": 26,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 2,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 26,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 2,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 26,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 3,
+      "method": "grounded",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 3,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 3,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 30,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 4,
+      "method": "grounded",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 4,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 4,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 30,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 5,
+      "method": "grounded",
+      "success": true,
+      "ticks": 26,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 5,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 26,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 5,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 26,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 6,
+      "method": "grounded",
+      "success": true,
+      "ticks": 26,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 6,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 26,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 6,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 26,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 7,
+      "method": "grounded",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 7,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 7,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 30,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 8,
+      "method": "grounded",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 8,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 8,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 30,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 9,
+      "method": "grounded",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 9,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 30,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "stale",
+      "seed": 9,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 30,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 0,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 0,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 0,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 1,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 1,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 1,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 2,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 2,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 2,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 3,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 3,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 3,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 4,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 4,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 4,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 5,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 5,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 5,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 6,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 6,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 6,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 7,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 7,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 7,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 8,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 8,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 8,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 9,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 9,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "conflict",
+      "seed": 9,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 0,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 0,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 0,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 0,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 1,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 1,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 1,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 2,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 2,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 2,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 3,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 3,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 3,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 4,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 4,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 4,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 5,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 5,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 5,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 6,
+      "method": "grounded",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 6,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 24,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 6,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 24,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 7,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 7,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 7,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 8,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 8,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 8,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 9,
+      "method": "grounded",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 9,
+      "method": "no_retraction",
+      "success": true,
+      "ticks": 28,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "grasp_failure",
+      "seed": 9,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 28,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 0,
+      "method": "grounded",
+      "success": true,
+      "ticks": 40,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 0,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 32,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 0,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 40,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 1,
+      "method": "grounded",
+      "success": true,
+      "ticks": 44,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 1,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 36,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 1,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 44,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 2,
+      "method": "grounded",
+      "success": true,
+      "ticks": 40,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 2,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 32,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 2,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 40,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 3,
+      "method": "grounded",
+      "success": true,
+      "ticks": 44,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 3,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 36,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 3,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 44,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 4,
+      "method": "grounded",
+      "success": true,
+      "ticks": 44,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 4,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 36,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 4,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 44,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 5,
+      "method": "grounded",
+      "success": true,
+      "ticks": 40,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 5,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 32,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 5,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 40,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 6,
+      "method": "grounded",
+      "success": true,
+      "ticks": 40,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 6,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 32,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 6,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 40,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 7,
+      "method": "grounded",
+      "success": true,
+      "ticks": 44,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 7,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 36,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 7,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 44,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 8,
+      "method": "grounded",
+      "success": true,
+      "ticks": 44,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 8,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 36,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 8,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 44,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 9,
+      "method": "grounded",
+      "success": true,
+      "ticks": 44,
+      "violations": 0,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 9,
+      "method": "no_retraction",
+      "success": false,
+      "ticks": 36,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    },
+    {
+      "scenario": "disturbance",
+      "seed": 9,
+      "method": "no_semantic_guard",
+      "success": false,
+      "ticks": 44,
+      "violations": 1,
+      "recoveries": 1,
+      "termination": "belief_goal_complete"
+    }
+  ]
+}

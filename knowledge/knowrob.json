@@ -1,0 +1,7 @@
+{
+  "semantic-web": {
+    "prefixes": [{"alias": "gv", "uri": "https://example.org/grounded-vla#"}]
+  },
+  "data-backends": [{"name": "pl", "type": "Prolog:rdf_db"}],
+  "reasoner": [{"name": "pl", "type": "Prolog", "data-backend": "pl"}]
+}

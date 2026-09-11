@@ -1,0 +1,419 @@
+{
+  "scope": "Five deterministic belief/rule interventions; no physical or model-level causal claim",
+  "passed": 5,
+  "total": 5,
+  "cases": [
+    {
+      "intervention": "remove supporting fact",
+      "before": {
+        "contract": "pick:cup_a",
+        "candidate": "tilted",
+        "grounds": [
+          {
+            "fact": "at_tray(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00004"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "held(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00003"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "clean(cup_a)",
+            "truth": "supported",
+            "reason": "fresh supporting evidence",
+            "evidence_ids": [
+              "e00001"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "filled(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00002"
+            ],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "after": {
+        "contract": "inspect:cup_a",
+        "candidate": "tilted",
+        "grounds": [
+          {
+            "fact": "clean(cup_a)",
+            "truth": "unknown",
+            "reason": "no evidence",
+            "evidence_ids": [],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "measured_field": "contract",
+      "expected": "inspect:cup_a",
+      "passed": true
+    },
+    {
+      "intervention": "refute cleanliness",
+      "before": {
+        "contract": "pick:cup_a",
+        "candidate": "tilted",
+        "grounds": [
+          {
+            "fact": "at_tray(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00004"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "held(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00003"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "clean(cup_a)",
+            "truth": "supported",
+            "reason": "fresh supporting evidence",
+            "evidence_ids": [
+              "e00001"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "filled(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00002"
+            ],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "after": {
+        "contract": "clean:cup_a",
+        "candidate": "tilted",
+        "grounds": [
+          {
+            "fact": "at_tray(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00004"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "held(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00003"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "clean(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00005"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "filled(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00002"
+            ],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "measured_field": "contract",
+      "expected": "clean:cup_a",
+      "passed": true
+    },
+    {
+      "intervention": "add irrelevant fact",
+      "before": {
+        "contract": "pick:cup_a",
+        "candidate": "tilted",
+        "grounds": [
+          {
+            "fact": "at_tray(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00004"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "held(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00003"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "clean(cup_a)",
+            "truth": "supported",
+            "reason": "fresh supporting evidence",
+            "evidence_ids": [
+              "e00001"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "filled(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00002"
+            ],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "after": {
+        "contract": "pick:cup_a",
+        "candidate": "tilted",
+        "grounds": [
+          {
+            "fact": "at_tray(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00004"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "held(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00003"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "clean(cup_a)",
+            "truth": "supported",
+            "reason": "fresh supporting evidence",
+            "evidence_ids": [
+              "e00001"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "filled(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00002"
+            ],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "measured_field": "contract",
+      "expected": "pick:cup_a",
+      "passed": true
+    },
+    {
+      "intervention": "remove cleanliness rule",
+      "before": {
+        "contract": "clean:cup_a",
+        "candidate": "tilted",
+        "grounds": [
+          {
+            "fact": "at_tray(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00004"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "held(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00003"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "clean(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00005"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "filled(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00002"
+            ],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "after": {
+        "contract": "pick:cup_a",
+        "candidate": "tilted",
+        "grounds": [
+          {
+            "fact": "at_tray(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00004"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "held(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00003"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "filled(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00002"
+            ],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "measured_field": "contract",
+      "expected": "pick:cup_a",
+      "passed": true
+    },
+    {
+      "intervention": "change fill state",
+      "before": {
+        "contract": "pick:cup_a",
+        "candidate": "tilted",
+        "grounds": [
+          {
+            "fact": "at_tray(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00004"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "held(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00003"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "clean(cup_a)",
+            "truth": "supported",
+            "reason": "fresh supporting evidence",
+            "evidence_ids": [
+              "e00001"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "filled(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00002"
+            ],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "after": {
+        "contract": "pick:cup_a",
+        "candidate": "level",
+        "grounds": [
+          {
+            "fact": "at_tray(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00004"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "held(cup_a)",
+            "truth": "refuted",
+            "reason": "fresh refuting evidence",
+            "evidence_ids": [
+              "e00003"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "clean(cup_a)",
+            "truth": "supported",
+            "reason": "fresh supporting evidence",
+            "evidence_ids": [
+              "e00001"
+            ],
+            "ignored_ids": []
+          },
+          {
+            "fact": "filled(cup_a)",
+            "truth": "supported",
+            "reason": "fresh supporting evidence",
+            "evidence_ids": [
+              "e00005"
+            ],
+            "ignored_ids": []
+          }
+        ]
+      },
+      "measured_field": "candidate",
+      "expected": "level",
+      "passed": true
+    }
+  ]
+}

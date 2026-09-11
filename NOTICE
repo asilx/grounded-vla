@@ -1,0 +1,13 @@
+Grounded VLA is an independent research prototype.
+
+KnowRob and openpi are external projects and are not redistributed here.
+No Physical Intelligence model weights, robot datasets, or third-party source
+files are included. The adapter implementations refer to their public APIs.
+
+The RDF namespace https://example.org/grounded-vla# is a project example
+namespace. It is not an official KnowRob or SOMA ontology.
+
+The JSONL experience log is inspired by explicit episodic recording. It is
+not a NEEM serializer and is not advertised as NEEM-compatible.
+
+No affiliation with or endorsement by the upstream projects is implied.
