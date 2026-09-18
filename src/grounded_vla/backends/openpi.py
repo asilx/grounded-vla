@@ -102,6 +102,15 @@ class OpenPiPolicy:
         self.client, self.embodiment, self.action_dim = client, embodiment, action_dim
         self.max_horizon = max_horizon
         self.serialized_input_guard = serialized_input_guard
+        metadata = getattr(client, "metadata", {})
+        if metadata.get("graph_required"):
+            if (
+                metadata.get("input_preset") != embodiment
+                or metadata.get("action_dim") != action_dim
+            ):
+                raise ValueError(
+                    "The trained server embodiment/action dimension differs from this client"
+                )
 
     def sample(self, contract: Contract, observation: dict, count: int = 1) -> list[ActionChunk]:
         import numpy as np
@@ -110,6 +119,12 @@ class OpenPiPolicy:
             raise ValueError("Candidate count must be between 1 and 8")
         payload = dict(observation["model_inputs"])
         payload["prompt"] = compile_instruction(contract)
+        metadata = getattr(self.client, "metadata", {})
+        if metadata.get("graph_required"):
+            graph = observation.get("graph")
+            if graph is None or graph.get("schema_id") != metadata.get("graph_schema_id"):
+                raise ValueError("The trained server requires the matching graph snapshot")
+            payload["graph"] = graph
         if self.embodiment == "libero":
             images = ["observation/image", "observation/wrist_image"]
             states = {"observation/state": (8,)}

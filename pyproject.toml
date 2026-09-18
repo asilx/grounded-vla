@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "grounded-vla"
-version = "0.1.0"
+version = "0.2.0"
 description = "Evidence-grounded contracts and intervenable execution for vision-language-action policies"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -20,12 +20,16 @@ openpi = ["numpy>=1.26,<3"]
 
 [project.scripts]
 grounded-vla = "grounded_vla.cli:main"
+grounded-vla-prepare = "grounded_vla.training.prepare:main"
+grounded-vla-train = "grounded_vla.training.train:main"
+grounded-vla-predict = "grounded_vla.training.inference:main"
+grounded-vla-serve = "grounded_vla.training.serve:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-grounded_vla = ["data/*.json", "data/*.html"]
+grounded_vla = ["data/*.json", "data/*.html", "training/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

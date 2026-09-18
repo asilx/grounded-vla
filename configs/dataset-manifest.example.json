@@ -1,0 +1,67 @@
+{
+  "format_version": 1,
+  "input_preset": "libero",
+  "state_dim": 8,
+  "action_dim": 7,
+  "action_convention": "LIBERO end-effector delta pose and gripper command; document units from your controller",
+  "control_period_seconds": 0.05,
+  "graph_schema": {
+    "id": "grounded-vla-belief-v1",
+    "coordinate_frame": "robot_base_xyz_metres; normalized consistently offline and online",
+    "features": [
+      "x",
+      "y",
+      "z",
+      "visible",
+      "is_target",
+      "is_container",
+      "clean/supported",
+      "clean/refuted",
+      "clean/unknown",
+      "clean/confidence",
+      "clean/age",
+      "filled/supported",
+      "filled/refuted",
+      "filled/unknown",
+      "filled/confidence",
+      "filled/age",
+      "held/supported",
+      "held/refuted",
+      "held/unknown",
+      "held/confidence",
+      "held/age",
+      "at_tray/supported",
+      "at_tray/refuted",
+      "at_tray/unknown",
+      "at_tray/confidence",
+      "at_tray/age"
+    ],
+    "relations": [
+      "none",
+      "self",
+      "on",
+      "in",
+      "near",
+      "held_by",
+      "target_of",
+      "supports"
+    ]
+  },
+  "episodes": [
+    {
+      "id": "train-001",
+      "path": "episodes/train-001.npz",
+      "split": "train"
+    },
+    {
+      "id": "train-002",
+      "path": "episodes/train-002.npz",
+      "split": "train"
+    },
+    {
+      "id": "val-001",
+      "path": "episodes/val-001.npz",
+      "split": "val"
+    }
+  ]
+}

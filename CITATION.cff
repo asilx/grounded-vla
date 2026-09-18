@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: Bozcuoglu
     given-names: Asil Kaan
-version: 0.1.0
-date-released: 2026-09-11
+version: 0.2.0
+date-released: 2026-09-18
 license: MIT
 keywords:
   - robotics

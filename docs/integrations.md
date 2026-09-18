@@ -1,5 +1,7 @@
 # External runtime integrations
 
+**v0.2:** native π0 graph-adapter training and serving are implemented. Start with [the training guide](pi0-training.md). The external π0.5 and KnowRob interfaces below retain their stated scope.
+
 The offline demo and adapter tests run without KnowRob or model weights. Native KnowRob and an actual π0.5 server were not run during the packaged validation. The integrations below contain implementation code and explicit contracts; their remaining deployment steps are identified here.
 
 ## Reviewed upstream revisions

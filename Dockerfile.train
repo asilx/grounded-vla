@@ -1,0 +1,32 @@
+FROM python:3.11.13-slim-bookworm
+ARG OPENPI_REVISION=215abfb217dbac7d5f1273282331b9b1866c0479
+ARG TORCH_INDEX=https://download.pytorch.org/whl/cu126
+ENV VIRTUAL_ENV=/opt/venv PATH=/opt/venv/bin:$PATH \
+    PYTHONUNBUFFERED=1 PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    HF_HOME=/cache/huggingface OPENPI_DATA_HOME=/cache/openpi \
+    XLA_PYTHON_CLIENT_PREALLOCATE=false
+RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && python -m venv /opt/venv
+RUN git init /opt/openpi && cd /opt/openpi \
+    && git remote add origin https://github.com/Physical-Intelligence/openpi.git \
+    && git fetch --depth=1 origin ${OPENPI_REVISION} && git checkout --detach FETCH_HEAD
+WORKDIR /app
+COPY requirements-training.txt ./
+RUN pip install torch==2.7.1 --index-url ${TORCH_INDEX} \
+    && pip install -r requirements-training.txt \
+    && pip install --no-deps /opt/openpi /opt/openpi/packages/openpi-client
+COPY scripts/patch_openpi_transformers.py scripts/patch_openpi_transformers.py
+RUN python scripts/patch_openpi_transformers.py
+COPY pyproject.toml README.md LICENSE ./
+COPY src ./src
+RUN pip install --no-deps . \
+    && python -c "from grounded_vla.training.runtime import verify_runtime; verify_runtime()"
+COPY scripts ./scripts
+COPY configs ./configs
+COPY examples ./examples
+RUN useradd --uid 1000 --create-home trainer \
+    && mkdir -p /app/runs /app/data /app/models /cache \
+    && chown -R trainer:trainer /app/runs /app/data /app/models /cache
+USER trainer
+CMD ["grounded-vla-train", "configs/pi0_adapter.json"]

@@ -1,0 +1,29 @@
+{
+  "dataset": "../data/prepared.json",
+  "base_checkpoint": "../models/pi0/model.safetensors",
+  "tokenizer": "../models/paligemma_tokenizer.model",
+  "output_dir": "../runs/pi0-adapter",
+  "adapter": {
+    "feature_dim": 26,
+    "heads": 8,
+    "context_tokens": 8,
+    "relation_types": 8,
+    "initial_gate": 0.001
+  },
+  "action_horizon": 50,
+  "precision": "bfloat16",
+  "device": "cuda",
+  "batch_size": 2,
+  "accumulation_steps": 4,
+  "steps": 10000,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.01,
+  "warmup_steps": 100,
+  "gradient_clip": 1.0,
+  "graph_dropout": 0.1,
+  "eval_every": 250,
+  "eval_batches": 20,
+  "save_every": 500,
+  "seed": 7,
+  "gradient_checkpointing": true
+}

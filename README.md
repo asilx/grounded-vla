@@ -2,11 +2,27 @@
 
 **Evidence-grounded contracts and intervenable execution for vision-language-action policies.**
 
-Grounded VLA explores how explicit knowledge can shape a robot's next subtask, validate proposed actions, and explain why a decision changed. It connects a runnable execution prototype with integration points for **KnowRob** and **π0.5 through openpi**, plus a small **trainable PyTorch graph adapter**.
+Grounded VLA explores how explicit knowledge can shape a robot's next subtask, validate proposed actions, and explain why a decision changed. It connects a runnable execution prototype with integration points for **KnowRob** and **π0.5 through openpi**, plus a **graph adapter trained inside the real openpi π0 model**.
 
 The core demo runs on a laptop with Python alone. It produces a self-contained trace explorer showing the world model, active rules, rejected candidates, observed effects, and recovery decisions.
 
 ![Grounded VLA trace explorer](docs/trace-explorer.png)
+
+## Train the adapter with real π0
+
+**v0.2.0:** the graph adapter now conditions native π0 action tokens during both flow-matching training and inference. The pretrained base stays frozen. The pipeline includes causal episode preparation, train-only normalization, checkpoint/resume, paired graph ablation, real denoising, websocket serving and a training container.
+
+Start with [the complete π0 training guide](docs/pi0-training.md), [the dataset contract](docs/training-data.md), [the training config](configs/pi0_adapter.json), and [Dockerfile.train](Dockerfile.train).
+
+```bash
+docker build -f Dockerfile.train -t grounded-vla:pi0 .
+# After preparing the real checkpoint, tokenizer and recorded episodes:
+grounded-vla-prepare data/manifest.json --out data/prepared.json
+grounded-vla-train configs/pi0_adapter.json
+grounded-vla-predict runs/pi0-adapter/step-00010000 runs/observation.npz --out runs/actions.npz
+```
+
+The CLI commands above require the local training environment; the guide provides the equivalent Docker commands and all mounts. Real weights and demonstrations are supplied by you. Native algorithms are tested on a reduced, untrained π0 model; full pretrained GPU training and the Docker build have not been run in this environment. No robot performance gain is claimed.
 
 ## Run the showcase
 
@@ -49,8 +65,8 @@ The environment is a **partially observed symbolic event emulator**. Each script
 | Explanations | Immutable decision snapshots, evidence IDs, rejected alternatives, readable rationale, JSONL trace | Ordering, provenance, mutation and hash checks |
 | Interventions | Evidence removal, relevant changes, irrelevant changes, rule changes, fill-state changes | Five matched controller-level intervention checks |
 | KnowRob adapter | Native Python bindings in a bounded worker; snapshot synchronization; queries used by the executive | Source-verified API and transport-double tests; native runtime not exercised in the packaged validation |
-| openpi adapter | Bounded websocket transport, explicit LIBERO/DROID inputs, action shape checks, capture-to-proposal example | Input/output contract tests; no checkpoint inference in the packaged validation |
-| Learned interface | Relation-aware graph encoder, fixed context tokens, gated cross-attention, masked predicate and flow losses | CPU forward/backward tests and synthetic training example |
+| openpi adapter | Bounded websocket transport, LIBERO/DROID inputs, graph forwarding, action checks | Native reduced-model websocket roundtrip and input/output tests |
+| π0 training | Graph-conditioned native action tokens, frozen base, flow matching, causal data, resume and inference | Native reduced-model backprop, denoising, exact CPU resume and artifact roundtrip |
 
 This release is a research prototype. It does not claim an end-to-end deployment of KnowRob + π0.5, improved LIBERO results, a trained π0.5 graph adapter, NEEM format compatibility, or formal physical safety. The native integrations have explicit boundaries in [the integration guide](docs/integrations.md).
 
@@ -74,7 +90,7 @@ flowchart TD
 
 The main control path lives in [`runner.py`](src/grounded_vla/runner.py). The bundled runner selects the scripted event environment. The openpi adapter exposes action proposals for a separate robot integration; it is intentionally not sent through the toy pose validator.
 
-The reasoning boundary is concrete: a fact can satisfy a precondition only if it has usable evidence at the current query time. The graph adapter is a separate trainable path; it does not make the rule engine differentiable.
+The reasoning boundary is concrete: a fact can satisfy a precondition only if it has usable evidence at the current query time. The graph adapter supplies a learned conditioning path inside π0; it does not make the rule engine differentiable.
 
 ## Explore the mechanisms
 
@@ -98,7 +114,7 @@ All variants receive the same sensor reports and use the same candidate generato
 
 `evaluate` pairs scene seeds across the three variants and writes `episodes.csv` plus `results.json`. Every started episode counts, including timeouts and incomplete tasks. The outputs are synthetic diagnostic results and should not be presented as π0.5 performance evidence. See [evaluation scope](docs/evaluation.md).
 
-## Train the optional knowledge adapter
+## Run the small synthetic adapter example
 
 ```bash
 python -m pip install -e ".[learning]"
@@ -118,7 +134,7 @@ conditioned_hidden = adapter(hidden, features, edge_types, valid)
 
 Object features must be grounded in visual regions or another explicit entity binding. The encoder has no arbitrary object-ID embeddings. Consistent node/edge permutation leaves its pooled context unchanged. Fully invalid or empty graphs produce an exact identity update, including after biases have been trained.
 
-Installing this layer inside π0.5 requires a checkpoint-specific model patch, a feature extraction path, training data, and evaluation. That patch is not claimed to be included. Details: [learning interface](docs/learning.md).
+For actual π0 training, use [the native training pipeline](docs/pi0-training.md). π0.5 adapter training remains a separate extension. Details: [learning interface](docs/learning.md).
 
 ## Connect the external runtimes
 

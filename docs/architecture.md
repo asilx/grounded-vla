@@ -50,3 +50,9 @@ KnowRob stores explicit `hasTruth` edges to `supported`, `refuted`, or `unknown`
 Explanations are rendered from the recorded decision payload. They describe the controller's object/skill choice, active rules, and candidate rejection. They do not expose hidden model chain-of-thought or explain every coordinate produced by an action expert.
 
 JSON serialization freezes each record before it is appended. A hash chain detects modification, reordering, or removal inside a trace. It is not an authenticity signature: replacing the entire chain or truncating an unanchored suffix can evade that check. Publish or otherwise retain the final hash if an externally anchored audit is required.
+
+## Native π0 neural path (v0.2)
+
+A causal graph snapshot accompanies each image/state/prompt frame. GraphContextEncoder pools it into fixed context tokens. GroundedPi0 adds gated cross-attention to the native action/time tokens before the frozen action expert. The official model supplies the flow loss and inference denoising. The same data transforms and graph schema accompany serialized adapter artifacts. The symbolic executive, evidence ledger, and journal remain separate from this differentiable path; explainability claims must distinguish symbolic rationales from learned policy behavior.
+
+See [the executable training pipeline](pi0-training.md) and [the observation contract](training-data.md).

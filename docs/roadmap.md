@@ -1,4 +1,6 @@
-# Roadmap from showcase to research system
+# Roadmap
+
+Version 0.2 implements the native π0 adapter insertion, data/training pipeline, checkpoints and serving. The immediate next milestone is training on real demonstrations and measuring paired task success and graph interventions. Items below that concern pretrained integration now refer to validation at full scale and π0.5 extensions, not the absence of a π0 code path. from showcase to research system
 
 The offline showcase is complete within its documented scope. The following work would turn it into the full system proposed in the research document.
 

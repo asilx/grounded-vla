@@ -9,14 +9,16 @@ from pathlib import Path
 EXCLUDED_DIRS = {
     ".git",
     ".venv",
+    ".training-venv",
     "__pycache__",
     ".pytest_cache",
     ".ruff_cache",
+    ".cache",
     "runs",
     "build",
     "dist",
 }
-EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".pt", ".pth", ".npy", ".npz", ".zip"}
+EXCLUDED_SUFFIXES = {".pyc", ".pyo", ".pt", ".pth", ".npy", ".npz", ".zip", ".safetensors"}
 
 
 def main():
@@ -30,6 +32,8 @@ def main():
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for path in sorted(root.rglob("*")):
             relative = path.relative_to(root)
+            if relative.parts[0] in {"models", "data"}:
+                continue
             if not path.is_file() or path.is_symlink() or path == output:
                 continue
             if any(p in EXCLUDED_DIRS or p.endswith(".egg-info") for p in relative.parts):
@@ -41,7 +45,7 @@ def main():
             ):
                 continue
             member = zipfile.ZipInfo(
-                "grounded-vla/" + relative.as_posix(), date_time=(2026, 9, 11, 0, 0, 0)
+                "grounded-vla/" + relative.as_posix(), date_time=(2026, 9, 18, 0, 0, 0)
             )
             member.compress_type = zipfile.ZIP_DEFLATED
             member.external_attr = 0o100644 << 16

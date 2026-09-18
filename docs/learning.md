@@ -34,8 +34,8 @@ The packaged validation ran 150 optimization steps on CPU. The recorded held-out
 
 Tests also verify that gradients pass through a frozen downstream linear layer to the graph encoder and gate, while the frozen layer's parameters remain without gradients. Freezing parameters must not be confused with detaching their input activations.
 
-## Inserting the module into a real VLA
+## Native π0 integration in v0.2
 
-Choose the checkpoint-specific action hidden state, match its hidden dimension and attention dtype, create graph features from synchronized evidence and visual regions, and insert the adapter in the actual model forward path. Freeze the intended pretrained parameters, verify gradient connectivity, and retain a knowledge-disabled baseline.
+The implementation now subclasses the pinned official PI0Pytorch model. It conditions only action tokens returned by embed_suffix; the same insertion participates in native flow matching and all denoising steps. The base remains frozen while gradients reach the adapter through its action expert. State tokens and upstream attention masks retain their original behavior.
 
-The exact openpi model patch and robot-data training loop are not included. This release provides a runnable and tested module that can support that experiment; it does not claim a trained or checkpoint-compatible π0.5 modification.
+The [π0 training guide](pi0-training.md) covers real demonstration preparation, artifact identity, masked physical targets, exact CPU resume, inference and Docker. The [data contract](training-data.md) defines graph features and causal snapshots. π0.5, learned risk heads and joint base-model fine-tuning remain separate work. No trained robot checkpoint is bundled.

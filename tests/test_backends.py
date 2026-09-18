@@ -143,3 +143,36 @@ def test_serialized_token_guard_fails_before_request():
     with pytest.raises(ValueError, match="serialized budget"):
         policy.sample(Contract("pick", "cup_a", "the blue cup"), libero_inputs())
     assert not client.calls
+
+
+def test_trained_server_requires_and_forwards_graph():
+    np = pytest.importorskip("numpy")
+    client = PolicyDouble(np.zeros((3, 7)))
+    client.metadata = {
+        "graph_required": True,
+        "graph_schema_id": "test-graph",
+        "input_preset": "libero",
+        "action_dim": 7,
+    }
+    policy = OpenPiPolicy(client, embodiment="libero", action_dim=7)
+    observation = libero_inputs()
+    contract = Contract("pick", "cup_a", "the blue cup")
+    with pytest.raises(ValueError, match="graph"):
+        policy.sample(contract, observation)
+    assert not client.calls
+    observation["graph"] = {
+        "schema_id": "test-graph",
+        "features": np.zeros((1, 26)),
+        "edges": np.zeros((1, 1), np.int64),
+        "valid": np.ones(1, bool),
+    }
+    policy.sample(contract, observation)
+    assert client.calls[0]["graph"] is observation["graph"]
+
+
+@pytest.mark.parametrize("preset,dimension", [("droid", 7), ("libero", 8)])
+def test_trained_server_metadata_must_match_client(preset, dimension):
+    client = PolicyDouble([])
+    client.metadata = {"graph_required": True, "input_preset": preset, "action_dim": dimension}
+    with pytest.raises(ValueError, match="differs"):
+        OpenPiPolicy(client, embodiment="libero", action_dim=7)
