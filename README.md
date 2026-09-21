@@ -188,25 +188,6 @@ The full [research proposal](docs/research-proposal.md) motivates the intended s
 
 Relevant foundations include [KnowRob](https://github.com/knowrob/knowrob), [π0.5](https://arxiv.org/abs/2504.16054), and [openpi remote inference](https://github.com/Physical-Intelligence/openpi/blob/main/docs/remote_inference.md). Concrete implementation references are recorded with revisions in [the integration guide](docs/integrations.md).
 
-## Publish your showcase
-
-Suggested repository name: **`grounded-vla`**.
-
-Suggested GitHub description:
-
-> Evidence-grounded neurosymbolic execution for VLA policies, with KnowRob/openpi adapters, causal interventions, and a trainable graph interface.
-
-Suggested topics: `robotics`, `neurosymbolic-ai`, `vision-language-action`, `knowrob`, `explainable-ai`, `pytorch`, `physical-ai`.
-
-```bash
-git init -b main
-git add .
-git commit -m "Initial Grounded VLA research prototype"
-gh repo create grounded-vla --public --source=. --remote=origin --push
-```
-
-The final command publishes the repository when you run it. No GitHub repository is created by this archive.
-
 ## License and citation
 
 Original code is available under the [MIT License](LICENSE). External runtimes, model weights, and datasets retain their own terms and are not bundled. See [NOTICE](NOTICE) and [CITATION.cff](CITATION.cff).
