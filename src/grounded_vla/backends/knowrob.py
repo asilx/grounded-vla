@@ -13,7 +13,7 @@ from pathlib import Path
 
 from grounded_vla.belief import Atom, BeliefStore, QueryResult, Truth
 
-NAMESPACE = "https://example.org/grounded-vla#"
+NAMESPACE = "https://asil.bz/grounded-vla#"
 
 
 class KnowledgeBackendError(RuntimeError):
