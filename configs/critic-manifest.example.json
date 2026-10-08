@@ -1,0 +1,10 @@
+{
+  "format_version": 1,
+  "camera": "base_0_rgb",
+  "control_period_seconds": 0.05,
+  "episodes": [
+    {"path": "../data/critic/train-001.npz", "split": "train"},
+    {"path": "../data/critic/val-001.npz", "split": "val"},
+    {"path": "../data/critic/test-001.npz", "split": "test"}
+  ]
+}

@@ -1,0 +1,7 @@
+# Transport only. Keep Isaac Sim's existing NumPy, Pillow, torch and torchvision.
+# The official openpi client is installed separately from the pinned source,
+# with --no-deps because only openpi_client.msgpack_numpy is used here.
+# Match the version already declared by Isaac Sim 6.0.1; its synchronous client
+# supports the additional_headers and timeout API used by OpenPiTransport.
+websockets==12.0
+msgpack==1.1.0

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from grounded_vla.training.data import CAMERAS
+from grounded_vla.observation import CAMERAS
 
 
 class EpisodeRecorder:

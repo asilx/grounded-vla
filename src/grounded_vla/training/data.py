@@ -11,10 +11,9 @@ from pathlib import Path
 import numpy as np
 import torch
 
+from grounded_vla.observation import CAMERAS
 from grounded_vla.training.graph import GraphBatch
 from grounded_vla.training.runtime import sha256
-
-CAMERAS = ("base_0_rgb", "left_wrist_0_rgb", "right_wrist_0_rgb")
 
 
 def read_json(path):

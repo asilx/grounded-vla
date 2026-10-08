@@ -17,6 +17,8 @@ dependencies = []
 dev = ["pytest>=8,<10", "ruff>=0.9,<1"]
 learning = ["torch>=2.5,<3"]
 openpi = ["numpy>=1.26,<3"]
+simulation = ["numpy>=1.26,<3"]
+vision = ["torch>=2.5,<3", "torchvision>=0.20,<1", "numpy>=1.26,<3"]
 
 [project.scripts]
 grounded-vla = "grounded_vla.cli:main"
@@ -24,6 +26,8 @@ grounded-vla-prepare = "grounded_vla.training.prepare:main"
 grounded-vla-train = "grounded_vla.training.train:main"
 grounded-vla-predict = "grounded_vla.training.inference:main"
 grounded-vla-serve = "grounded_vla.training.serve:main"
+grounded-vla-isaacsim = "grounded_vla.isaacsim_cli:main"
+grounded-vla-train-critic = "grounded_vla.training.critic:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,0 +1,40 @@
+# Keep the simulator's native Python/CUDA stack separate from the pi0 trainer.
+ARG ISAACSIM_IMAGE=nvcr.io/nvidia/isaac-sim:6.0.1
+FROM python:3.11.13-slim-bookworm AS openpi-source
+ARG OPENPI_REVISION=215abfb217dbac7d5f1273282331b9b1866c0479
+RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && git init /opt/openpi \
+    && git -C /opt/openpi remote add origin https://github.com/Physical-Intelligence/openpi.git \
+    && git -C /opt/openpi fetch --depth=1 origin ${OPENPI_REVISION} \
+    && git -C /opt/openpi checkout --detach FETCH_HEAD
+
+FROM ${ISAACSIM_IMAGE}
+USER root
+ENV PYTHONUNBUFFERED=1 PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    HF_HOME=/cache/huggingface TORCH_HOME=/cache/torch
+WORKDIR /app
+COPY --from=openpi-source /opt/openpi /opt/openpi
+COPY requirements-simulation.txt ./
+# Only the upstream MessagePack codec is used, not its image/policy utilities.
+# Do not let openpi-client's numpy<2 metadata downgrade Isaac Sim's NumPy 2.x,
+# and do not install the training stack over NVIDIA's bundled torch/torchvision.
+RUN /isaac-sim/python.sh -m pip install --no-cache-dir --no-deps -r requirements-simulation.txt \
+    && /isaac-sim/python.sh -m pip install --no-cache-dir --no-deps /opt/openpi/packages/openpi-client
+COPY pyproject.toml README.md LICENSE ./
+COPY src ./src
+RUN /isaac-sim/python.sh -m pip install --no-cache-dir --no-deps .
+COPY configs ./configs
+COPY scripts/check_container_python.py ./scripts/check_container_python.py
+RUN /isaac-sim/python.sh scripts/check_container_python.py \
+        --torch-version 2.11.0 --torchvision-version 0.26.0 --isaacsim \
+    && /isaac-sim/python.sh -m grounded_vla.isaacsim_cli --help > /dev/null \
+    && mkdir -p /app/runs /app/data /app/models /app/assets /cache \
+    && chown -R 1234:1234 /app/runs /app/data /app/models /app/assets /cache
+# Preserve the official image's non-root runtime user.
+USER 1234:1234
+# The upstream healthcheck is for its streaming application, not this batch job.
+HEALTHCHECK NONE
+# EULA acceptance belongs to docker run; it is not baked into the image here.
+ENTRYPOINT ["/isaac-sim/python.sh", "-m", "grounded_vla.isaacsim_cli"]
+CMD ["--help"]

@@ -33,6 +33,11 @@ mkdir -p data/episodes models runs .cache
 
 The container uses UID 1000. Ensure the mounted output/cache directories are writable by that user. It contains the pinned upstream source at `/opt/openpi`, an isolated virtual environment, our CLI, scripts, and example configs. Model weights and data are mounted separately.
 
+The image also includes **torchvision 0.22.1** paired with PyTorch 2.7.1 for
+`grounded-vla-train-critic`. ImageNet backbone downloads are cached under
+`/cache/torch`. Isaac Sim runs in its own NVIDIA-based image; see the complete
+[Docker setup](docker.md) for critic training and simulator/server networking.
+
 A CPU image can be built for integration checks with `--build-arg TORCH_INDEX=https://download.pytorch.org/whl/cpu`. CPU execution also requires `device: "cpu"` and `precision: "float32"` in the config; it is not a practical recommendation for full-scale training.
 
 Alternatively, use a dedicated local environment on Linux, Python 3.11 or 3.12:
@@ -40,7 +45,7 @@ Alternatively, use a dedicated local environment on Linux, Python 3.11 or 3.12:
 ```bash
 python -m venv .training-venv
 source .training-venv/bin/activate
-python -m pip install torch==2.7.1 --index-url https://download.pytorch.org/whl/cu126
+python -m pip install torch==2.7.1 torchvision==0.22.1 --index-url https://download.pytorch.org/whl/cu126
 python -m pip install -r requirements-training.txt
 git clone https://github.com/Physical-Intelligence/openpi.git ../openpi
 git -C ../openpi checkout 215abfb217dbac7d5f1273282331b9b1866c0479

@@ -1,0 +1,20 @@
+{
+  "stage_path": "../assets/scene.usd",
+  "robot_prim_path": "/World/Robot",
+  "camera_paths": {
+    "base_0_rgb": "/World/Camera",
+    "left_wrist_0_rgb": "/World/Robot/panda_hand/WristCamera"
+  },
+  "joint_names": [
+    "panda_joint1", "panda_joint2", "panda_joint3", "panda_joint4",
+    "panda_joint5", "panda_joint6", "panda_joint7",
+    "panda_finger_joint1", "panda_finger_joint2"
+  ],
+  "lower_limits": [-2.8973, -1.7628, -2.8973, -3.0718, -2.8973, -0.0175, -2.8973, 0.0, 0.0],
+  "upper_limits": [2.8973, 1.7628, 2.8973, -0.0698, 2.8973, 3.7525, 2.8973, 0.04, 0.04],
+  "max_joint_step": [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.005, 0.005],
+  "physics_dt": 0.008333333333333333,
+  "steps_per_action": 6,
+  "warmup_steps": 60,
+  "max_camera_age_seconds": 0.05
+}

@@ -8,6 +8,35 @@ The core demo runs on a laptop with Python alone. It produces a self-contained t
 
 ![Grounded VLA trace explorer](docs/trace-explorer.png)
 
+## Isaac Sim and temporal ViT
+
+Docker setup: [two-container build and run instructions](docs/docker.md).
+`Dockerfile.train` includes π0 and ViT training/serving;
+`Dockerfile.isaacsim` uses the official NVIDIA runtime for simulation and online
+critic inference. The images communicate through the existing policy websocket.
+
+Built on the **`pi0-integration` branch** (`13f6d9129c05da8730700554f27eaf1377f51e39`).
+The new physics runner connects an authored Isaac Sim USD scene to the canonical
+π0 policy server, records pre-action observations and graph snapshots, and can
+pause on a trained temporal-ViT stall/failure signal. It checks the model's
+joint order, absolute-position convention, and control period before execution.
+
+Read [the Isaac Sim + ViT setup guide](docs/isaacsim-vit.md) for scene configuration,
+critic training, graph-provider callbacks, and the camera-only smoke command:
+
+```bash
+# Use the actual path to Isaac Sim's launcher, from the repository root.
+/absolute/path/to/isaac-sim/python.sh -m grounded_vla.isaacsim_cli \
+  configs/isaacsim.example.json --capture-only --out runs/camera-check
+```
+
+Configure your existing scene first. CPU tests cover the bridge contracts, the
+closed-loop control flow, real torchvision ViT forward/backprop, and checkpoint
+restoration. **Isaac Sim physics/GPU execution and trained critic performance
+have not been validated here.** USD assets, pretrained π0 weights, and trained
+critic weights are not bundled. A VLM recovery callback runs only after pausing;
+automatic recovery and navigation are outside this addition.
+
 ## Train the adapter with real π0
 
 **v0.2.0:** the graph adapter now conditions native π0 action tokens during both flow-matching training and inference. The pretrained base stays frozen. The pipeline includes causal episode preparation, train-only normalization, checkpoint/resume, paired graph ablation, real denoising, websocket serving and a training container.
@@ -67,6 +96,8 @@ The environment is a **partially observed symbolic event emulator**. Each script
 | KnowRob adapter | Native Python bindings in a bounded worker; snapshot synchronization; queries used by the executive | Source-verified API and transport-double tests; native runtime not exercised in the packaged validation |
 | openpi adapter | Bounded websocket transport, LIBERO/DROID inputs, graph forwarding, action checks | Native reduced-model websocket roundtrip and input/output tests |
 | π0 training | Graph-conditioned native action tokens, frozen base, flow matching, causal data, resume and inference | Native reduced-model backprop, denoising, exact CPU resume and artifact roundtrip |
+| Isaac Sim bridge | Canonical RGB/joints, strict policy handshake, joint validation, causal episode recording | CPU contract doubles; native simulation still requires a GPU run |
+| Temporal ViT critic | Spatial ViT + causal temporal attention, labelled episode training, checkpoint inference, latched pause events | Native torchvision forward/backprop and monitoring behavior tests; no trained task metric |
 
 This release is a research prototype. It does not claim an end-to-end deployment of KnowRob + π0.5, improved LIBERO results, a trained π0.5 graph adapter, NEEM format compatibility, or formal physical safety. The native integrations have explicit boundaries in [the integration guide](docs/integrations.md).
 
