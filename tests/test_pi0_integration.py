@@ -117,6 +117,10 @@ def test_artifact_inference_and_actual_websocket(training_config):
         policy.infer(payload, noise=noise)["actions"],
         normalized * np.asarray(stats["std"], np.float32) + np.asarray(stats["mean"], np.float32),
     )
+    deterministic = TrainedPi0Policy(checkpoint, device='cpu', num_steps=2, zero_noise=True)
+    np.testing.assert_array_equal(
+        deterministic.infer(payload)['actions'],
+        policy.infer(payload,noise=torch.zeros(1,3,32))['actions'])
     from openpi.serving.websocket_policy_server import WebsocketPolicyServer
     from websockets.asyncio.server import serve
 
@@ -178,3 +182,62 @@ def test_pinned_converter_imports():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     assert callable(module.slice_initial_orbax_checkpoint)
+
+
+def test_inactive_text_head_is_removed_but_active_missing_weights_still_fail(native_tiny, training_config, tmp_path):
+    from safetensors.torch import save_file
+
+    model = native_tiny(training_config)
+    assert model.paligemma_with_expert.gemma_expert.lm_head is None
+    assert model.action_out_proj.weight.numel() > 0
+    model.load_base(training_config.base_checkpoint)
+    weights = load_file(training_config.base_checkpoint)
+    del weights['action_in_proj.weight']
+    damaged = tmp_path / 'missing-active-weight.safetensors'
+    save_file(weights, str(damaged))
+    with pytest.raises(ValueError, match='action_in_proj.weight'):
+        model.load_base(damaged)
+
+
+def test_robot_interface_adaptation_preserves_frozen_backbone(native_tiny, training_config):
+    from grounded_vla.training.pi0 import ACTION_IO_MODULES
+    model = native_tiny(training_config)
+    model.load_base(training_config.base_checkpoint)
+    model.enable_action_io_training()
+    obs, graph, actions, mask = batch(training_config)
+    model.flow_loss(obs, actions, graph, mask).backward()
+    assert model.action_out_proj.weight.grad.abs().sum() > 0
+    allowed = ('graph_adapter.',) + tuple(n+'.' for n in ACTION_IO_MODULES)
+    assert all(p.grad is None for n,p in model.named_parameters() if not n.startswith(allowed))
+    damaged = model.action_io_state_dict()
+    del damaged['action_out_proj.weight']
+    with pytest.raises(ValueError, match='keys mismatch'):
+        model.load_action_io_state_dict(damaged)
+
+
+def test_robot_interface_checkpoint_resume_and_inference(native_tiny, training_config, tmp_path, monkeypatch):
+    import grounded_vla.training.train as training
+    import grounded_vla.training.inference as inference
+    from grounded_vla.training.checkpoint import load_action_io
+    def factory(config):
+        model = native_tiny(config)
+        if config.train_action_io:
+            model.enable_action_io_training()
+        return model
+    monkeypatch.setattr(training, 'build_model', factory)
+    monkeypatch.setattr(inference, 'build_model', factory)
+    config = dataclasses.replace(training_config, train_action_io=True, eval_sampling='uniform',
+                                 output_dir=str(tmp_path/'io-full'))
+    full = run(config)
+    interrupted = dataclasses.replace(config, output_dir=str(tmp_path/'io-resume'))
+    part = run(interrupted, stop_after=2)
+    resumed = run(interrupted, resume=part)
+    for name in ('adapter.safetensors', 'action_io.safetensors'):
+        a,b=load_file(str(full/name)),load_file(str(resumed/name))
+        for k in a: torch.testing.assert_close(a[k],b[k],rtol=0,atol=0)
+    policy = TrainedPi0Policy(full, device='cpu', num_steps=2)
+    saved = load_file(str(full/'action_io.safetensors'))
+    for k,v in policy.model.action_io_state_dict().items():
+        torch.testing.assert_close(v,saved[k],rtol=0,atol=0)
+    with pytest.raises(ValueError, match='Unexpected'):
+        load_action_io(full,policy.model,False)

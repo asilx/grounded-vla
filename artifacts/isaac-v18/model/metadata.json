@@ -1,0 +1,489 @@
+{
+  "dataset": {
+    "format_version": 1,
+    "state_dim": 9,
+    "action_dim": 9,
+    "input_preset": "canonical",
+    "action_convention": "absolute_joint_positions[panda_joint1,panda_joint2,panda_joint3,panda_joint4,panda_joint5,panda_joint6,panda_joint7,panda_finger_joint1,panda_finger_joint2]",
+    "control_period_seconds": 0.016666666666666666,
+    "graph_schema": {
+      "id": "grounded-vla-belief-v1",
+      "coordinate_frame": "Isaac World, Z-up, metres; unscaled simulator oracle poses; goal is the prior task destination.",
+      "features": [
+        "x",
+        "y",
+        "z",
+        "visible",
+        "is_target",
+        "is_container",
+        "clean/supported",
+        "clean/refuted",
+        "clean/unknown",
+        "clean/confidence",
+        "clean/age",
+        "filled/supported",
+        "filled/refuted",
+        "filled/unknown",
+        "filled/confidence",
+        "filled/age",
+        "held/supported",
+        "held/refuted",
+        "held/unknown",
+        "held/confidence",
+        "held/age",
+        "at_tray/supported",
+        "at_tray/refuted",
+        "at_tray/unknown",
+        "at_tray/confidence",
+        "at_tray/age"
+      ],
+      "relations": [
+        "none",
+        "self",
+        "on",
+        "in",
+        "near",
+        "held_by",
+        "target_of",
+        "supports"
+      ]
+    },
+    "episodes": [
+      {
+        "id": "franka-seed-000",
+        "path": "../franka-guarded-v7/seed-000.npz",
+        "split": "train",
+        "sha256": "60c15b28b0b9ba256cb007c6d915edfba468e2ee3db8bf6023beb00bdbb0c952",
+        "frames": 3801
+      },
+      {
+        "id": "franka-seed-001",
+        "path": "../franka-guarded-v7/seed-001.npz",
+        "split": "val",
+        "sha256": "e34fb756e73c0ec9050146356faed1130092240b8b55e54f1ef75b1a61a24d80",
+        "frames": 3807
+      },
+      {
+        "id": "franka-seed-002",
+        "path": "../franka-guarded-v7/seed-002.npz",
+        "split": "test",
+        "sha256": "9cea765f92daf44a841c1b0531c42ba202c93e2efe7404c39ed85dfbdd8c7036",
+        "frames": 3815
+      },
+      {
+        "id": "franka-recovery-3",
+        "path": "../franka-recovery-v10/recovery-3.npz",
+        "split": "train",
+        "sha256": "b13e83ddcff544f2a8d4a464f8a1239cca747d6e188d1c3e6246b244acea71c7",
+        "frames": 3359
+      },
+      {
+        "id": "franka-recovery-4",
+        "path": "../franka-recovery-v10/recovery-4.npz",
+        "split": "train",
+        "sha256": "95f873739b38fa628f9b2fc38f88150757724a0588a34d5f39d03ccb3a491e5e",
+        "frames": 2503
+      },
+      {
+        "id": "franka-recovery-5",
+        "path": "../franka-recovery-v10/recovery-5.npz",
+        "split": "train",
+        "sha256": "043a250d7b95f333c085e7c31413f00d5163e8c18ad033b73706fc27b5dc14c0",
+        "frames": 3795
+      },
+      {
+        "id": "franka-recovery-6",
+        "path": "recovery-6.npz",
+        "split": "train",
+        "sha256": "4cb6e2101c9c8152780b6e9200b647939937eac7afac5c6f0270e6d98068425c",
+        "frames": 3322
+      },
+      {
+        "id": "franka-recovery-7",
+        "path": "recovery-7.npz",
+        "split": "train",
+        "sha256": "edfe99adcbff74aa3cdb65674a44300bbb67f1244c6c64663a46539a0c998288",
+        "frames": 2956
+      },
+      {
+        "id": "franka-recovery-8",
+        "path": "recovery-8.npz",
+        "split": "train",
+        "sha256": "a1a2f3fcffa2518f391ee466fddd9a9091da97bf34b69b24c1ce31636030a57d",
+        "frames": 2685
+      }
+    ],
+    "provenance": {
+      "scope": "Three-episode offline pipeline smoke test; not an independent scene/generalization benchmark.",
+      "actuation": {
+        "kp": [
+          6000.0,
+          6000.0,
+          6000.0,
+          6000.0,
+          6000.0,
+          6000.0,
+          6000.0,
+          1000.0,
+          0.0
+        ],
+        "kd": [
+          300.0,
+          300.0,
+          300.0,
+          300.0,
+          300.0,
+          300.0,
+          300.0,
+          50.0,
+          0.0
+        ],
+        "original_kp": [
+          22918.3125,
+          22918.3125,
+          22918.3125,
+          22918.3125,
+          22918.3125,
+          22918.3125,
+          22918.3125,
+          400.0,
+          0.0
+        ],
+        "original_kd": [
+          4583.66259765625,
+          4583.66259765625,
+          4583.66259765625,
+          4583.66259765625,
+          4583.66259765625,
+          4583.66259765625,
+          4583.66259765625,
+          80.0,
+          0.0
+        ],
+        "scope": "simulation actuator tracking calibration; unchanged joint/step bounds",
+        "robot_gravity_compensation": "ideal: disabled gravity on robot links only",
+        "object_gravity": true
+      },
+      "controller": "Scripted teacher with persistent desired targets, bounded to unchanged native joint/step limits before submission; full applied absolute targets measured before physics advance; seven arm positions in radians, then two finger positions in metres, in the native configuration joint order.",
+      "graph_entities": [
+        "cargo",
+        "goal",
+        "gripper"
+      ],
+      "semantic_predicates": "Unknown; no held/clean/filled/at_tray labels inferred from future outcomes.",
+      "visibility": "Procedural red-pixel detection from actual current RGB buffers, at their retained capture timestamps.",
+      "sensor_policy": "Camera masks mean available actual buffers. capture_fresh separately marks new sensor frames; all capture ages are <=50ms."
+    },
+    "action_encoding": "bounded_joint_interval_logits",
+    "action_encoding_horizon": 1,
+    "encoding_lower_limits": [
+      -2.8973000049591064,
+      -1.7627999782562256,
+      -2.8973000049591064,
+      -3.0717999935150146,
+      -2.8973000049591064,
+      -0.017500000074505806,
+      -2.8973000049591064,
+      0.0,
+      0.0
+    ],
+    "encoding_upper_limits": [
+      2.8973000049591064,
+      1.7627999782562256,
+      2.8973000049591064,
+      -0.0697999969124794,
+      2.8973000049591064,
+      3.752500057220459,
+      2.8973000049591064,
+      0.03999999910593033,
+      0.03999999910593033
+    ],
+    "encoding_max_joint_step": [
+      0.05,
+      0.05,
+      0.05,
+      0.05,
+      0.05,
+      0.05,
+      0.05,
+      0.005,
+      0.005
+    ],
+    "recovery_training_provenance": [
+      {
+        "seed": 3,
+        "frames": 3359,
+        "source_sha256": "f0871bba47b21bc33989806f4b6274719f5eee14af09c8d3ed000a0e40a1ddec",
+        "initialization": {
+          "joint_positions": [
+            0.10992701351642609,
+            -0.5300819873809814,
+            0.2908724844455719,
+            -2.4241507053375244,
+            0.24604228138923645,
+            2.2454192638397217,
+            1.2827163934707642,
+            0.03999996930360794,
+            0.03999989852309227
+          ],
+          "source_case": "bounded-v9-500-task",
+          "source_step": 1100,
+          "classification": "new scripted recovery demonstration initialized from an observed learned-policy deviation"
+        },
+        "goal_prior": [
+          0.3041088506196436,
+          -0.3069063985870839,
+          0.02575
+        ]
+      },
+      {
+        "seed": 4,
+        "frames": 2503,
+        "source_sha256": "52f9f55ab6c40f171d3983705dba76141cd7639ed6ecfa1dec113f5ce5c3006f",
+        "initialization": {
+          "joint_positions": [
+            0.5322389006614685,
+            0.26411008834838867,
+            0.24965064227581024,
+            -2.6271729469299316,
+            -0.1602119505405426,
+            2.941856622695923,
+            1.7831518650054932,
+            0.04000093787908554,
+            0.04000065475702286
+          ],
+          "source_case": "bounded-v9-1500-task",
+          "source_step": 1400,
+          "classification": "new scripted recovery demonstration initialized from an observed learned-policy deviation"
+        },
+        "goal_prior": [
+          0.3041088506196436,
+          -0.3069063985870839,
+          0.02575
+        ]
+      },
+      {
+        "seed": 5,
+        "frames": 3795,
+        "source_sha256": "f850090526b1ede677392b69b7f68077d237158b80aa69c757e8945e6719b00b",
+        "initialization": {
+          "joint_positions": [
+            0.07300058474907604,
+            -0.5084118420527012,
+            0.0030651122084283944,
+            -2.8528397239823717,
+            -0.08921385952366873,
+            3.0136737761571037,
+            0.7226946410839997,
+            0.0,
+            0.0
+          ],
+          "source_case": "randomized initial arm pose around benchmark home",
+          "source_step": 0,
+          "classification": "new scripted recovery demonstration; not a learned evaluation result"
+        },
+        "goal_prior": [
+          0.3041088506196436,
+          -0.3069063985870839,
+          0.02575
+        ]
+      },
+      {
+        "seed": 6,
+        "frames": 3322,
+        "source_sha256": "9dbb93f1215233cf9f2ac8b96a9a2408384cc7aaf7694269906584dae65a366e",
+        "initialization": {
+          "joint_positions": [
+            0.23466971516609192,
+            -0.5162601470947266,
+            0.5330809354782104,
+            -2.5311570167541504,
+            0.26280537247657776,
+            2.1226046085357666,
+            1.3647009134292603,
+            0.03999970108270645,
+            0.04000001773238182
+          ],
+          "cube_position": [
+            0.2999765872955322,
+            0.2999817132949829,
+            0.02575000375509262
+          ],
+          "source_trace": "/workspace/grounded-forge-status/learned-graph-baseline-v15-task/seed-0-attempt-0/trace.jsonl",
+          "source_trace_sha256": "c9987c7a23b5de1202cf970ae5d88c0235f1b3d19e694258e606d07a2eed86bb",
+          "source_step": 600,
+          "source_timestamp": 11.000000573694706,
+          "initialization_scope": "Actual learner-visited q and cube position; new offline recovery episode. Joint velocities reset to zero, cube orientation nominal identity, 60 warmup ticks before recording; not identical-observation DAgger labeling.",
+          "warmup_ticks": 60
+        },
+        "goal_prior": [
+          0.3041088506196436,
+          -0.3069063985870839,
+          0.02575
+        ]
+      },
+      {
+        "seed": 7,
+        "frames": 2956,
+        "source_sha256": "5906ceb6e1c6c8fec0af8bebd027f3672a8036d7c3817ab79ab782750821e01a",
+        "initialization": {
+          "joint_positions": [
+            0.2636667788028717,
+            -0.29032227396965027,
+            0.5599762797355652,
+            -2.641420364379883,
+            0.2117384523153305,
+            2.434839963912964,
+            1.382431149482727,
+            0.03999984636902809,
+            0.039999984204769135
+          ],
+          "cube_position": [
+            0.2999765872955322,
+            0.2999817132949829,
+            0.025749992579221725
+          ],
+          "source_trace": "/workspace/grounded-forge-status/learned-graph-baseline-v15-task/seed-0-attempt-0/trace.jsonl",
+          "source_trace_sha256": "c9987c7a23b5de1202cf970ae5d88c0235f1b3d19e694258e606d07a2eed86bb",
+          "source_step": 900,
+          "source_timestamp": 16.000000834465027,
+          "initialization_scope": "Actual learner-visited q and cube position; new offline recovery episode. Joint velocities reset to zero, cube orientation nominal identity, 60 warmup ticks before recording; not identical-observation DAgger labeling.",
+          "warmup_ticks": 60
+        },
+        "goal_prior": [
+          0.3041088506196436,
+          -0.3069063985870839,
+          0.02575
+        ]
+      },
+      {
+        "seed": 8,
+        "frames": 2685,
+        "source_sha256": "1579dbc6775d747a42792b3a3d9612e32018386e1144f0a5f7a034d118984ac9",
+        "initialization": {
+          "joint_positions": [
+            0.24609263241291046,
+            0.191116064786911,
+            0.5543076992034912,
+            -2.647026777267456,
+            -0.13080859184265137,
+            2.8972721099853516,
+            1.6740357875823975,
+            0.039999812841415405,
+            0.03999999910593033
+          ],
+          "cube_position": [
+            0.2999765872955322,
+            0.2999816834926605,
+            0.025749998167157173
+          ],
+          "source_trace": "/workspace/grounded-forge-status/learned-graph-baseline-v15-task/seed-0-attempt-0/trace.jsonl",
+          "source_trace_sha256": "c9987c7a23b5de1202cf970ae5d88c0235f1b3d19e694258e606d07a2eed86bb",
+          "source_step": 1200,
+          "source_timestamp": 21.000001095235348,
+          "initialization_scope": "Actual learner-visited q and cube position; new offline recovery episode. Joint velocities reset to zero, cube orientation nominal identity, 60 warmup ticks before recording; not identical-observation DAgger labeling.",
+          "warmup_ticks": 60
+        },
+        "goal_prior": [
+          0.3041088506196436,
+          -0.3069063985870839,
+          0.02575
+        ]
+      }
+    ],
+    "normalization": {
+      "state": {
+        "mean": [
+          0.21539856719432732,
+          -0.056897215471582746,
+          -0.09648503041639617,
+          -2.616213198621779,
+          0.10384155480528602,
+          2.56390711828514,
+          0.7901907120547808,
+          0.03356888714792902,
+          0.033695763326374584
+        ],
+        "std": [
+          0.6377228148145921,
+          0.3767898359707397,
+          0.36744446489631366,
+          0.07943185379265512,
+          0.29162858518981294,
+          0.3263478722478266,
+          0.6764953561673409,
+          0.007191525970556988,
+          0.007050882130617419
+        ]
+      },
+      "action": {
+        "mean": [
+          -0.020277229987186975,
+          -0.0028311019902555225,
+          -0.03213942467661471,
+          0.004810125582779396,
+          0.02798090996013768,
+          -0.02442403339247138,
+          -0.07024573020501948,
+          4.266997975874775,
+          4.2669975279400605
+        ],
+        "std": [
+          0.3164160957851262,
+          0.2627984401789044,
+          0.3177425317088298,
+          0.19118560255641012,
+          0.3141018312109539,
+          0.2763210045475992,
+          0.3678474836847888,
+          10.672120712324432,
+          10.672121083988134
+        ]
+      }
+    },
+    "normalization_split": "train"
+  },
+  "scope": "Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+  "policy": "learned-local-contracting-field",
+  "uses_rgb": false,
+  "uses_language": false,
+  "history_steps": 1,
+  "weights_sha256": "ff20db31585d32bfc55e7905676b161caebd4598f052dad1210fd3dc9b0c8b5b",
+  "fit": {
+    "scope": "Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+    "train_samples": 22421,
+    "active_fit_samples": 21588,
+    "clusters": 512,
+    "kmeans_iterations": 40,
+    "width": 0.0368119991512293,
+    "fixed_normal_contraction_gain": 0.15,
+    "scores": {
+      "train": {
+        "mean_arm_command_error_rad": 0.0041750373674504775,
+        "first_arm_command_error_rad": 0.0031895584344225326,
+        "first32_arm_command_error_rad": 0.006525501815744157
+      },
+      "val": {
+        "mean_arm_command_error_rad": 0.007460382642501951,
+        "first_arm_command_error_rad": 0.0031895586281417082,
+        "first32_arm_command_error_rad": 0.006525492137897782
+      }
+    },
+    "eligible": true,
+    "selection": "Fixed 512 clusters and gain; width derived from training centroid spacing; no validation/test hyperparameter tuning",
+    "training_filter": "Exclude near-stationary waiting observations using training next-state movement; retain final64 observations per episode; future movement is used only for fitting"
+  },
+  "train_episodes": [
+    "franka-seed-000",
+    "franka-recovery-3",
+    "franka-recovery-4",
+    "franka-recovery-5",
+    "franka-recovery-6",
+    "franka-recovery-7",
+    "franka-recovery-8"
+  ],
+  "val_episodes": [
+    "franka-seed-001"
+  ],
+  "runtime": "Unordered learned cluster statistics; no raw demonstration actions, ordered trajectory, nearest reference step or phase clock"
+}

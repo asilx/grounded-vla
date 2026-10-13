@@ -1,0 +1,1217 @@
+{
+  "exported_utc": "2026-10-13T13:28:21.970004+00:00",
+  "source": "Actual current running pod project; generated checkpoints/data/cache excluded except explicit V18 model artifact",
+  "git_history_included": false,
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 1841,
+      "sha256": "9173419a96e3bf4e5e95a8a8fff8023720bc2919e1675ee3460bd26099a60abb"
+    },
+    {
+      "path": "CITATION.cff",
+      "bytes": 394,
+      "sha256": "e134ce4be6033527c639fad9fbf72e3b14022f3bb211f14f0fae50c183e031e4"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "bytes": 1229,
+      "sha256": "114a9922594a04e16024abeb492fa09fc8f44f8fa219738a0074ef248185710a"
+    },
+    {
+      "path": "Dockerfile.isaacsim",
+      "bytes": 2214,
+      "sha256": "f588191f53cf965da220fb7517eda0e263c09d99da88649c67b6f1580b41000d"
+    },
+    {
+      "path": "Dockerfile.train",
+      "bytes": 1810,
+      "sha256": "168926cc593e6ad4f98170a1a0c16174aaa3e45800060179e1b419e9c88c993b"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1076,
+      "sha256": "2bad9026c824b844166612a0448d2a64668899b17cfccc36229da5e4134f02b5"
+    },
+    {
+      "path": "NOTICE",
+      "bytes": 625,
+      "sha256": "04b74d4cafc2d4ce5c437255332913f187a471f0c06b5a689e203a20bd31b467"
+    },
+    {
+      "path": "README.md",
+      "bytes": 14393,
+      "sha256": "7cfb3234e0d36736f614c3e09ce5183bc76bbeaad58a7a609ffe8726511325ed"
+    },
+    {
+      "path": "configs/.ipynb_checkpoints/dataset-manifest.example-checkpoint.json",
+      "bytes": 1443,
+      "sha256": "a8b53afc93e31548cd85c2cfa9cfa88635314068a968a4fdad0037f282f0a219"
+    },
+    {
+      "path": "configs/critic-manifest.example.json",
+      "bytes": 292,
+      "sha256": "0aa9e95b75fb9ea8d3edd6edcf662d63089e20454644fe9bbc68ce85db2b0f29"
+    },
+    {
+      "path": "configs/dataset-manifest.example.json",
+      "bytes": 1443,
+      "sha256": "a8b53afc93e31548cd85c2cfa9cfa88635314068a968a4fdad0037f282f0a219"
+    },
+    {
+      "path": "configs/isaacsim.example.json",
+      "bytes": 773,
+      "sha256": "1001885020dde124bef2a926a1bd802fd2901a02cbd56f8af1ab838a98b6e055"
+    },
+    {
+      "path": "configs/pi0_adapter.json",
+      "bytes": 693,
+      "sha256": "df6d68c55fcabef23387d9164a45ce11ad2094758320eae8598983f991898257"
+    },
+    {
+      "path": "configs/runpod-franka-guarded.json",
+      "bytes": 1433,
+      "sha256": "13e0fb6b4c8e4e415134fbd19f1b97f76c61771f2fa6b3c0406881476f3d8453"
+    },
+    {
+      "path": "configs/runpod-franka-native.json",
+      "bytes": 1153,
+      "sha256": "2abd86be7558e1303da64a407b6049f525f2270b34729ba75b3df856ed086547"
+    },
+    {
+      "path": "configs/runpod-franka-pi0.json",
+      "bytes": 1153,
+      "sha256": "012d3819691a8bfc513199d4823fe82b2d96c51243b4ab8908d4ccd26dc5a9f0"
+    },
+    {
+      "path": "configs/runpod-pi0-bounded.json",
+      "bytes": 840,
+      "sha256": "17e468c96244e25f4f734c3708101aea624b49c2d5a86876e399c70917bdb4bc"
+    },
+    {
+      "path": "configs/runpod-pi0-guarded.json",
+      "bytes": 812,
+      "sha256": "641d8cea2da49f92684654ee23a05d8db543e27a027252c766282bc5074557f1"
+    },
+    {
+      "path": "configs/runpod-pi0-recovery-long.json",
+      "bytes": 851,
+      "sha256": "5379dd9e258fa3f5ae32982910e848488ebe8b377487e8d6ad75c86614306899"
+    },
+    {
+      "path": "configs/runpod-pi0-recovery.json",
+      "bytes": 844,
+      "sha256": "8e35daa675c42b4fd187bd6a8ce9a89f29163ef960437c9f1bb9ca2fdb1cf086"
+    },
+    {
+      "path": "configs/runpod-pi0-relative.json",
+      "bytes": 812,
+      "sha256": "04c5cf1082afc2a6e3706d6f825f7eb019448f99c525721222271dbe756b7e2d"
+    },
+    {
+      "path": "configs/runpod-pi0-smoke.json",
+      "bytes": 754,
+      "sha256": "3c6bfa026ea9df21c8208923685ab371dd376f4d64bc32ca362ec03c075e2ff5"
+    },
+    {
+      "path": "configs/runpod-pi0-velocity.json",
+      "bytes": 847,
+      "sha256": "36fa85ce992fa2dfd611364d4d7c95c8220aebd0552ac3178ff46b89118fa09a"
+    },
+    {
+      "path": "docs/.ipynb_checkpoints/pi0-training-checkpoint.md",
+      "bytes": 15848,
+      "sha256": "f815c5068db0233c7e3f38d844f97f4e7ed675ab3a1587246265440840ae10df"
+    },
+    {
+      "path": "docs/.ipynb_checkpoints/training-data-checkpoint.md",
+      "bytes": 8287,
+      "sha256": "6d476d0d2aaaa09680f24f186061035ce2afd0a8e94d6598b782f408db576924"
+    },
+    {
+      "path": "docs/architecture.md",
+      "bytes": 5300,
+      "sha256": "320b44fef374191eed2dfb555b4ed4e69474d29fb622694fd53d0406d30e14b1"
+    },
+    {
+      "path": "docs/docker.md",
+      "bytes": 7656,
+      "sha256": "2e1644f8d22dc218e29c631152872cc634f18f5eb53a2c90f811b0224eeb465f"
+    },
+    {
+      "path": "docs/evaluation-results.json",
+      "bytes": 43385,
+      "sha256": "3dd79d138d5126c99b0404fde0cd2cacc83911ce26b21f4e7ca4a3334e1a2d35"
+    },
+    {
+      "path": "docs/evaluation.md",
+      "bytes": 3868,
+      "sha256": "b2ef360d08c3dab6e06b9e4987396ce0634411b17855688002c115023682a05f"
+    },
+    {
+      "path": "docs/integrations.md",
+      "bytes": 7516,
+      "sha256": "96a7e57d2e094eaf24dd4ca6d056fbe07082e59afdc8c9e48a8846df71dcef87"
+    },
+    {
+      "path": "docs/interventions.json",
+      "bytes": 10744,
+      "sha256": "a3be55c6e78c7df4305f92cc54a7556d91724b9c442321d1eb19c8dc7672d0db"
+    },
+    {
+      "path": "docs/isaacsim-vit.md",
+      "bytes": 12767,
+      "sha256": "f7d7097cfd1b4c87744ba5b30107fdc1d10708dbc7b3dfb61adb97d27fe4651d"
+    },
+    {
+      "path": "docs/learning.md",
+      "bytes": 4353,
+      "sha256": "72594d3b091f955d66df47907252060fa3a26db0da97260489510dbed5616f70"
+    },
+    {
+      "path": "docs/pi0-training.md",
+      "bytes": 15848,
+      "sha256": "f815c5068db0233c7e3f38d844f97f4e7ed675ab3a1587246265440840ae10df"
+    },
+    {
+      "path": "docs/research-proposal.md",
+      "bytes": 65066,
+      "sha256": "c1bc29bd0ba747ea65fc55feebe7b007a0810892603ac31d1007f9d06d54c280"
+    },
+    {
+      "path": "docs/roadmap.md",
+      "bytes": 2501,
+      "sha256": "556eb2d4642609b8328b9427af410b2552fd896e3f7d5a8da919be51dc981518"
+    },
+    {
+      "path": "docs/synthetic-training.json",
+      "bytes": 11061,
+      "sha256": "0dc5f80aa0a7991fa7b2c749f7558f3d0a52cda19c7579bb9d8c6fc8bba32d5e"
+    },
+    {
+      "path": "docs/trace-explorer.png",
+      "bytes": 255749,
+      "sha256": "289e76994b887dc5b2297d89e295b537b2d725b5a2853c7bf0ce4166fd3d1688"
+    },
+    {
+      "path": "docs/training-data.md",
+      "bytes": 8287,
+      "sha256": "6d476d0d2aaaa09680f24f186061035ce2afd0a8e94d6598b782f408db576924"
+    },
+    {
+      "path": "docs/validation.md",
+      "bytes": 6532,
+      "sha256": "e1d4c368a5a87978777d2c8dd43f9cb103201ac4724a2bcfb77ff11133733f17"
+    },
+    {
+      "path": "examples/export_observation.py",
+      "bytes": 2291,
+      "sha256": "6de902cf12371c049a4ee565ed6f360145508e23618da5700a23dfa883bf4eb6"
+    },
+    {
+      "path": "examples/openpi_probe.py",
+      "bytes": 2123,
+      "sha256": "83025d14db4ef8c1c8bc0727f153acd60f7ac1bc3e17eca26e3791c7dd1af13b"
+    },
+    {
+      "path": "examples/train_adapter.py",
+      "bytes": 2768,
+      "sha256": "bb52ac9228b2780939305af4e0cd86b325bf9c6c9f8fdcb5b7ffb392155469cf"
+    },
+    {
+      "path": "experiments/runpod/.ipynb_checkpoints/check_native_bridge-checkpoint.py",
+      "bytes": 2309,
+      "sha256": "2d8d5e5193cecc7d1a965efef8df1bebcc2a8bdec88ad1cabcba5037b5a5b59b"
+    },
+    {
+      "path": "experiments/runpod/.ipynb_checkpoints/franka_expert_raw-checkpoint.py",
+      "bytes": 9476,
+      "sha256": "9d33401df1f1c9b7eeefbdb159077a58a55d56a453f65618d15903bc0a6ec92e"
+    },
+    {
+      "path": "experiments/runpod/.ipynb_checkpoints/run_expert_raw-checkpoint.sh",
+      "bytes": 1990,
+      "sha256": "abd8e9487b6787023ae9b056069b2a367e660f30b02f688d1b8078145215fc4f"
+    },
+    {
+      "path": "experiments/runpod/RESUME.md",
+      "bytes": 646,
+      "sha256": "b0dd751bb6f05a2da1c58ae63d7c9b8361af86184c4baa716e55173f528c957a"
+    },
+    {
+      "path": "experiments/runpod/audit_franka_fk.py",
+      "bytes": 3933,
+      "sha256": "2e91d1822942df9a2e41e7738f524cd74e4e8d7cf2b5ef16f8f25905663c4923"
+    },
+    {
+      "path": "experiments/runpod/audit_observation_alias_v17.py",
+      "bytes": 1443,
+      "sha256": "62bc7826ecf2c278f7ea33a5fde5e82b160d2f76f19758fe07908aa3e7d28909"
+    },
+    {
+      "path": "experiments/runpod/audit_teacher_command_prefix.py",
+      "bytes": 2710,
+      "sha256": "ef579789232373b57b4a56ed7dcd0c94859674d8db13af159f5c5be1236b57d6"
+    },
+    {
+      "path": "experiments/runpod/build_franka_scene.py",
+      "bytes": 3995,
+      "sha256": "6dbc09f5b8b48a9833e25aea2d9b48c75699e349c5244cbec114ebb4f664b94f"
+    },
+    {
+      "path": "experiments/runpod/build_guarded_scene.py",
+      "bytes": 5127,
+      "sha256": "4967f103640ec1152d3d63cbdd19d09ddc3174d933d61199d9db616fb4ad130c"
+    },
+    {
+      "path": "experiments/runpod/calibrate_arm_head_v17c.py",
+      "bytes": 4512,
+      "sha256": "0a21f16c0b3ce4c56564001bba80603bdf945e37ebaac09b8cbf06d0b80cb8ac"
+    },
+    {
+      "path": "experiments/runpod/calibrate_physical_head_v17c.py",
+      "bytes": 5017,
+      "sha256": "2575d6310ddfe3d561a3c25ea67ec19b4c4088f4d0de114de1b0b14ea44b0862"
+    },
+    {
+      "path": "experiments/runpod/check_guarded_bridge.py",
+      "bytes": 2318,
+      "sha256": "941410f1f3368359871a83af8eddac25aedc074c6a2b1f6d087ae96f1b3fb778"
+    },
+    {
+      "path": "experiments/runpod/check_local_field_v18.py",
+      "bytes": 1770,
+      "sha256": "0a18dfddce488911517793e689f2f963ae7f8714f01c22de48f26aeeaf459fa0"
+    },
+    {
+      "path": "experiments/runpod/check_local_residual_v17d.py",
+      "bytes": 2512,
+      "sha256": "bb6577d4ae4487767754386bdb5b1ed4c93deca309dea432bc258fc8c71d3b4c"
+    },
+    {
+      "path": "experiments/runpod/check_local_residual_v17e.py",
+      "bytes": 2522,
+      "sha256": "d61927c69c939f0d69f6339426f4434a6cb0d4f48a08a586934baf0eb7a2bfa6"
+    },
+    {
+      "path": "experiments/runpod/check_native_bridge.py",
+      "bytes": 2309,
+      "sha256": "2d8d5e5193cecc7d1a965efef8df1bebcc2a8bdec88ad1cabcba5037b5a5b59b"
+    },
+    {
+      "path": "experiments/runpod/collect_recovery_v10.sh",
+      "bytes": 1735,
+      "sha256": "d89599e91e9a55ca63911a7d6a27a58e75ef7803418666e3d3080520f89d55db"
+    },
+    {
+      "path": "experiments/runpod/collect_recovery_v16.sh",
+      "bytes": 1739,
+      "sha256": "b5dffce5e86128714efcdd50ce5dbc06489b6b9d64a9c88493ca221ac3e84b67"
+    },
+    {
+      "path": "experiments/runpod/collect_resume_results.py",
+      "bytes": 2794,
+      "sha256": "c629e6fe688056da05b2b37d79f1a4fe2d5f4d75ac548c5e2b6ee41cd8168208"
+    },
+    {
+      "path": "experiments/runpod/continue_recovery_experiments.py",
+      "bytes": 6444,
+      "sha256": "82f182b97cbe941b10f9db7f24c617ee88a1e9c3c2383930474900277668587f"
+    },
+    {
+      "path": "experiments/runpod/correct_v18_scope_metadata.py",
+      "bytes": 2276,
+      "sha256": "dd77b8f010f01dac362bd72a72eec465605374600795863ef79beb6be05ffb14"
+    },
+    {
+      "path": "experiments/runpod/diagnose_native_bridge.py",
+      "bytes": 3017,
+      "sha256": "5edbd0cf670536ed443e703b027279bd01d335e0ce2f40024afa1c97528207ad"
+    },
+    {
+      "path": "experiments/runpod/diagnose_v17_io.py",
+      "bytes": 5213,
+      "sha256": "a12ae946cb093f34e9e3bc410afe697aff7d41d15a8f23f8c3dc915ddc736797"
+    },
+    {
+      "path": "experiments/runpod/download_convert_pi0.sh",
+      "bytes": 1536,
+      "sha256": "37b9ca84f97ce27836845b95a5c4043403ec5f8277ddac0e6328b37fc26ee86a"
+    },
+    {
+      "path": "experiments/runpod/evaluate_baseline_v12.py",
+      "bytes": 4011,
+      "sha256": "2a7b30222113451be3993d75a5076d39ca3cb4fbeff5d4eb2c18f83e850b1df1"
+    },
+    {
+      "path": "experiments/runpod/evaluate_baseline_v13.py",
+      "bytes": 4181,
+      "sha256": "730eb36bdeb213998e596202face7174d4e1266d3851b8c89dd7e5d9c4d7e9e0"
+    },
+    {
+      "path": "experiments/runpod/evaluate_baseline_v15.py",
+      "bytes": 4181,
+      "sha256": "8f1f3c9e7ba6ebde46972bfd4da092512f176d6623dbffd9f71a67b3a4fca817"
+    },
+    {
+      "path": "experiments/runpod/evaluate_baseline_v16.py",
+      "bytes": 4183,
+      "sha256": "c3361115912aa50a3c692e19a82521f388c1bcbcee5c02da02ad7b2c671403e2"
+    },
+    {
+      "path": "experiments/runpod/evaluate_baseline_v17.py",
+      "bytes": 4186,
+      "sha256": "366a98bec388f24965aa59617999268383b8ddf430609754ff7eb67e783953a6"
+    },
+    {
+      "path": "experiments/runpod/evaluate_baseline_v17b.py",
+      "bytes": 4226,
+      "sha256": "aae9d339a3b0dfde82a01d0bf795170dadd9e119f2523d64a7efd45d022b7557"
+    },
+    {
+      "path": "experiments/runpod/evaluate_baseline_v17d.py",
+      "bytes": 4344,
+      "sha256": "064e7d59559f3853cab7d18609ec256cc36034bbdccf761d850628a3f34c3f42"
+    },
+    {
+      "path": "experiments/runpod/evaluate_baseline_v17e.py",
+      "bytes": 4602,
+      "sha256": "b3a3fbdabdeec0c7ac459fa212744627c34ea19d21413639caf8af060ab7185a"
+    },
+    {
+      "path": "experiments/runpod/evaluate_baseline_v18.py",
+      "bytes": 4587,
+      "sha256": "8d1ddb1072ddb95d599b1e8ffd8a35ea2360bc2a75b522ad553a971f04d8736d"
+    },
+    {
+      "path": "experiments/runpod/evaluate_bounded_1500.sh",
+      "bytes": 1588,
+      "sha256": "18648415e3e890cd9bbdde893679d8dad8af406de5bde29d08a823492c2517f7"
+    },
+    {
+      "path": "experiments/runpod/evaluate_bounded_500.sh",
+      "bytes": 1580,
+      "sha256": "7753a1ac8c55c96c7a570709ab823476b95b7a90d43e5a4a9ce9844481b773b6"
+    },
+    {
+      "path": "experiments/runpod/evaluate_guarded_200.sh",
+      "bytes": 1739,
+      "sha256": "4581bffdcd4edaa7c650f4b1d4867118b9dd08477a7f32d35096b6e608692be5"
+    },
+    {
+      "path": "experiments/runpod/evaluate_guarded_2000.sh",
+      "bytes": 2195,
+      "sha256": "bc6502be8db5864415a242657e05a1e02fb59cc813ae6732b2a5a7c9b60604f7"
+    },
+    {
+      "path": "experiments/runpod/evaluate_guarded_zero.sh",
+      "bytes": 2288,
+      "sha256": "7d5618e07cdf7bb765e18106c222b18f0c2fcc485aae1b14ad3ea288fade46dd"
+    },
+    {
+      "path": "experiments/runpod/evaluate_guarded_zero_retry.sh",
+      "bytes": 1537,
+      "sha256": "2d96b761ce9a682cf5e3863242cfae5424f9dcd4ea854fd1ae62d8f2bc5c9b50"
+    },
+    {
+      "path": "experiments/runpod/evaluate_learned_baseline_task.py",
+      "bytes": 11897,
+      "sha256": "db5ece21db472fab39e113c365cd280d4b8a53bf3f5c5fd7f5a5d24e5488aa25"
+    },
+    {
+      "path": "experiments/runpod/evaluate_learned_recovery_v16_task.py",
+      "bytes": 13618,
+      "sha256": "c53e6a5fdc00979fee0f4288cf2773d111a8bea4bfb8e8a98ec571c35beae1fa"
+    },
+    {
+      "path": "experiments/runpod/evaluate_pi0_task.py",
+      "bytes": 11848,
+      "sha256": "97d79a7e6cf1332b11349219f189bcc8c59e99a27c4b9e796d45f4589d61bc54"
+    },
+    {
+      "path": "experiments/runpod/evaluate_pi0_transfer_v16.py",
+      "bytes": 6053,
+      "sha256": "64df8944a4abbf7f5b0579446cbef418353c944882f75e9db626f4fa95d6914e"
+    },
+    {
+      "path": "experiments/runpod/evaluate_pi0_velocity_task.py",
+      "bytes": 12167,
+      "sha256": "28e964a87a3a96a35fcae551c5afa5bbd2bdb63ea04f5caaa7c65f4d69ec67ce"
+    },
+    {
+      "path": "experiments/runpod/evaluate_recovery_1000.sh",
+      "bytes": 1603,
+      "sha256": "a31276a6a0e4afab2fc366ed6aeeb365bdcecfb707797bb8c0e069ae45cb6e5f"
+    },
+    {
+      "path": "experiments/runpod/evaluate_recovery_2500.sh",
+      "bytes": 1678,
+      "sha256": "fd0dca2f10ccc964880586e7b8238865a399da642d8245d877d17973aff833a2"
+    },
+    {
+      "path": "experiments/runpod/evaluate_relative_500.sh",
+      "bytes": 1483,
+      "sha256": "3f013129327d4a35bc45eb1e56d65f1f031a71fbafb8c4809a944af3bf990a4d"
+    },
+    {
+      "path": "experiments/runpod/evaluate_velocity_v14.py",
+      "bytes": 6037,
+      "sha256": "9a60b85645bddc64004a40593843d6d6ab157f44a767e7955279a2b366c0d27d"
+    },
+    {
+      "path": "experiments/runpod/evaluate_velocity_v14_gaussian.py",
+      "bytes": 6131,
+      "sha256": "1a18c6ef745bc427a823f1c4d48cf2176595e2357d431473be3db91ccdf94234"
+    },
+    {
+      "path": "experiments/runpod/export_pitch_sources.py",
+      "bytes": 3772,
+      "sha256": "cc67ba52acff2a1770a3c7550b990181f0a60faffd4244db7eeae60f47b94b4b"
+    },
+    {
+      "path": "experiments/runpod/export_v17_diagnosis.py",
+      "bytes": 9580,
+      "sha256": "206a89f034727ed2e027aff0337561e80b80ad2ff49e11cf1dffbbb07bd509a1"
+    },
+    {
+      "path": "experiments/runpod/finish_pitch_v18_assets.py",
+      "bytes": 9088,
+      "sha256": "05ff77a5e486e9e861e6020020c7498bfb569f0a3f7f675de3d480ed32e72196"
+    },
+    {
+      "path": "experiments/runpod/finish_setup.sh",
+      "bytes": 1378,
+      "sha256": "fb7ef0793227fa4042bdb1e6e27229a8f23dd3879aef4aace3a151d52db690fd"
+    },
+    {
+      "path": "experiments/runpod/franka_expert_guarded.py",
+      "bytes": 12688,
+      "sha256": "64de1282852773eef8962912cb5f12c805781d5ee45d5c4637b1951cab04956c"
+    },
+    {
+      "path": "experiments/runpod/franka_expert_raw.py",
+      "bytes": 9476,
+      "sha256": "9d33401df1f1c9b7eeefbdb159077a58a55d56a453f65618d15903bc0a6ec92e"
+    },
+    {
+      "path": "experiments/runpod/franka_expert_recovery.py",
+      "bytes": 14631,
+      "sha256": "3e6185118b887aa87f18510b9a9a48e0df4083445fc3c5e2108a9798bfac6e67"
+    },
+    {
+      "path": "experiments/runpod/franka_expert_recovery_v16.py",
+      "bytes": 14772,
+      "sha256": "b007d8b2f7fef1ed2af985fbf3912a7dbfca63d6e63e3b44d908d6705a439179"
+    },
+    {
+      "path": "experiments/runpod/franka_pickplace_pilot.py",
+      "bytes": 5083,
+      "sha256": "d076b80569b2d245ec5810a75db6595f7c603717583ff56ebbac6567fcb27f10"
+    },
+    {
+      "path": "experiments/runpod/franka_pickplace_pilot_isaac5.py",
+      "bytes": 3888,
+      "sha256": "cfe896418d6f57bc6308775a46adb8b1ce4c04b290a85895ba70f481977f122e"
+    },
+    {
+      "path": "experiments/runpod/gripper_direction_v17.py",
+      "bytes": 582,
+      "sha256": "69a5f55db95705f5334c44cc15ae6fc922e72140db6804b7c342ca05477a1d67"
+    },
+    {
+      "path": "experiments/runpod/install_isaac.sh",
+      "bytes": 583,
+      "sha256": "8ab79e1495b922747d53b83d1a92cc8cc12296a6e95cbe9363a08b1d468bac0b"
+    },
+    {
+      "path": "experiments/runpod/install_isaac6.sh",
+      "bytes": 1002,
+      "sha256": "29d1cdb7a73b04d7f31f27049422f2682609c4fbe78d37a151f63262470acd07"
+    },
+    {
+      "path": "experiments/runpod/install_isaac6_persistent_attempt.sh",
+      "bytes": 1002,
+      "sha256": "29d1cdb7a73b04d7f31f27049422f2682609c4fbe78d37a151f63262470acd07"
+    },
+    {
+      "path": "experiments/runpod/learned_corrective_v15.py",
+      "bytes": 12922,
+      "sha256": "d02ac1faa52028e20c780efec3175dd78c0c7d38ef00e7c22275f449b46973d4"
+    },
+    {
+      "path": "experiments/runpod/learned_directional_v17.py",
+      "bytes": 13698,
+      "sha256": "788bff575952e5cacb900427ff5cf246be2f09fb81c29c3ef492d2d183af4e77"
+    },
+    {
+      "path": "experiments/runpod/learned_graph_baseline.py",
+      "bytes": 11614,
+      "sha256": "f5c2f97a6da5566fb4c774be0c0610e14f2ecaac8bda2630aa1e0bcec0951376"
+    },
+    {
+      "path": "experiments/runpod/learned_local_field_v18.py",
+      "bytes": 9154,
+      "sha256": "750634ce4e34b2a4bb35af4f9aac6ddb7f4b669472495ead6c840a60074f818e"
+    },
+    {
+      "path": "experiments/runpod/learned_recovery_v16.py",
+      "bytes": 13686,
+      "sha256": "2ca3eee243f7c2894fb0513bef590a3c7300237a4223fad099c2bc41987dacf7"
+    },
+    {
+      "path": "experiments/runpod/learned_recurrent_v17b.py",
+      "bytes": 10151,
+      "sha256": "c687607b1963fe63f52012c72330270fbcc30ad33ce62bf084255d9644b4a0e8"
+    },
+    {
+      "path": "experiments/runpod/local_residual_v17d.py",
+      "bytes": 6929,
+      "sha256": "b7d0c6734810b15c43da8025ba38ebf95a932731ef0dd1eff039fbc6864c4294"
+    },
+    {
+      "path": "experiments/runpod/local_residual_v17e.py",
+      "bytes": 7124,
+      "sha256": "ce6fe6ff9cf636037a12054949d4ee8ce12a07631904ae46832e67b30239cc65"
+    },
+    {
+      "path": "experiments/runpod/physics_rgb_paced.py",
+      "bytes": 3461,
+      "sha256": "d48ef39567ae5deb468a189ea378366ec45c6afafbe8a6ff3ca21d85e4e986a7"
+    },
+    {
+      "path": "experiments/runpod/physics_rgb_smoke.py",
+      "bytes": 3416,
+      "sha256": "4f54244140b36ac668330a86f17211ddbfd83f441800ee25b1b5e23a6da872f7"
+    },
+    {
+      "path": "experiments/runpod/physics_rgb_smoke_isaac5.py",
+      "bytes": 2508,
+      "sha256": "6d73fb0f15b0477237e36e5678416eb412de6d5c32e554cfa48e1d95a77bddd1"
+    },
+    {
+      "path": "experiments/runpod/physics_rgb_smoke_legacy_camera.py",
+      "bytes": 2838,
+      "sha256": "869357a671acc858f3bda502b1e6bf9da53eeb61ac603b3961b950ea606c4b24"
+    },
+    {
+      "path": "experiments/runpod/prepare_bounded_training.py",
+      "bytes": 1973,
+      "sha256": "6e335cbbc504121642c79b346ec2997acf3e066bdda2ff44b766a28d2a53d710"
+    },
+    {
+      "path": "experiments/runpod/prepare_franka_training.py",
+      "bytes": 7205,
+      "sha256": "a2a31813702a7360199d0f37f9d23da49e8adb05e031099d0ca24be9624e7c7d"
+    },
+    {
+      "path": "experiments/runpod/prepare_guarded_training.py",
+      "bytes": 7706,
+      "sha256": "32e68294f244cec8a5eb0bef0a9ed8e6e8f2c70812fa954fd14d40338a569a4c"
+    },
+    {
+      "path": "experiments/runpod/prepare_mlp_pi0_transfer_v16.py",
+      "bytes": 2960,
+      "sha256": "d78ebdb08ab3d374e11c5befedf280b32251c13956539ab160814e0668283fe6"
+    },
+    {
+      "path": "experiments/runpod/prepare_recovery_training.py",
+      "bytes": 4225,
+      "sha256": "59b6e09905987daee7faf55ec599495077e033df2ad115a1638bd7a1a33dea36"
+    },
+    {
+      "path": "experiments/runpod/prepare_recovery_v16.py",
+      "bytes": 3998,
+      "sha256": "1fa278d5949589a81ba01478a1d15b0e91a997fef75ca3e2f4dbc9dfca7ba77e"
+    },
+    {
+      "path": "experiments/runpod/prepare_relative_training.py",
+      "bytes": 1661,
+      "sha256": "40dda155a885274ba4fac7b44df2e4c1ca90fc514daa25b1ed6dd8d4217cce1b"
+    },
+    {
+      "path": "experiments/runpod/prepare_velocity_training.py",
+      "bytes": 3949,
+      "sha256": "b40188aadcdc544195c2005e9a179ae5eeda8a128bc12c79544e985b664e66f2"
+    },
+    {
+      "path": "experiments/runpod/probe_pi0_native.py",
+      "bytes": 4808,
+      "sha256": "6fc0b2386509027bd85728e994a73712e028c78064014c0d8e3c95d0335c4a69"
+    },
+    {
+      "path": "experiments/runpod/record_pitch_v18_task.py",
+      "bytes": 16340,
+      "sha256": "5f523b13323bee241d3118ae7ef70a605a80b1c86fb3ec695c3ebe455007790d"
+    },
+    {
+      "path": "experiments/runpod/repair_residual_precision_v17e.py",
+      "bytes": 3405,
+      "sha256": "c9bc83f1a94e42f08a82b9cff81d420bac7987d97a6395b5242753c826a36779"
+    },
+    {
+      "path": "experiments/runpod/restore_openpi_source.sh",
+      "bytes": 285,
+      "sha256": "5e1a1d6f85290c26f73c5fb09d1afee54c80cfe2c7b530263e3ecb1a65f15570"
+    },
+    {
+      "path": "experiments/runpod/resume_gpu_validation.sh",
+      "bytes": 823,
+      "sha256": "7c1fce6e1496d25c700c8e473e692467f890b511eeac3809d0c9e233cdb0d817"
+    },
+    {
+      "path": "experiments/runpod/resume_validation.sh",
+      "bytes": 886,
+      "sha256": "bbadf0d74d29075c28cd6234d945bbe90f1ee93a04fcdf90d4158a989d0b9cb1"
+    },
+    {
+      "path": "experiments/runpod/rtx_timing_probe.py",
+      "bytes": 3852,
+      "sha256": "bcbb5eff0b7756841d71bb61ff6a7c58cde8bc8ed11f9085c7ed776f05e3ef70"
+    },
+    {
+      "path": "experiments/runpod/run_directional_v17.sh",
+      "bytes": 624,
+      "sha256": "3a54ea8d43abffdbd6234ca51b865c5e273c8a34a42c0b8a4d928bbb6bbf43b8"
+    },
+    {
+      "path": "experiments/runpod/run_expert_guarded.sh",
+      "bytes": 2334,
+      "sha256": "e335fba45860af362af9813246c3564a5aaea34a533566a6485a232cc60fd8b4"
+    },
+    {
+      "path": "experiments/runpod/run_expert_raw.sh",
+      "bytes": 1990,
+      "sha256": "abd8e9487b6787023ae9b056069b2a367e660f30b02f688d1b8078145215fc4f"
+    },
+    {
+      "path": "experiments/runpod/run_franka_pilots.sh",
+      "bytes": 848,
+      "sha256": "229ae32cffccf06579cef88d95b36f4cf1aecba89aecdaf022a5b990cfddc3d3"
+    },
+    {
+      "path": "experiments/runpod/run_mlp_transfer_v16.py",
+      "bytes": 3039,
+      "sha256": "2d8f6cc90145819ed9ae80d654cace3dabc0d5f7cbd5d71b84b638a6fc61b72d"
+    },
+    {
+      "path": "experiments/runpod/run_old_policy_tasks.sh",
+      "bytes": 1535,
+      "sha256": "46648b089ccbe0270cdf7a75608c526b3765daebe2c5c04e6934f0524cc31a13"
+    },
+    {
+      "path": "experiments/runpod/run_physics.sh",
+      "bytes": 779,
+      "sha256": "57af9f37ebd4a94762a2c4a830aa20aa1c9f98518e21184f23a79eacf73d0666"
+    },
+    {
+      "path": "experiments/runpod/run_pi0_native_probe.sh",
+      "bytes": 537,
+      "sha256": "a46696872e7d798558945c5034b676e21dca472e8850d3d0df6aaebfbee38404"
+    },
+    {
+      "path": "experiments/runpod/run_pi0_native_probe_100.sh",
+      "bytes": 537,
+      "sha256": "9756c8cf8e1667867c210b7477707f706e60efa57195d07748d48d79e572a7d0"
+    },
+    {
+      "path": "experiments/runpod/run_pi0_smoke.sh",
+      "bytes": 546,
+      "sha256": "fa2c2b4b05a103c426ea69da12b138b6a5b4171dab0be5d8533e13c6633ad487"
+    },
+    {
+      "path": "experiments/runpod/run_pitch_v18_recording.py",
+      "bytes": 2567,
+      "sha256": "309638add836ab36cce7037056c67b4e57bd814cda910dcb2fc1afad7f44be75"
+    },
+    {
+      "path": "experiments/runpod/run_pitch_v18_recording_retake1.py",
+      "bytes": 2584,
+      "sha256": "6e90a2b85181eb151293d092029baf85f4c93187022848b0ab4040228dde3cc2"
+    },
+    {
+      "path": "experiments/runpod/run_recovery_v16.sh",
+      "bytes": 756,
+      "sha256": "c82df83787d2d5a8d3878def4439547b71b47338bf54728656f489d7e053b8f4"
+    },
+    {
+      "path": "experiments/runpod/run_v17a_then_v17b.py",
+      "bytes": 2937,
+      "sha256": "c029a59dace5dad59fe5f5ea12c12aace1de6a4d199a43e80a13f1d45e1198d3"
+    },
+    {
+      "path": "experiments/runpod/select_recovery_v16.py",
+      "bytes": 2229,
+      "sha256": "b0102faecac1161398e83b2d7a235332ecb6411687725f31d144d4509e2f4f35"
+    },
+    {
+      "path": "experiments/runpod/semantic_relation_intervention_v16.py",
+      "bytes": 2784,
+      "sha256": "240b584f243a8e79274677f0edee7945972c7e41567545f74f6efa21850f6486"
+    },
+    {
+      "path": "experiments/runpod/setup_pi0_training.sh",
+      "bytes": 1083,
+      "sha256": "e5048ef1c1f2343dffed8c17bcf6d759f280e2681332a0b7ff6e06eb532dbaf3"
+    },
+    {
+      "path": "experiments/runpod/setup_system.sh",
+      "bytes": 319,
+      "sha256": "6a7328f2381b118b73d6cc97ada24c489c109649fdbe28277629bf7a477e0a46"
+    },
+    {
+      "path": "experiments/runpod/train_guarded_pi0.sh",
+      "bytes": 907,
+      "sha256": "97c1110cb0efd3d96a961b656884c6c5b4c1c1b4692088309fcc3109a152cb6f"
+    },
+    {
+      "path": "experiments/runpod/transfer_environment.py",
+      "bytes": 1797,
+      "sha256": "4a2100479651a4b82bc813b5d31daf0cb68bbbbff60a6106e029bf11a1d3919c"
+    },
+    {
+      "path": "knowledge/knowrob.json",
+      "bytes": 240,
+      "sha256": "781c79fc978277a565888f2c153e5eea7d6771f7c37e21bd08b5fc2f390ccf9e"
+    },
+    {
+      "path": "knowledge/vocabulary.ttl",
+      "bytes": 559,
+      "sha256": "f1120e84133676f9dbe15e842c67ca72a4decb86e325c767ede9435fa7bd5abc"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 1448,
+      "sha256": "f3da0ce96e5ebc875d301ff2644ed023b96272353c42777c178ba1d0b4566bfa"
+    },
+    {
+      "path": "requirements-simulation.txt",
+      "bytes": 418,
+      "sha256": "106c07da10587fee435de3fad307217694de34f0f9284e0e1776f2b640d11dbc"
+    },
+    {
+      "path": "requirements-training.txt",
+      "bytes": 541,
+      "sha256": "5083ca7afb330625ffd3c7078398e458d6632f98c5267795a6d15b1b784533e6"
+    },
+    {
+      "path": "scripts/.ipynb_checkpoints/convert_pi0_checkpoint-checkpoint.py",
+      "bytes": 4132,
+      "sha256": "aacd8f14afd07696186386a3194aefa17f709a6ec57b44b946a34869c3d2aebb"
+    },
+    {
+      "path": "scripts/check_container_python.py",
+      "bytes": 3104,
+      "sha256": "fc1fdc764f3b337591f7581292c8c9afdd56b4ca2c9e0fc1f933036fee7413f9"
+    },
+    {
+      "path": "scripts/convert_pi0_checkpoint.py",
+      "bytes": 4366,
+      "sha256": "1849f60b3d245669ee269fd1f44836bbbd0fbcdd508c1dfe939692086535346b"
+    },
+    {
+      "path": "scripts/fetch_tokenizer.py",
+      "bytes": 652,
+      "sha256": "2c80b7fdb4a48044057da3c81b7ccbfe017fc7ec7ed8ac6fa318f98439f0d81d"
+    },
+    {
+      "path": "scripts/package_release.py",
+      "bytes": 1894,
+      "sha256": "bb91dafa38cb921542acf4d74d8e6cda058b3e5e52fbbf01097bafd69f301971"
+    },
+    {
+      "path": "scripts/patch_openpi_transformers.py",
+      "bytes": 719,
+      "sha256": "616d992d55c0b99dd089d6448c649a4f82e5ff801990dd7378fcf9e4963f2b20"
+    },
+    {
+      "path": "src/grounded_vla/.ipynb_checkpoints/belief-checkpoint.py",
+      "bytes": 5542,
+      "sha256": "ced92ca1a4bec9728fde6ce2e905d4ad3abb668f5a7213aa2bf40a3d2f21a6ca"
+    },
+    {
+      "path": "src/grounded_vla/.ipynb_checkpoints/isaacsim_cli-checkpoint.py",
+      "bytes": 7064,
+      "sha256": "cf59aba74b304a1e7a5e6e4285c3156caa7cce7f81b08b1b50f71ce847d3a2f9"
+    },
+    {
+      "path": "src/grounded_vla/.ipynb_checkpoints/simulation-checkpoint.py",
+      "bytes": 7535,
+      "sha256": "c6818b8577ed77aed66642cf98f0219f7162437d57723744a7ca0e33e45444b9"
+    },
+    {
+      "path": "src/grounded_vla/__init__.py",
+      "bytes": 103,
+      "sha256": "3346f50a4018bdc4397349a985abf142d3eb847c04bfda3ea75e6c201bddeab7"
+    },
+    {
+      "path": "src/grounded_vla/__main__.py",
+      "bytes": 73,
+      "sha256": "c3119da24c5a117a821dc763b9563da4a9196840d432b118ae9f319aaeef1550"
+    },
+    {
+      "path": "src/grounded_vla/backends/.ipynb_checkpoints/isaacsim-checkpoint.py",
+      "bytes": 11773,
+      "sha256": "167781e192c643a57701ad7e6028a24044ab14e32995124c09b29a76f3486d77"
+    },
+    {
+      "path": "src/grounded_vla/backends/.ipynb_checkpoints/rtx_camera-checkpoint.py",
+      "bytes": 1503,
+      "sha256": "98fd8cfd6e625cd5c20b45a84d128415d985eec6a3c2cc927ea9413a192c7c16"
+    },
+    {
+      "path": "src/grounded_vla/backends/__init__.py",
+      "bytes": 85,
+      "sha256": "78461ca5d98cf4efd3a69b6874ac577408cd5176a3681dac2391d98daafc2e70"
+    },
+    {
+      "path": "src/grounded_vla/backends/isaacsim.py",
+      "bytes": 13889,
+      "sha256": "4ece49437cb5fb608e04437c5de313d64b7feb9c8b76aaeeb973a4a230bcc627"
+    },
+    {
+      "path": "src/grounded_vla/backends/knowrob.py",
+      "bytes": 7536,
+      "sha256": "dcea5dd6a2d027e27ee6328b91878b83b5cd63ceff0813c3302d20ce5307aa2d"
+    },
+    {
+      "path": "src/grounded_vla/backends/openpi.py",
+      "bytes": 6880,
+      "sha256": "8612203741b3936f135e5fa8da9214f142d7eb7a926decd6a339dd6ab3f116d2"
+    },
+    {
+      "path": "src/grounded_vla/backends/rtx_camera.py",
+      "bytes": 1503,
+      "sha256": "98fd8cfd6e625cd5c20b45a84d128415d985eec6a3c2cc927ea9413a192c7c16"
+    },
+    {
+      "path": "src/grounded_vla/belief.py",
+      "bytes": 5542,
+      "sha256": "ced92ca1a4bec9728fde6ce2e905d4ad3abb668f5a7213aa2bf40a3d2f21a6ca"
+    },
+    {
+      "path": "src/grounded_vla/cli.py",
+      "bytes": 4167,
+      "sha256": "9cbeedc84ad8bfb5e829f411b8b916844eadb5722b56fec8f0d6915ef3214931"
+    },
+    {
+      "path": "src/grounded_vla/contracts.py",
+      "bytes": 6696,
+      "sha256": "27ca37419ea45c891d3c9d4946b96f415402f09b4c11cd99f2c9589d5eb5d79b"
+    },
+    {
+      "path": "src/grounded_vla/data/demo.json",
+      "bytes": 130,
+      "sha256": "05cdcef4840c9689948fe85c8b52a90b3ee6390b26c3ef2426b83c9196a3a522"
+    },
+    {
+      "path": "src/grounded_vla/evaluation.py",
+      "bytes": 2340,
+      "sha256": "51cbc65cf4fa5bc35ac3dacd553f75ba25a2034544f1f2db22a046c326b55482"
+    },
+    {
+      "path": "src/grounded_vla/interventions.py",
+      "bytes": 3212,
+      "sha256": "b51ee61f617959f86c43a4c3fa372791fd1738c657ff8caf18cd3c48cf19ba43"
+    },
+    {
+      "path": "src/grounded_vla/isaacsim_cli.py",
+      "bytes": 7064,
+      "sha256": "cf59aba74b304a1e7a5e6e4285c3156caa7cce7f81b08b1b50f71ce847d3a2f9"
+    },
+    {
+      "path": "src/grounded_vla/journal.py",
+      "bytes": 2761,
+      "sha256": "d119072d772f65c60c8df98a2f1c77818a41b6b5ba38f41d884bef959f1d32d6"
+    },
+    {
+      "path": "src/grounded_vla/learning/__init__.py",
+      "bytes": 82,
+      "sha256": "248cd20b56e63cedb52c6903b1a56cf93d299266636e44b331d70af3848bcf8a"
+    },
+    {
+      "path": "src/grounded_vla/learning/adapter.py",
+      "bytes": 4632,
+      "sha256": "44311ab0d31d0bbc9d97294ab55a6ff6746293c2cb304a0f3680eab02c74a346"
+    },
+    {
+      "path": "src/grounded_vla/learning/losses.py",
+      "bytes": 1694,
+      "sha256": "26570e0043fb9191604f53046cc194d53ca3763c0f6a371906cad783f910bc87"
+    },
+    {
+      "path": "src/grounded_vla/learning/temporal_vit.py",
+      "bytes": 10597,
+      "sha256": "88abc684273f927453aeb7a6c7d8b6c7e9d06701f291ca0c064f3c16aaa2f5e9"
+    },
+    {
+      "path": "src/grounded_vla/observation.py",
+      "bytes": 149,
+      "sha256": "91f8329a943eef16f905575cfaf14ea761a59177ed1a9983fa63c4a00fc8ada4"
+    },
+    {
+      "path": "src/grounded_vla/policy.py",
+      "bytes": 2025,
+      "sha256": "751187abe47563480a970bdd844a77ed085b7fd1a5ab76f8ad5d894cd270599c"
+    },
+    {
+      "path": "src/grounded_vla/report.py",
+      "bytes": 746,
+      "sha256": "68fb5da2c93dfef3c838b191c02276adacc0a7345c4704cafc918b0b88ae4069"
+    },
+    {
+      "path": "src/grounded_vla/runner.py",
+      "bytes": 7630,
+      "sha256": "94b47338eee4c74bb843e801050ad0de9825af0ac852bb2340bd6bcaa18f8f33"
+    },
+    {
+      "path": "src/grounded_vla/simulation.py",
+      "bytes": 7535,
+      "sha256": "c6818b8577ed77aed66642cf98f0219f7162437d57723744a7ca0e33e45444b9"
+    },
+    {
+      "path": "src/grounded_vla/toy_world.py",
+      "bytes": 6900,
+      "sha256": "09057a41c832180855137f90be61c525f16706fd686b8f00f80a4f5dadf2bf57"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/checkpoint-checkpoint.py",
+      "bytes": 2859,
+      "sha256": "b96af9010811bce8818ad12c93789357800c39ba60afc8eb7f539275cf2fc5c0"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/config-checkpoint.py",
+      "bytes": 3095,
+      "sha256": "6aa2d323cb2d9e54a26f0c792457622ed1a9b3546920d86090f658cf9540e133"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/data-checkpoint.py",
+      "bytes": 13420,
+      "sha256": "ddfd407c3ee526ee02fc5df774c81e8b4d96048a5071eb147f96ddbd3a613ce3"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/graph-checkpoint.py",
+      "bytes": 3657,
+      "sha256": "58f78c5e9c51806593466c709a0d31b814d249322c704fba17fb09d7a2a74ba7"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/inference-checkpoint.py",
+      "bytes": 7875,
+      "sha256": "e8fd667174d5917213294c0ee0afede017c24dcb1d59bc3cca3d8952868b880c"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/pi0-checkpoint.py",
+      "bytes": 3853,
+      "sha256": "455efff817688b949f312f13adc270a7c5f797a558e0b85efe5f9f4b8cbf3908"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/recording-checkpoint.py",
+      "bytes": 3110,
+      "sha256": "65e95b6f1e632ee273dfca15d1ad9c1d26ce73515cb503fcb4de5ac795f9dcce"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/runtime-checkpoint.py",
+      "bytes": 1133,
+      "sha256": "02c9588b5fcfdcd596ae1a7543b9156949aa5539a32130bd4b36c39df43aa287"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/serve-checkpoint.py",
+      "bytes": 1174,
+      "sha256": "ebafa36ca53b3d1a499a2ce4276950d7396cdfe397768d7c4ec7e28ba5c4dfe2"
+    },
+    {
+      "path": "src/grounded_vla/training/.ipynb_checkpoints/train-checkpoint.py",
+      "bytes": 8895,
+      "sha256": "184ebdf3d15a8d8209e3c53915b6a01505110cfebe360e1e40a17b999f2f99d5"
+    },
+    {
+      "path": "src/grounded_vla/training/__init__.py",
+      "bytes": 78,
+      "sha256": "87c60417e2e64c09b9a6f6301946d7498081ee8e17a7999acccb7afbd83219f8"
+    },
+    {
+      "path": "src/grounded_vla/training/checkpoint.py",
+      "bytes": 6179,
+      "sha256": "9b69ecea265d9419c1ab7019b1faf1a441b7ddba3b2efdc3420b9a05670dc206"
+    },
+    {
+      "path": "src/grounded_vla/training/config.py",
+      "bytes": 3565,
+      "sha256": "ff0ee8d489c1310ee94bfa6940fa84241968827a458bdd556dd64eaf4b27ff94"
+    },
+    {
+      "path": "src/grounded_vla/training/critic.py",
+      "bytes": 8584,
+      "sha256": "1b011efe3e4904fd179296481ecd2d7d2fe4d14708fbce258751e60d44fa711a"
+    },
+    {
+      "path": "src/grounded_vla/training/data.py",
+      "bytes": 18185,
+      "sha256": "05df7f6a612afb0b29a5125d7ee1f4245934addecd6b6e6487545a3cf06532b3"
+    },
+    {
+      "path": "src/grounded_vla/training/graph.py",
+      "bytes": 3657,
+      "sha256": "58f78c5e9c51806593466c709a0d31b814d249322c704fba17fb09d7a2a74ba7"
+    },
+    {
+      "path": "src/grounded_vla/training/inference.py",
+      "bytes": 8887,
+      "sha256": "84eeb66c8784ab480edbaeb6c5dbf767fad94aa5a809eb16425915ec52ee4979"
+    },
+    {
+      "path": "src/grounded_vla/training/pi0.py",
+      "bytes": 6082,
+      "sha256": "e2eda2d26f401cbb7639947bf20844c200157aaf628161623bc743ca6cc5e092"
+    },
+    {
+      "path": "src/grounded_vla/training/prepare.py",
+      "bytes": 470,
+      "sha256": "7d6e128ee3d30042b195cd6ec719f123e92be15d57456f42035770a7ed69ad0b"
+    },
+    {
+      "path": "src/grounded_vla/training/recording.py",
+      "bytes": 3110,
+      "sha256": "65e95b6f1e632ee273dfca15d1ad9c1d26ce73515cb503fcb4de5ac795f9dcce"
+    },
+    {
+      "path": "src/grounded_vla/training/runtime.py",
+      "bytes": 2301,
+      "sha256": "02ed46809b9d84a163ac6e1ab914d70595b0bd489a917a87a5e47bea8fb29976"
+    },
+    {
+      "path": "src/grounded_vla/training/serve.py",
+      "bytes": 1455,
+      "sha256": "f19ea1591790654892a3ea9b80b71cccb42331204d3bbeab679797af0b7784cc"
+    },
+    {
+      "path": "src/grounded_vla/training/tokenizer.py",
+      "bytes": 790,
+      "sha256": "8dc72dbd90c686ffe871d512088deff3f27559bf1635f6fb4055a0711164ab32"
+    },
+    {
+      "path": "src/grounded_vla/training/train.py",
+      "bytes": 10179,
+      "sha256": "ea27ce7378b191fdb40f5faa6dd10ea0c2b5bde702001e2ef6a2509b22bf8011"
+    },
+    {
+      "path": "src/grounded_vla/training/upstream.json",
+      "bytes": 587,
+      "sha256": "2f59086b219771a6b466f8156010eee649377ad69abdba5935d4244db3896805"
+    },
+    {
+      "path": "src/grounded_vla/training/velocity_graph.py",
+      "bytes": 3596,
+      "sha256": "1e86e8217c23bda9c3fe0fd48b5646962437cb101c724544cebb1cf1ef9d3d7b"
+    },
+    {
+      "path": "src/grounded_vla/validation.py",
+      "bytes": 2349,
+      "sha256": "86dc12fe87d684aaa87b8de20f0f6f219bf486052aab1cdcb9f3894bc581f620"
+    },
+    {
+      "path": "tests/.ipynb_checkpoints/test_isaacsim-checkpoint.py",
+      "bytes": 10333,
+      "sha256": "c9f1850ca7209375d20955fe3dcd51fa4950fd700e3123cb8ae087ba259d5f1c"
+    },
+    {
+      "path": "tests/.ipynb_checkpoints/test_pi0_integration-checkpoint.py",
+      "bytes": 7425,
+      "sha256": "0cd3b051e9152a10e9ad7c5969e2671af71b9376b1f8fcaa49adf1c5bf0e524b"
+    },
+    {
+      "path": "tests/conftest.py",
+      "bytes": 5913,
+      "sha256": "ea5b620f6680dbf620f7f3f82e2ba4d3717556c66f2030b3a13a59d155c4cdf6"
+    },
+    {
+      "path": "tests/test_backends.py",
+      "bytes": 6453,
+      "sha256": "b66b02fe4563f415fce7e865fb86cf81eddc842d769cde65477c92798dd09e92"
+    },
+    {
+      "path": "tests/test_belief.py",
+      "bytes": 2170,
+      "sha256": "8403a20f6e7bcffa526615a6f319a566ded4d35f238aa67861018f0b98a26c2e"
+    },
+    {
+      "path": "tests/test_bounded_actor.py",
+      "bytes": 3562,
+      "sha256": "05881f6593898974effae39cd570ab3f4cb15c6a34d45795551ed193424d20c1"
+    },
+    {
+      "path": "tests/test_corrective_v15.py",
+      "bytes": 1390,
+      "sha256": "7bedf340110dd535edaa89f4526ef30edf8eed6c8abae4708e4fe946cd3b052d"
+    },
+    {
+      "path": "tests/test_execution.py",
+      "bytes": 5753,
+      "sha256": "378e7ac17a0065bca86e4d3874966f68495b4f94bd904c3740b1444b50f73a5a"
+    },
+    {
+      "path": "tests/test_gripper_direction_v17.py",
+      "bytes": 993,
+      "sha256": "2d8a8bccc2473eabc4301a0fcdb74f343df414a4fec8d096e044453ff31afb4c"
+    },
+    {
+      "path": "tests/test_isaacsim.py",
+      "bytes": 11573,
+      "sha256": "9be662c9e66577711dbf0b61cc5f150655e38952a6604b5fba4113754642e13b"
+    },
+    {
+      "path": "tests/test_journal_and_cli.py",
+      "bytes": 2173,
+      "sha256": "cf5cdf6657aeee9bf02da54bc3a8ee41928a8f32404e5e75286d79e430a2d292"
+    },
+    {
+      "path": "tests/test_learned_graph_baseline.py",
+      "bytes": 4615,
+      "sha256": "dddfd17ab0285282c9176b178db3157855d674014e519618752cec73d291bba9"
+    },
+    {
+      "path": "tests/test_learning.py",
+      "bytes": 3302,
+      "sha256": "de72a2be29f3dde79372b0b9cae2f11fb26c7681463a316449047421046f9538"
+    },
+    {
+      "path": "tests/test_pi0_integration.py",
+      "bytes": 10644,
+      "sha256": "25c0ca3e614fd6e65847ddc61ad8c339d6a6235478eb59ad3a5468cae3d01526"
+    },
+    {
+      "path": "tests/test_recurrent_v17b.py",
+      "bytes": 1534,
+      "sha256": "9e136ff478b5a90e15eb97d67ac2da6fcbfd1916827683a1404f2cf9737035a1"
+    },
+    {
+      "path": "tests/test_relative_actions.py",
+      "bytes": 2660,
+      "sha256": "92b855d163f01d8de00f62425a6b33b453d16d3559ef43f1dda50dbf1c840377"
+    },
+    {
+      "path": "tests/test_rtx_camera.py",
+      "bytes": 1307,
+      "sha256": "46db644a3c2f669effcc7f898509d65ace123805a2689749988e3c2eec32e546"
+    },
+    {
+      "path": "tests/test_temporal_vit.py",
+      "bytes": 7050,
+      "sha256": "2be58a639acf65df7067590e45db5cf70a6257bbf18329d2a5554f08a37c6827"
+    },
+    {
+      "path": "tests/test_training_data.py",
+      "bytes": 5276,
+      "sha256": "f93948b7d9867c962d2658436beeadc8383bf42206674ecbccca6a4d6bed718c"
+    },
+    {
+      "path": "tests/test_velocity_graph.py",
+      "bytes": 2767,
+      "sha256": "eee07d4c8af4b1fbaa24476a45e32471ec4d000e91fa6757968be2a3900dfd60"
+    },
+    {
+      "path": "tests/test_warm_start.py",
+      "bytes": 1142,
+      "sha256": "9f7abcf121e5ea636ebc5b70eb19dd0047b5baeaac163d9dd03e758e4ee6fc92"
+    }
+  ]
+}

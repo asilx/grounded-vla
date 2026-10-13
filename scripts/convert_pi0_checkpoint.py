@@ -25,7 +25,7 @@ def main():
     from safetensors.torch import save_model
 
     from grounded_vla.training.config import OPENPI_REVISION
-    from grounded_vla.training.runtime import sha256, verify_runtime
+    from grounded_vla.training.runtime import sha256, verify_runtime, remove_inactive_pi0_head
 
     verify_runtime()
     output = Path(args.out)
@@ -45,6 +45,7 @@ def main():
     if "state_proj" not in params["projection_params"]:
         raise ValueError("Expected π0 continuous state projection; π0.5 is unsupported here")
     model = PI0Pytorch(Pi0Config(dtype=args.precision, pi05=False, pytorch_compile_mode=None))
+    inactive_keys = remove_inactive_pi0_head(model)
     paligemma, expert = converter.slice_paligemma_state_dict(
         params["paligemma_params"], model.paligemma_with_expert.paligemma.config
     )
@@ -89,6 +90,8 @@ def main():
                 "openpi_revision": OPENPI_REVISION,
                 "precision": args.precision,
                 "pi05": False,
+                "omitted_inactive_keys": list(inactive_keys),
+                "coverage": "All active pretrained tensors required, including tied aliases",
             },
             indent=2,
         )

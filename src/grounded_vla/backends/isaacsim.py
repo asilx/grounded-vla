@@ -37,11 +37,25 @@ class IsaacSimConfig:
     steps_per_action: int = 6
     warmup_steps: int = 60
     max_camera_age_seconds: float = 0.05
+    robot_gravity_compensation: bool = False
+    drive_kp: tuple[float, ...] | None = None
+    drive_kd: tuple[float, ...] | None = None
 
     def __post_init__(self):
         for key in ("joint_names", "lower_limits", "upper_limits", "max_joint_step"):
             object.__setattr__(self, key, tuple(getattr(self, key)))
         n = len(self.joint_names)
+        if type(self.robot_gravity_compensation) is not bool:
+            raise ValueError('robot_gravity_compensation must be boolean')
+        if (self.drive_kp is None) != (self.drive_kd is None):
+            raise ValueError('Provide both drive_kp and drive_kd')
+        for key in ('drive_kp', 'drive_kd'):
+            value=getattr(self,key)
+            if value is not None:
+                a=np.asarray(value,dtype=float)
+                if a.shape!=(n,) or not np.isfinite(a).all() or np.any(a<0):
+                    raise ValueError('Drive gains must be finite nonnegative values per configured joint')
+                object.__setattr__(self,key,tuple(a.tolist()))
         if not 1 <= n <= 32 or len(set(self.joint_names)) != n:
             raise ValueError("Provide 1..32 unique joint names in model state/action order")
         if not all(isinstance(s, str) and s.strip() for s in self.joint_names):
@@ -102,9 +116,10 @@ class IsaacSimEnvironment:
     limits alone are not a collision checker or a hardware safety controller.
     """
 
-    def __init__(self, config, world, robot, cameras, *, action_factory, action_guard=None):
+    def __init__(self, config, world, robot, cameras, *, action_factory, action_guard=None, render_update=None):
         self.config, self.world, self.robot = config, world, robot
         self.cameras, self.action_factory = cameras, action_factory
+        self.render_update = render_update
         self.action_guard = action_guard
         if set(cameras) != set(config.camera_paths):
             raise ValueError("Configured and attached cameras differ")
@@ -119,12 +134,24 @@ class IsaacSimEnvironment:
     def from_config(cls, config, *, action_guard=None):
         """Attach an existing, authored USD scene after SimulationApp has started."""
         try:
+            import importlib.metadata
+            import omni.kit.app
+
+            major = int(importlib.metadata.version("isaacsim").split(".")[0])
+            manager = omni.kit.app.get_app().get_extension_manager()
+            manager.set_extension_enabled_immediate("isaacsim.core.api", True)
+            if major >= 6:
+                manager.set_extension_enabled_immediate("isaacsim.sensors.experimental.rtx", True)
+                from grounded_vla.backends.rtx_camera import RtxCameraBridge
+            else:
+                manager.set_extension_enabled_immediate("isaacsim.sensors.camera", True)
+                from isaacsim.sensors.camera import Camera
+
             from isaacsim.core.api import World
             from isaacsim.core.prims import SingleArticulation
             from isaacsim.core.utils.prims import is_prim_path_valid
             from isaacsim.core.utils.stage import open_stage
             from isaacsim.core.utils.types import ArticulationAction
-            from isaacsim.sensors.camera import Camera
         except ImportError as exc:
             raise SimulationBackendError(
                 "Run with Isaac Sim's Python and create SimulationApp before native imports"
@@ -139,11 +166,27 @@ class IsaacSimEnvironment:
             robot = world.scene.add(
                 SingleArticulation(prim_path=config.robot_prim_path, name="grounded_vla_robot")
             )
-            cameras = {
-                name: Camera(prim_path=path, name=name, resolution=(224, 224))
-                for name, path in config.camera_paths.items()
-            }
+            if major >= 6:
+                cameras = {
+                    name: RtxCameraBridge.attach(path, tick_rate=1 / config.physics_dt)
+                    for name, path in config.camera_paths.items()
+                }
+            else:
+                cameras = {
+                    name: Camera(prim_path=path, name=name, resolution=(224, 224))
+                    for name, path in config.camera_paths.items()
+                }
             world.reset()
+            if config.robot_gravity_compensation:
+                # Ideal robot gravity compensation; object gravity stays enabled.
+                robot.disable_gravity()
+            if config.drive_kp is not None:
+                controller=robot.get_articulation_controller()
+                kp,kd=controller.get_gains()
+                indices=[list(robot.dof_names).index(n) for n in config.joint_names]
+                kp=np.asarray(kp).copy();kd=np.asarray(kd).copy()
+                kp[indices]=config.drive_kp;kd[indices]=config.drive_kd
+                controller.set_gains(kps=kp,kds=kd)
             for camera in cameras.values():
                 camera.initialize()
             env = cls(
@@ -153,10 +196,11 @@ class IsaacSimEnvironment:
                 cameras,
                 action_factory=ArticulationAction,
                 action_guard=action_guard,
+            render_update=world.render if major >= 6 else None,
             )
             # Warm-up is bounded and never substitutes black images for missing sensors.
             for _ in range(config.warmup_steps):
-                world.step(render=True)
+                env._step_world()
                 try:
                     env.observe()
                     env._last_camera_times.clear()
@@ -181,6 +225,17 @@ class IsaacSimEnvironment:
         images, camera_times = {}, {}
         for name, camera in self.cameras.items():
             frame = camera.get_current_frame(clone=True)
+            # A GPU render can still be pending at a 60 Hz physics boundary.
+            # Wait for a genuinely newer sensor frame using render-only updates;
+            # never advance physics or manufacture a capture timestamp.
+            for _ in range(4):
+                stamp = frame.get("rendering_time")
+                if self.render_update is None or stamp is None or stamp != self._last_camera_times.get(name):
+                    break
+                self.render_update()
+                if float(self.world.current_time) != now:
+                    raise SimulationBackendError("Camera render wait advanced the physics clock")
+                frame = camera.get_current_frame(clone=True)
             rgba = np.asarray(frame.get("rgba"))
             stamp = frame.get("rendering_time")
             if rgba.dtype != np.uint8 or rgba.shape != (224, 224, 4) or stamp is None:
@@ -222,11 +277,16 @@ class IsaacSimEnvironment:
                 )
             )
             for _ in range(self.config.steps_per_action):
-                self.world.step(render=True)
+                self._step_world()
             return self.observe()
         except BaseException:
             self.pause()
             raise
+
+    def _step_world(self):
+        self.world.step(render=True)
+        if self.render_update is not None:
+            self.render_update()
 
     def pause(self):
         self._paused = True
@@ -238,7 +298,7 @@ class IsaacSimEnvironment:
         self._paused = False
         try:
             for _ in range(self.config.warmup_steps):
-                self.world.step(render=True)
+                self._step_world()
                 try:
                     return self.observe()
                 except CameraNotReady:

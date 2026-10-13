@@ -1,0 +1,501 @@
+{
+  "scope": "Closed-loop Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+  "seed": 2,
+  "task_success": true,
+  "executed_steps": 3142,
+  "proposals": 3142,
+  "graph_geometry": "simulator oracle poses",
+  "success_conditions": "Lift >70mm, destination XY error <40mm, Z error <30mm, gripper released/separated, stable for 120 physics steps.",
+  "environment_config": {
+    "stage_path": "/workspace/grounded-vla/assets/runpod/franka-guarded.usda",
+    "robot_prim_path": "/World/Robot",
+    "camera_paths": {
+      "base_0_rgb": "/World/Camera",
+      "left_wrist_0_rgb": "/World/Robot/panda_hand/WristCamera"
+    },
+    "joint_names": [
+      "panda_joint1",
+      "panda_joint2",
+      "panda_joint3",
+      "panda_joint4",
+      "panda_joint5",
+      "panda_joint6",
+      "panda_joint7",
+      "panda_finger_joint1",
+      "panda_finger_joint2"
+    ],
+    "lower_limits": [
+      -2.8973000049591064,
+      -1.7627999782562256,
+      -2.8973000049591064,
+      -3.0717999935150146,
+      -2.8973000049591064,
+      -0.017500000074505806,
+      -2.8973000049591064,
+      0.0,
+      0.0
+    ],
+    "upper_limits": [
+      2.8973000049591064,
+      1.7627999782562256,
+      2.8973000049591064,
+      -0.0697999969124794,
+      2.8973000049591064,
+      3.752500057220459,
+      2.8973000049591064,
+      0.03999999910593033,
+      0.03999999910593033
+    ],
+    "max_joint_step": [
+      0.05,
+      0.05,
+      0.05,
+      0.05,
+      0.05,
+      0.05,
+      0.05,
+      0.005,
+      0.005
+    ],
+    "physics_dt": 0.016666666666666666,
+    "steps_per_action": 1,
+    "warmup_steps": 120,
+    "max_camera_age_seconds": 0.05,
+    "robot_gravity_compensation": true,
+    "drive_kp": [
+      6000.0,
+      6000.0,
+      6000.0,
+      6000.0,
+      6000.0,
+      6000.0,
+      6000.0,
+      1000.0,
+      0.0
+    ],
+    "drive_kd": [
+      300.0,
+      300.0,
+      300.0,
+      300.0,
+      300.0,
+      300.0,
+      300.0,
+      50.0,
+      0.0
+    ]
+  },
+  "drive_gains": {
+    "kp": [
+      6000.0,
+      6000.0,
+      6000.0,
+      6000.0,
+      6000.0,
+      6000.0,
+      6000.0,
+      1000.0,
+      0.0
+    ],
+    "kd": [
+      300.0,
+      300.0,
+      300.0,
+      300.0,
+      300.0,
+      300.0,
+      300.0,
+      50.0,
+      0.0
+    ],
+    "original_kp": [
+      22918.3125,
+      22918.3125,
+      22918.3125,
+      22918.3125,
+      22918.3125,
+      22918.3125,
+      22918.3125,
+      400.0,
+      0.0
+    ],
+    "original_kd": [
+      4583.66259765625,
+      4583.66259765625,
+      4583.66259765625,
+      4583.66259765625,
+      4583.66259765625,
+      4583.66259765625,
+      4583.66259765625,
+      80.0,
+      0.0
+    ],
+    "scope": "simulation actuator tracking calibration; unchanged joint/step bounds",
+    "robot_gravity_compensation": "ideal: disabled gravity on robot links only",
+    "object_gravity": true
+  },
+  "initial_position": [
+    0.2999783158302307,
+    0.2999827563762665,
+    0.025749990716576576
+  ],
+  "destination": [
+    0.2928483640274795,
+    -0.3060452656975763,
+    0.02575
+  ],
+  "initial_state": [
+    0.012000000104308128,
+    -0.5700000524520874,
+    0.0,
+    -2.809999942779541,
+    0.0,
+    3.0369999408721924,
+    0.7409999966621399,
+    0.0,
+    0.0
+  ],
+  "policy_metadata": {
+    "policy": "learned-local-contracting-field",
+    "uses_rgb": false,
+    "uses_language": false,
+    "scope": "Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+    "weights_sha256": "ff20db31585d32bfc55e7905676b161caebd4598f052dad1210fd3dc9b0c8b5b",
+    "history_steps": 1,
+    "input_preset": "canonical",
+    "graph_required": true,
+    "state_dim": 9,
+    "action_dim": 9,
+    "action_horizon": 1,
+    "action_encoding": "bounded_joint_interval_logits",
+    "action_convention": "absolute_joint_positions[panda_joint1,panda_joint2,panda_joint3,panda_joint4,panda_joint5,panda_joint6,panda_joint7,panda_finger_joint1,panda_finger_joint2]",
+    "control_period_seconds": 0.016666666666666666,
+    "graph_schema_id": "grounded-vla-belief-v1",
+    "graph_feature_dim": 26,
+    "graph_relation_types": 8
+  },
+  "snapshots": [
+    {
+      "label": "initial",
+      "step": 0,
+      "simulation_timestamp": 1.0000000521540642,
+      "cube_position_m": [
+        0.2999783158302307,
+        0.2999827563762665,
+        0.025749990716576576
+      ],
+      "gripper_position_m": [
+        0.4310629069805145,
+        0.0051730480045080185,
+        0.4174000024795532
+      ],
+      "joint_positions": [
+        0.012000000104308128,
+        -0.5700000524520874,
+        0.0,
+        -2.809999942779541,
+        0.0,
+        3.0369999408721924,
+        0.7409999966621399,
+        0.0,
+        0.0
+      ],
+      "destination_m": [
+        0.2928483640274795,
+        -0.3060452656975763,
+        0.02575
+      ],
+      "camera_times": {
+        "base_0_rgb": 0.983333333,
+        "left_wrist_0_rgb": 0.983333333
+      },
+      "task_success_verified": false,
+      "policy_metadata": {
+        "policy": "learned-local-contracting-field",
+        "uses_rgb": false,
+        "uses_language": false,
+        "scope": "Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+        "weights_sha256": "ff20db31585d32bfc55e7905676b161caebd4598f052dad1210fd3dc9b0c8b5b",
+        "history_steps": 1,
+        "input_preset": "canonical",
+        "graph_required": true,
+        "state_dim": 9,
+        "action_dim": 9,
+        "action_horizon": 1,
+        "action_encoding": "bounded_joint_interval_logits",
+        "action_convention": "absolute_joint_positions[panda_joint1,panda_joint2,panda_joint3,panda_joint4,panda_joint5,panda_joint6,panda_joint7,panda_finger_joint1,panda_finger_joint2]",
+        "control_period_seconds": 0.016666666666666666,
+        "graph_schema_id": "grounded-vla-belief-v1",
+        "graph_feature_dim": 26,
+        "graph_relation_types": 8
+      },
+      "scope": "Actual simulator camera buffers and physical measurements; documentary only, never policy inputs or semantic labels.",
+      "images": {
+        "base_0_rgb": "000000-initial-base_0_rgb.png",
+        "left_wrist_0_rgb": "000000-initial-left_wrist_0_rgb.png"
+      }
+    },
+    {
+      "label": "first_lift_gt70mm",
+      "step": 1926,
+      "simulation_timestamp": 33.100001726299524,
+      "cube_position_m": [
+        0.290351539850235,
+        0.30431899428367615,
+        0.09626421332359314
+      ],
+      "gripper_position_m": [
+        0.2938917875289917,
+        0.3302726745605469,
+        0.14287495613098145
+      ],
+      "joint_positions": [
+        1.238743543624878,
+        0.1330321729183197,
+        -0.40874814987182617,
+        -2.6453263759613037,
+        0.14784643054008484,
+        2.753551959991455,
+        1.4787672758102417,
+        0.025608284398913383,
+        0.025823555886745453
+      ],
+      "destination_m": [
+        0.2928483640274795,
+        -0.3060452656975763,
+        0.02575
+      ],
+      "camera_times": {
+        "base_0_rgb": 33.1,
+        "left_wrist_0_rgb": 33.1
+      },
+      "task_success_verified": false,
+      "policy_metadata": {
+        "policy": "learned-local-contracting-field",
+        "uses_rgb": false,
+        "uses_language": false,
+        "scope": "Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+        "weights_sha256": "ff20db31585d32bfc55e7905676b161caebd4598f052dad1210fd3dc9b0c8b5b",
+        "history_steps": 1,
+        "input_preset": "canonical",
+        "graph_required": true,
+        "state_dim": 9,
+        "action_dim": 9,
+        "action_horizon": 1,
+        "action_encoding": "bounded_joint_interval_logits",
+        "action_convention": "absolute_joint_positions[panda_joint1,panda_joint2,panda_joint3,panda_joint4,panda_joint5,panda_joint6,panda_joint7,panda_finger_joint1,panda_finger_joint2]",
+        "control_period_seconds": 0.016666666666666666,
+        "graph_schema_id": "grounded-vla-belief-v1",
+        "graph_feature_dim": 26,
+        "graph_relation_types": 8
+      },
+      "scope": "Actual simulator camera buffers and physical measurements; documentary only, never policy inputs or semantic labels.",
+      "images": {
+        "base_0_rgb": "001926-first_lift_gt70mm-base_0_rgb.png",
+        "left_wrist_0_rgb": "001926-first_lift_gt70mm-left_wrist_0_rgb.png",
+        "document_camera_1024": "001926-first_lift_gt70mm-document-camera-1024.png"
+      },
+      "document_camera_capture_time": 33.1
+    },
+    {
+      "label": "transport_after_lift_gt10cm",
+      "step": 2193,
+      "simulation_timestamp": 37.55000195838511,
+      "cube_position_m": [
+        0.2967483401298523,
+        0.19876520335674286,
+        0.2929818034172058
+      ],
+      "gripper_position_m": [
+        0.2997760772705078,
+        0.22609007358551025,
+        0.3388928472995758
+      ],
+      "joint_positions": [
+        0.4226168990135193,
+        -0.5507073402404785,
+        0.17273949086666107,
+        -2.6893162727355957,
+        0.06720158457756042,
+        2.1328063011169434,
+        1.3277326822280884,
+        0.0256050918251276,
+        0.025834131985902786
+      ],
+      "destination_m": [
+        0.2928483640274795,
+        -0.3060452656975763,
+        0.02575
+      ],
+      "camera_times": {
+        "base_0_rgb": 37.55,
+        "left_wrist_0_rgb": 37.55
+      },
+      "task_success_verified": false,
+      "policy_metadata": {
+        "policy": "learned-local-contracting-field",
+        "uses_rgb": false,
+        "uses_language": false,
+        "scope": "Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+        "weights_sha256": "ff20db31585d32bfc55e7905676b161caebd4598f052dad1210fd3dc9b0c8b5b",
+        "history_steps": 1,
+        "input_preset": "canonical",
+        "graph_required": true,
+        "state_dim": 9,
+        "action_dim": 9,
+        "action_horizon": 1,
+        "action_encoding": "bounded_joint_interval_logits",
+        "action_convention": "absolute_joint_positions[panda_joint1,panda_joint2,panda_joint3,panda_joint4,panda_joint5,panda_joint6,panda_joint7,panda_finger_joint1,panda_finger_joint2]",
+        "control_period_seconds": 0.016666666666666666,
+        "graph_schema_id": "grounded-vla-belief-v1",
+        "graph_feature_dim": 26,
+        "graph_relation_types": 8
+      },
+      "scope": "Actual simulator camera buffers and physical measurements; documentary only, never policy inputs or semantic labels.",
+      "images": {
+        "base_0_rgb": "002193-transport_after_lift_gt10cm-base_0_rgb.png",
+        "left_wrist_0_rgb": "002193-transport_after_lift_gt10cm-left_wrist_0_rgb.png",
+        "document_camera_1024": "002193-transport_after_lift_gt10cm-document-camera-1024.png"
+      },
+      "document_camera_capture_time": 37.55
+    },
+    {
+      "label": "release_candidate",
+      "step": 3023,
+      "simulation_timestamp": 51.383336013183,
+      "cube_position_m": [
+        0.30164214968681335,
+        -0.3077431917190552,
+        0.025749966502189636
+      ],
+      "gripper_position_m": [
+        0.30369338393211365,
+        -0.26650503277778625,
+        0.09450219571590424
+      ],
+      "joint_positions": [
+        -0.6165662407875061,
+        0.2943309545516968,
+        -0.1398594081401825,
+        -2.6012439727783203,
+        0.1588134914636612,
+        2.886157751083374,
+        -0.12030180543661118,
+        0.03932347521185875,
+        0.039323590695858
+      ],
+      "destination_m": [
+        0.2928483640274795,
+        -0.3060452656975763,
+        0.02575
+      ],
+      "camera_times": {
+        "base_0_rgb": 51.383333333,
+        "left_wrist_0_rgb": 51.383333333
+      },
+      "task_success_verified": false,
+      "policy_metadata": {
+        "policy": "learned-local-contracting-field",
+        "uses_rgb": false,
+        "uses_language": false,
+        "scope": "Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+        "weights_sha256": "ff20db31585d32bfc55e7905676b161caebd4598f052dad1210fd3dc9b0c8b5b",
+        "history_steps": 1,
+        "input_preset": "canonical",
+        "graph_required": true,
+        "state_dim": 9,
+        "action_dim": 9,
+        "action_horizon": 1,
+        "action_encoding": "bounded_joint_interval_logits",
+        "action_convention": "absolute_joint_positions[panda_joint1,panda_joint2,panda_joint3,panda_joint4,panda_joint5,panda_joint6,panda_joint7,panda_finger_joint1,panda_finger_joint2]",
+        "control_period_seconds": 0.016666666666666666,
+        "graph_schema_id": "grounded-vla-belief-v1",
+        "graph_feature_dim": 26,
+        "graph_relation_types": 8
+      },
+      "scope": "Actual simulator camera buffers and physical measurements; documentary only, never policy inputs or semantic labels.",
+      "images": {
+        "base_0_rgb": "003023-release_candidate-base_0_rgb.png",
+        "left_wrist_0_rgb": "003023-release_candidate-left_wrist_0_rgb.png",
+        "document_camera_1024": "003023-release_candidate-document-camera-1024.png"
+      },
+      "document_camera_capture_time": 51.383333333
+    },
+    {
+      "label": "final_success_stable120",
+      "step": 3142,
+      "simulation_timestamp": 53.366669449955225,
+      "cube_position_m": [
+        0.30164214968681335,
+        -0.3077431917190552,
+        0.025749949738383293
+      ],
+      "gripper_position_m": [
+        0.30417975783348083,
+        -0.26565873622894287,
+        0.14666126668453217
+      ],
+      "joint_positions": [
+        -0.5773786306381226,
+        0.12805096805095673,
+        -0.19719912111759186,
+        -2.6263411045074463,
+        0.0642186850309372,
+        2.747239828109741,
+        -0.05078180134296417,
+        0.039323434233665466,
+        0.03932356834411621
+      ],
+      "destination_m": [
+        0.2928483640274795,
+        -0.3060452656975763,
+        0.02575
+      ],
+      "camera_times": {
+        "base_0_rgb": 53.366666666,
+        "left_wrist_0_rgb": 53.366666666
+      },
+      "task_success_verified": true,
+      "policy_metadata": {
+        "policy": "learned-local-contracting-field",
+        "uses_rgb": false,
+        "uses_language": false,
+        "scope": "Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+        "weights_sha256": "ff20db31585d32bfc55e7905676b161caebd4598f052dad1210fd3dc9b0c8b5b",
+        "history_steps": 1,
+        "input_preset": "canonical",
+        "graph_required": true,
+        "state_dim": 9,
+        "action_dim": 9,
+        "action_horizon": 1,
+        "action_encoding": "bounded_joint_interval_logits",
+        "action_convention": "absolute_joint_positions[panda_joint1,panda_joint2,panda_joint3,panda_joint4,panda_joint5,panda_joint6,panda_joint7,panda_finger_joint1,panda_finger_joint2]",
+        "control_period_seconds": 0.016666666666666666,
+        "graph_schema_id": "grounded-vla-belief-v1",
+        "graph_feature_dim": 26,
+        "graph_relation_types": 8
+      },
+      "scope": "Actual simulator camera buffers and physical measurements; documentary only, never policy inputs or semantic labels.",
+      "images": {
+        "base_0_rgb": "003142-final_success_stable120-base_0_rgb.png",
+        "left_wrist_0_rgb": "003142-final_success_stable120-left_wrist_0_rgb.png",
+        "document_camera_1024": "003142-final_success_stable120-document-camera-1024.png"
+      },
+      "document_camera_capture_time": 53.366666666
+    }
+  ],
+  "recording_scope": "Actual accepted learned-policy actions and causal camera observations; failed trajectories are not successful distillation labels",
+  "reason": "independent_physical_success",
+  "final_position": [
+    0.30164214968681335,
+    -0.3077431917190552,
+    0.025749949738383293
+  ],
+  "peak_height_m": 0.3110939860343933,
+  "planar_error_m": 0.008956205613803262,
+  "stable_steps": 120,
+  "final_timestamp": 53.366669449955225,
+  "verified": true,
+  "rollout_recording_sha256": "ec2e579093e1198de6bb88a11f93ff322ab82a948ad7c362564538f55ab8d753",
+  "recorded_accepted_actions": 3142
+}

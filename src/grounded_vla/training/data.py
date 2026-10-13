@@ -35,6 +35,7 @@ def validate_schema(meta):
         or meta["control_period_seconds"] <= 0
     ):
         raise ValueError("Specify action semantics and a positive control period")
+    action_encoding(meta)
     graph = meta["graph_schema"]
     if (
         not graph["id"]
@@ -46,6 +47,80 @@ def validate_schema(meta):
     for key in ("features", "relations"):
         if len(set(graph[key])) != len(graph[key]):
             raise ValueError(f"Duplicate graph {key}")
+
+
+def action_encoding(meta):
+    encoding = meta.get("action_encoding", "absolute")
+    if encoding not in {"absolute", "relative_to_observed_joint_positions", "bounded_joint_interval_logits"}:
+        raise ValueError("Unknown action encoding")
+    if encoding != "absolute":
+        if (meta["input_preset"] != "canonical" or meta["state_dim"] != meta["action_dim"]
+            or not meta["action_convention"].startswith("absolute_joint_positions")
+            or type(meta.get("action_encoding_horizon")) is not int
+            or meta["action_encoding_horizon"] <= 0):
+            raise ValueError("Relative joint encoding requires canonical joint positions and a horizon")
+    if encoding == "bounded_joint_interval_logits":
+        if meta["action_encoding_horizon"] != 1:
+            raise ValueError("Bounded joint encoding requires one-step feedback")
+        lo=np.asarray(meta.get("encoding_lower_limits"),np.float64)
+        hi=np.asarray(meta.get("encoding_upper_limits"),np.float64)
+        step=np.asarray(meta.get("encoding_max_joint_step"),np.float64)
+        if (any(x.shape!=(meta["action_dim"],) for x in [lo,hi,step])
+            or not all(np.isfinite(x).all() for x in [lo,hi,step])
+            or np.any(hi<=lo) or np.any(step<=0)):
+            raise ValueError("Invalid bounded joint encoding limits")
+    return encoding
+
+
+def joint_interval(observed_state, meta):
+    state=np.asarray(observed_state,np.float64)
+    if state.shape!=(meta["state_dim"],) or not np.isfinite(state).all():
+        raise ValueError("Invalid observed joint state")
+    step=np.asarray(meta["encoding_max_joint_step"],np.float64)*0.9999
+    lower=np.maximum(np.asarray(meta["encoding_lower_limits"]),state-step)
+    upper=np.minimum(np.asarray(meta["encoding_upper_limits"]),state+step)
+    if np.any(upper<=lower):
+        raise ValueError("Observed state has no feasible joint interval")
+    return lower,upper
+
+
+def encode_action_chunk(actions, observed_state, meta):
+    values = np.asarray(actions, np.float32)
+    encoding=action_encoding(meta)
+    if encoding == "bounded_joint_interval_logits":
+        lower,upper=joint_interval(observed_state,meta)
+        fraction=(values-lower)/(upper-lower)
+        if not np.isfinite(fraction).all() or np.any(fraction < -1e-4) or np.any(fraction > 1+1e-4):
+            raise ValueError("Training target lies outside its feasible joint interval")
+        # Finite endpoint labels approximate physical endpoints within 1e-6 of the interval.
+        fraction=np.clip(fraction,1e-6,1-1e-6)
+        return np.log(fraction/(1-fraction)).astype(np.float32)
+    if encoding != "absolute":
+        state = np.asarray(observed_state, np.float32)
+        if state.shape != (meta["state_dim"],) or values.shape[-1] != meta["action_dim"]:
+            raise ValueError("Relative joint action dimensions disagree")
+        values = values - state
+    return values
+
+
+def decode_action_chunk(actions, observed_state, meta):
+    values = np.asarray(actions, np.float32)
+    encoding=action_encoding(meta)
+    if encoding == "bounded_joint_interval_logits":
+        lower,upper=joint_interval(observed_state,meta)
+        if values.shape[-1]!=meta["action_dim"] or not np.isfinite(values).all():
+            raise ValueError("Invalid bounded joint logits")
+        # Smooth learned action parameterization: no policy output clipping or reference trajectory.
+        probability=(1+np.tanh(values.astype(np.float64)/2))/2
+        values=(lower+(upper-lower)*probability).astype(np.float32)
+    elif encoding != "absolute":
+        state = np.asarray(observed_state, np.float32)
+        if state.shape != (meta["state_dim"],) or values.shape[-1] != meta["action_dim"]:
+            raise ValueError("Relative joint action dimensions disagree")
+        values = values + state
+    if not np.isfinite(values).all():
+        raise ValueError("Non-finite decoded actions")
+    return values
 
 
 def load_episode(path, meta):
@@ -83,6 +158,9 @@ def load_episode(path, meta):
         or not all(str(x).strip() for x in prompts)
     ):
         raise ValueError("prompt must contain one nonempty Unicode string per frame")
+    if meta.get("proprio_velocity_graph"):
+        from grounded_vla.training.velocity_graph import extend_recorded_graph
+        raw["graph_features"] = extend_recorded_graph(raw["graph_features"], states, meta)
     f, e, v = raw["graph_features"], raw["graph_edges"], raw["graph_valid"]
     if f.ndim != 3 or f.shape[0] != n or f.shape[2] != len(meta["graph_schema"]["features"]):
         raise ValueError("Invalid graph feature dimensions")
@@ -150,6 +228,12 @@ def prepare_dataset(manifest, output):
         if entry["split"] == "train":
             for key in stats:
                 x = raw["actions" if key == "action" else key].astype(np.float64)
+                if key == "action" and action_encoding(meta) != "absolute":
+                    horizon = meta["action_encoding_horizon"]
+                    x = np.concatenate([
+                        encode_action_chunk(raw["actions"][t:t+horizon], raw["state"][t], meta)
+                        for t in range(len(raw["state"]))
+                    ]).astype(np.float64)
                 count, mean, m2 = stats[key]
                 delta = x.mean(0) - mean
                 total = count + len(x)
@@ -254,8 +338,10 @@ class EpisodeDataset:
         self.frames = [(i, t) for i, e in enumerate(self.entries) for t in range(e["frames"])]
         if not self.frames:
             raise ValueError(f"Empty {split} split")
+        if action_encoding(self.meta) != "absolute" and horizon != self.meta["action_encoding_horizon"]:
+            raise ValueError("Action encoding horizon differs from dataset")
         self.horizon, self.tokenizer = horizon, tokenizer
-        self._load = lru_cache(maxsize=2)(self._read)
+        self._load = lru_cache(maxsize=8)(self._read)
 
     def _read(self, index):
         entry = self.entries[index]
@@ -277,7 +363,7 @@ class EpisodeDataset:
         )
         actions = np.zeros((self.horizon, 32), np.float32)
         valid = np.zeros_like(actions, bool)
-        real = raw["actions"][t : t + self.horizon]
+        real = encode_action_chunk(raw["actions"][t : t + self.horizon], raw["state"][t], self.meta)
         dim = self.meta["action_dim"]
         actions[: len(real), :dim] = normalize(real, self.meta["normalization"]["action"])
         valid[: len(real), :dim] = True

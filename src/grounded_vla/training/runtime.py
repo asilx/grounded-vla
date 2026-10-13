@@ -15,6 +15,34 @@ def sha256(path):
     return h.hexdigest()
 
 
+INACTIVE_PI0_KEYS = ("paligemma_with_expert.gemma_expert.lm_head.weight",)
+
+
+def remove_inactive_pi0_head(model):
+    """Remove the unused text-logit head from the pinned action expert.
+
+    Pinned pi0 calls gemma_expert.model, never GemmaForCausalLM.forward;
+    continuous actions use action_out_proj. The official JAX checkpoint has
+    no weights for this unused language decoder. Removing it fails loudly if
+    a future implementation tries to call it, rather than retaining random
+    parameters or weakening coverage checks for active weights.
+    """
+    verify_runtime()
+    from torch import nn
+
+    if model.config.pi05:
+        raise ValueError("Inactive-head removal is only verified for pinned pi0")
+    expert = model.paligemma_with_expert.gemma_expert
+    if expert.model.embed_tokens is not None:
+        raise ValueError("Unexpected action-expert token embedding")
+    head = expert.lm_head
+    if head is not None:
+        if not isinstance(head, nn.Linear) or head.in_features != model.action_in_proj.out_features:
+            raise ValueError("Unexpected action-expert language head")
+        expert.lm_head = None
+    return INACTIVE_PI0_KEYS
+
+
 @lru_cache(maxsize=1)
 def verify_runtime():
     import openpi

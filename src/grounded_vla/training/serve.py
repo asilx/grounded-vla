@@ -13,6 +13,8 @@ def main():
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--num-steps", type=int, default=10)
     parser.add_argument("--disable-graph", action="store_true")
+    parser.add_argument("--inference-seed", type=int, default=37)
+    parser.add_argument("--zero-noise", action="store_true")
     args = parser.parse_args()
     from openpi.serving.websocket_policy_server import WebsocketPolicyServer
 
@@ -25,7 +27,11 @@ def main():
         device=args.device,
         num_steps=args.num_steps,
         disable_graph=args.disable_graph,
+        zero_noise=args.zero_noise,
     )
+    import torch
+    torch.manual_seed(args.inference_seed)
+    policy.metadata['inference_seed']=args.inference_seed
     WebsocketPolicyServer(
         policy, host=args.host, port=args.port, metadata=policy.metadata
     ).serve_forever()

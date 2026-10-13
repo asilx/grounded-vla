@@ -48,8 +48,17 @@ class TrainConfig:
     save_every: int = 500
     seed: int = 7
     gradient_checkpointing: bool = True
+    train_action_io: bool = False
+    train_action_expert: bool = False
+    eval_sampling: str = "head"
 
     def __post_init__(self):
+        if type(self.train_action_expert) is not bool:
+            raise ValueError("train_action_expert must be boolean")
+        if type(self.train_action_io) is not bool:
+            raise ValueError("train_action_io must be boolean")
+        if self.eval_sampling not in {'head', 'uniform'}:
+            raise ValueError('eval_sampling must be head or uniform')
         if isinstance(self.adapter, dict):
             self.adapter = AdapterConfig(**self.adapter)
         if (

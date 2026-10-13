@@ -1,0 +1,24 @@
+{
+  "scope": "Learned local contracting dynamical-field numeric imitation baseline; no pi0/VLA or learned safety claim",
+  "train_samples": 22421,
+  "active_fit_samples": 21588,
+  "clusters": 512,
+  "kmeans_iterations": 40,
+  "width": 0.0368119991512293,
+  "fixed_normal_contraction_gain": 0.15,
+  "scores": {
+    "train": {
+      "mean_arm_command_error_rad": 0.0041750373674504775,
+      "first_arm_command_error_rad": 0.0031895584344225326,
+      "first32_arm_command_error_rad": 0.006525501815744157
+    },
+    "val": {
+      "mean_arm_command_error_rad": 0.007460382642501951,
+      "first_arm_command_error_rad": 0.0031895586281417082,
+      "first32_arm_command_error_rad": 0.006525492137897782
+    }
+  },
+  "eligible": true,
+  "selection": "Fixed 512 clusters and gain; width derived from training centroid spacing; no validation/test hyperparameter tuning",
+  "training_filter": "Exclude near-stationary waiting observations using training next-state movement; retain final64 observations per episode; future movement is used only for fitting"
+}

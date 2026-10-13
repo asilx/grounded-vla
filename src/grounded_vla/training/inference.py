@@ -12,7 +12,8 @@ import torch
 from safetensors.torch import load_file
 
 from grounded_vla.training.config import TrainConfig
-from grounded_vla.training.data import CAMERAS, collate, observation_arrays
+from grounded_vla.training.checkpoint import load_action_io, load_action_expert
+from grounded_vla.training.data import CAMERAS, collate, observation_arrays, decode_action_chunk, action_encoding
 from grounded_vla.training.graph import GraphBatch
 from grounded_vla.training.runtime import sha256, verify_runtime
 from grounded_vla.training.tokenizer import Pi0Tokenizer
@@ -57,6 +58,7 @@ class TrainedPi0Policy:
         device="cuda",
         num_steps=10,
         disable_graph=False,
+        zero_noise=False,
     ):
         verify_runtime()
         checkpoint = Path(checkpoint)
@@ -79,12 +81,20 @@ class TrainedPi0Policy:
         self.model.graph_adapter.load_state_dict(
             load_file(str(checkpoint / "adapter.safetensors")), strict=True
         )
+        load_action_io(checkpoint, self.model, config.train_action_io)
+        load_action_expert(checkpoint,self.model,config.train_action_expert)
         self.model.to(device).eval()
         self.tokenizer = Pi0Tokenizer(tokenizer)
         self.device, self.num_steps, self.disable_graph = device, num_steps, disable_graph
+        self.zero_noise = zero_noise
         self._lock = threading.Lock()
         self.metadata = {
             "policy": "grounded-vla-pi0",
+            "checkpoint_step": metadata['step'],
+            "robot_interface_adaptation": config.train_action_io,
+            "action_expert_adaptation": config.train_action_expert,
+            "base_checkpoint_sha256": metadata['identity']['base_checkpoint'],
+            "inference_noise": 'zero' if zero_noise else 'gaussian',
             "graph_required": True,
             "graph_schema_id": self.meta["graph_schema"]["id"],
             "graph_feature_dim": len(self.meta["graph_schema"]["features"]),
@@ -94,6 +104,7 @@ class TrainedPi0Policy:
             "state_dim": self.meta["state_dim"],
             "action_horizon": config.action_horizon,
             "action_convention": self.meta["action_convention"],
+            "action_encoding": action_encoding(self.meta),
             "control_period_seconds": self.meta["control_period_seconds"],
         }
 
@@ -132,6 +143,8 @@ class TrainedPi0Policy:
     def infer(self, payload, *, noise=None):
         with self._lock:
             obs, graph = self.transform(payload)
+            if noise is None and self.zero_noise:
+                noise = torch.zeros((1,self.metadata['action_horizon'],32),device=self.device)
             noise = noise.to(self.device) if noise is not None else None
             result = self.model.grounded_actions(
                 torch.device(self.device), obs, graph, noise=noise, num_steps=self.num_steps
@@ -141,6 +154,8 @@ class TrainedPi0Policy:
             actions = actions * np.asarray(stats["std"], np.float32) + np.asarray(
                 stats["mean"], np.float32
             )
+            state, _, _ = canonical_inputs(payload, self.meta["input_preset"])
+            actions = decode_action_chunk(actions, state, self.meta)
             if not np.isfinite(actions).all():
                 raise FloatingPointError("Non-finite policy actions")
             return {"actions": actions}

@@ -15,6 +15,7 @@ import torch
 from grounded_vla.training.checkpoint import (
     restore_rng,
     resume_checkpoint,
+    warm_start_checkpoint,
     rng_state,
     save_checkpoint,
 )
@@ -38,7 +39,12 @@ def build_model(config):
         pi05=False,
         pytorch_compile_mode=None,
     )
-    return GroundedPi0(native, config.adapter)
+    model = GroundedPi0(native, config.adapter)
+    if config.train_action_io:
+        model.enable_action_io_training()
+    if config.train_action_expert:
+        model.enable_action_expert_training()
+    return model
 
 
 def device_batch(batch, device):
@@ -54,12 +60,13 @@ def evaluate(model, dataset, config):
     count = 0
     try:
         torch.manual_seed(config.seed + 100000)
-        for start in range(
-            0, min(len(dataset), config.eval_batches * config.batch_size), config.batch_size
-        ):
+        n = min(len(dataset), config.eval_batches * config.batch_size)
+        indices = (np.linspace(0, len(dataset)-1, n, dtype=int).tolist()
+                   if config.eval_sampling == 'uniform' else list(range(n)))
+        for start in range(0, n, config.batch_size):
             obs, graph, actions, mask = device_batch(
                 collate(
-                    [dataset[i] for i in range(start, min(start + config.batch_size, len(dataset)))]
+                    [dataset[i] for i in indices[start:start+config.batch_size]]
                 ),
                 config.device,
             )
@@ -89,7 +96,9 @@ def learning_rate(config, step):
     return config.learning_rate * 0.5 * (1 + math.cos(math.pi * progress))
 
 
-def run(config: TrainConfig, *, resume=None, stop_after=None):
+def run(config: TrainConfig, *, resume=None, stop_after=None, warm_start=None):
+    if resume and warm_start:
+        raise ValueError("Choose exact resume or new-data warm start")
     verify_runtime()
     if int(os.environ.get("WORLD_SIZE", "1")) != 1:
         raise ValueError("This trainer is single-device; do not launch with torchrun")
@@ -146,8 +155,20 @@ def run(config: TrainConfig, *, resume=None, stop_after=None):
     if config.gradient_checkpointing:
         model.gradient_checkpointing_enable()
     parameters = [p for p in model.parameters() if p.requires_grad]
-    if {id(p) for p in parameters} != {id(p) for p in model.graph_adapter.parameters()}:
-        raise RuntimeError("Only graph adapter parameters may be trainable")
+    allowed = {id(p) for p in model.graph_adapter.parameters()}
+    if config.train_action_io:
+        from grounded_vla.training.pi0 import ACTION_IO_MODULES
+        allowed.update(id(p) for n in ACTION_IO_MODULES for p in getattr(model,n).parameters())
+    if config.train_action_expert:
+        allowed.update(id(p) for p in model.paligemma_with_expert.gemma_expert.parameters())
+    if {id(p) for p in parameters} != allowed:
+        raise RuntimeError("Trainable parameters differ from the explicit adaptation configuration")
+    print('TRAINABLE_PARAMETER_COUNTS',{
+        'total':sum(p.numel() for p in parameters),
+        'action_expert':sum(p.numel() for p in model.paligemma_with_expert.gemma_expert.parameters() if p.requires_grad),
+        'vlm':sum(p.numel() for p in model.paligemma_with_expert.paligemma.parameters() if p.requires_grad)},flush=True)
+    if warm_start:
+        warm_start_checkpoint(warm_start,model,metadata)
     optimizer = torch.optim.AdamW(
         parameters, lr=config.learning_rate, weight_decay=config.weight_decay
     )
@@ -212,11 +233,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("config")
     parser.add_argument("--resume")
+    parser.add_argument("--warm-start")
     parser.add_argument(
         "--stop-after", type=int, help="Stop early without changing the planned LR schedule"
     )
     args = parser.parse_args()
-    print(run(TrainConfig.load(args.config), resume=args.resume, stop_after=args.stop_after))
+    print(run(TrainConfig.load(args.config), resume=args.resume, stop_after=args.stop_after, warm_start=args.warm_start))
 
 
 if __name__ == "__main__":
