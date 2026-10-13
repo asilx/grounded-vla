@@ -1,0 +1,31 @@
+{
+  "dataset": "../data/franka-relative-v8/prepared.json",
+  "base_checkpoint": "/workspace/models/pi0-base-torch/model.safetensors",
+  "tokenizer": "/workspace/models/tokenizers/paligemma_tokenizer.model",
+  "output_dir": "../runs/franka-pi0-relative-v8",
+  "adapter": {
+    "feature_dim": 26,
+    "heads": 8,
+    "context_tokens": 8,
+    "relation_types": 8,
+    "initial_gate": 0.05
+  },
+  "action_horizon": 1,
+  "precision": "bfloat16",
+  "device": "cuda",
+  "batch_size": 4,
+  "accumulation_steps": 1,
+  "steps": 4000,
+  "learning_rate": 0.0003,
+  "weight_decay": 0.01,
+  "warmup_steps": 50,
+  "gradient_clip": 1.0,
+  "graph_dropout": 0.1,
+  "eval_every": 250,
+  "eval_batches": 4,
+  "save_every": 250,
+  "seed": 7,
+  "gradient_checkpointing": true,
+  "train_action_io": true,
+  "eval_sampling": "uniform"
+}
