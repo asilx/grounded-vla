@@ -9,12 +9,12 @@ from __future__ import annotations
 
 import hashlib
 import math
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 
 import numpy as np
 
-from grounded_vla.belief import BeliefStore
-from grounded_vla.contracts import Contract
+from grounded_vla.belief import BeliefStore, Truth
+from grounded_vla.contracts import Contract, Requirement
 from grounded_vla.journal import Journal
 from grounded_vla.simulation import GraphSnapshot
 
@@ -25,10 +25,18 @@ class PositionDependency:
     tolerance: float = 0.02
     relative_to: str | None = None
     max_age_seconds: float = 0.5
+    # Explicit observed phase transition (e.g. bilateral contact during a pick).
+    # Re-evaluated every step; UNKNOWN never disables the geometry check.
+    ignore_when: Requirement | None = None
 
     def __post_init__(self):
         if not self.entity_id or self.relative_to == self.entity_id:
             raise ValueError("Position dependencies need distinct, nonempty entity IDs")
+        if self.ignore_when is not None and (
+            not isinstance(self.ignore_when, Requirement)
+            or self.ignore_when.truth != Truth.SUPPORTED
+        ):
+            raise ValueError("Geometry exemptions require an explicitly supported observation")
         if not math.isfinite(self.tolerance) or self.tolerance < 0:
             raise ValueError("Position tolerance must be finite and nonnegative")
         if not math.isfinite(self.max_age_seconds) or self.max_age_seconds <= 0:
@@ -155,6 +163,10 @@ class ChunkBinding:
             return {"reason": "chunk_expired", "generated_at": self.timestamp}
         try:
             for dependency, previous in zip(plan.positions, self.positions, strict=True):
+                if dependency.ignore_when is not None:
+                    requirement = dependency.ignore_when
+                    if requirement.check(view.belief, now).truth == requirement.truth:
+                        continue
                 current = _position(view.snapshot, dependency, now)
                 displacement = float(np.linalg.norm(current - previous))
                 if displacement > dependency.tolerance:
@@ -299,6 +311,8 @@ class BeliefAwareExecutor:
                         contract=plan.contract.to_dict(),
                         prompt=plan.prompt,
                         belief_revision=view.belief.revision,
+                        position_dependencies=[asdict(d) for d in plan.positions],
+                        relation_dependencies=[asdict(d) for d in plan.relations],
                         trigger=event,
                     )
                     event = None
@@ -363,6 +377,17 @@ class BeliefAwareExecutor:
                         break
                     continue
                 if binding is not None and queue:
+                    for dependency in plan.positions:
+                        if dependency.ignore_when is not None:
+                            query = dependency.ignore_when.check(view.belief, now)
+                            if query.truth == Truth.SUPPORTED:
+                                self.journal.append(
+                                    "position_dependency_exempted",
+                                    timestamp=now,
+                                    chunk_id=binding.chunk_id,
+                                    entity=dependency.entity_id,
+                                    evidence=query.to_dict(),
+                                )
                     change = binding.changed(plan, view, now)
                     if change is not None:
                         if not invalidate(change, observation, view):

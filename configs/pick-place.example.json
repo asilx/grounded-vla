@@ -1,0 +1,24 @@
+{
+  "object_prim_path": "/World/Cargo",
+  "gripper_prim_path": "/World/Robot/panda_hand",
+  "goal_prim_path": "/World/Goal",
+  "support_prim_path": "/World/Table",
+  "finger_prim_paths": [
+    "/World/Robot/panda_leftfinger",
+    "/World/Robot/panda_rightfinger"
+  ],
+  "finger_joint_names": [
+    "panda_finger_joint1",
+    "panda_finger_joint2"
+  ],
+  "description": "the red cube",
+  "gripper_offset": [
+    0,
+    0,
+    0.1034
+  ],
+  "contact_force_min": 0.1,
+  "min_lift": 0.03,
+  "grasp_confirm_seconds": 0.1,
+  "release_confirm_seconds": 0.5
+}

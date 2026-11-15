@@ -143,7 +143,7 @@ class IsaacSimEnvironment:
         self._paused = False
 
     @classmethod
-    def from_config(cls, config, *, action_guard=None):
+    def from_config(cls, config, *, action_guard=None, scene_setup=None):
         """Attach an existing, authored USD scene after SimulationApp has started."""
         try:
             import importlib.metadata
@@ -189,6 +189,10 @@ class IsaacSimEnvironment:
                     name: Camera(prim_path=path, name=name, resolution=(224, 224))
                     for name, path in config.camera_paths.items()
                 }
+            # Contact views must be registered before the initial physics reset.
+            # The callback may attach readers, but must not step/reset the world.
+            if scene_setup is not None:
+                scene_setup(world, robot)
             world.reset()
             if config.robot_gravity_compensation:
                 # Ideal robot gravity compensation; object gravity stays enabled.

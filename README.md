@@ -35,6 +35,18 @@ provided by the application; the code does not claim measured robot performance 
 
 ## Isaac Sim and temporal ViT
 
+### Grounded single-object pick/place
+
+The concrete [Isaac pick/place application](docs/isaac-pick-place.md) connects
+filtered finger/support contacts and measured geometry to the belief-aware
+executor. It verifies grasp acquisition through contact, aperture, lift and
+co-motion; handles target displacement and bounded regrasp; and requires stable
+release at the goal for task success. A separate evaluator scores raw observations.
+Example scene creation, configs, policy/critic wiring and result aggregation are
+included. This uses explicitly labelled simulator-oracle geometry. CPU integration
+tests are available; the new native contact path and pretrained-policy physics
+performance still require an Isaac GPU run.
+
 Docker setup: [two-container build and run instructions](docs/docker.md).
 `Dockerfile.train` includes π0 and ViT training/serving;
 `Dockerfile.isaacsim` uses the official NVIDIA runtime for simulation and online

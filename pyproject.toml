@@ -28,6 +28,8 @@ grounded-vla-predict = "grounded_vla.training.inference:main"
 grounded-vla-serve = "grounded_vla.training.serve:main"
 grounded-vla-isaacsim = "grounded_vla.isaacsim_cli:main"
 grounded-vla-train-critic = "grounded_vla.training.critic:main"
+grounded-vla-pick-place = "grounded_vla.pick_place_cli:main"
+grounded-vla-evaluate-pick-place = "grounded_vla.benchmarks.isaac_pick_place:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

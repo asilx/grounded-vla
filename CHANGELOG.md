@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased — grounded Isaac pick/place application
+
+- Add typed Isaac scene/contact measurements, causal grasp/release evidence and
+  task graphs, bounded pick/place/regrasp selection and measured inspection holds.
+- Add observed-contact exemptions for pick geometry dependencies and journal the
+  supporting evidence; keep ordinary dependencies and legacy rollouts compatible.
+- Add native task CLI, scene/config examples, optional conditioned critic recording
+  and raw-measurement scoring with all-attempt aggregation.
+- Add CPU regression and composed task tests. Native Isaac GPU execution and
+  pretrained-policy task performance remain unvalidated for this addition.
+
 ## Unreleased — isaac-trl-tests
 - Add belief-aware native chunk execution with declared dependency checks,
   evidence-linked cancellation journals, observed-effect verification, bounded
