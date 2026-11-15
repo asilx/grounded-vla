@@ -18,6 +18,9 @@ from grounded_vla.backends.openpi import PolicyBackendError
 class GraphSnapshot:
     graph: dict
     timestamp: float
+    # Execution-side identity/provenance only; never learned object-ID embeddings.
+    entity_ids: tuple[str, ...] = ()
+    entity_timestamps: tuple[float, ...] = ()
 
 
 class CanonicalSimPolicy:

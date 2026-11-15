@@ -8,6 +8,31 @@ The core demo runs on a laptop with Python alone. It produces a self-contained t
 
 ![Grounded VLA trace explorer](docs/trace-explorer.png)
 
+## Belief-aware execution and conditioned monitoring
+
+The `isaac-trl-tests` development now includes a bounded `BeliefAwareExecutor`:
+action chunks retain their generation-time evidence and declared object/relation
+dependencies. A changed target, expired/conflicting precondition, missing effect,
+or critic alarm discards the remaining chunk before the next action. The executive
+can select a new contract and resume the same scene without resetting it. Observed
+effects, not issued commands or critic predictions, complete a contract.
+
+The temporal ViT optionally conditions on the active contract, measured state,
+and a relation-aware graph with an explicit target binding. Its training loader,
+checkpoint format, online monitor, and causal recording path support this context;
+existing RGB-only checkpoints and rollout entry points remain supported.
+
+```bash
+python -m pip install -e '.[dev,simulation]'
+python examples/belief_aware_demo.py --out runs/belief-aware-demo
+```
+
+This example is a deterministic CPU control-flow demonstration, not a physics or
+learned-policy result. See [the implementation and integration guide](docs/belief-aware-execution.md)
+for the Isaac executor factory, conditioned-critic data format, and validation scope.
+Sensor ingestion, scene-specific contracts, and trained critic weights must be
+provided by the application; the code does not claim measured robot performance gains.
+
 ## Isaac Sim and temporal ViT
 
 Docker setup: [two-container build and run instructions](docs/docker.md).

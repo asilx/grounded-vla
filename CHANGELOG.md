@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — isaac-trl-tests
+- Add belief-aware native chunk execution with declared dependency checks,
+  evidence-linked cancellation journals, observed-effect verification, bounded
+  recovery and scene-preserving simulator resume.
+- Add optional contract/state/graph conditioning to temporal ViT training and
+  inference, versioned checkpoints, causal recording and task-bounded windows.
+- Add a runnable CPU control-flow example, integration documentation and
+  behavioral/gradient/data compatibility tests.
+- Make three legacy experiment tests portable outside the original Runpod path.
+
 ## Unreleased — Isaac Sim and temporal ViT
 
 - Update `Dockerfile.train` with paired torchvision, ViT checks, and a model cache.

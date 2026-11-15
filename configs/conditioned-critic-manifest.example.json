@@ -1,0 +1,16 @@
+{
+  "format_version": 2,
+  "camera": "base_0_rgb",
+  "control_period_seconds": 0.05,
+  "conditioning": {
+    "contract_dim": 35,
+    "state_dim": 9,
+    "graph_feature_dim": 26,
+    "graph_relation_types": 8,
+    "graph_schema_id": "grounded-vla-belief-v1"
+  },
+  "episodes": [
+    {"path": "../data/critic/train-001.npz", "split": "train"},
+    {"path": "../data/critic/val-001.npz", "split": "val"}
+  ]
+}

@@ -46,16 +46,18 @@ class IsaacSimConfig:
             object.__setattr__(self, key, tuple(getattr(self, key)))
         n = len(self.joint_names)
         if type(self.robot_gravity_compensation) is not bool:
-            raise ValueError('robot_gravity_compensation must be boolean')
+            raise ValueError("robot_gravity_compensation must be boolean")
         if (self.drive_kp is None) != (self.drive_kd is None):
-            raise ValueError('Provide both drive_kp and drive_kd')
-        for key in ('drive_kp', 'drive_kd'):
-            value=getattr(self,key)
+            raise ValueError("Provide both drive_kp and drive_kd")
+        for key in ("drive_kp", "drive_kd"):
+            value = getattr(self, key)
             if value is not None:
-                a=np.asarray(value,dtype=float)
-                if a.shape!=(n,) or not np.isfinite(a).all() or np.any(a<0):
-                    raise ValueError('Drive gains must be finite nonnegative values per configured joint')
-                object.__setattr__(self,key,tuple(a.tolist()))
+                a = np.asarray(value, dtype=float)
+                if a.shape != (n,) or not np.isfinite(a).all() or np.any(a < 0):
+                    raise ValueError(
+                        "Drive gains must be finite nonnegative values per configured joint"
+                    )
+                object.__setattr__(self, key, tuple(a.tolist()))
         if not 1 <= n <= 32 or len(set(self.joint_names)) != n:
             raise ValueError("Provide 1..32 unique joint names in model state/action order")
         if not all(isinstance(s, str) and s.strip() for s in self.joint_names):
@@ -116,7 +118,17 @@ class IsaacSimEnvironment:
     limits alone are not a collision checker or a hardware safety controller.
     """
 
-    def __init__(self, config, world, robot, cameras, *, action_factory, action_guard=None, render_update=None):
+    def __init__(
+        self,
+        config,
+        world,
+        robot,
+        cameras,
+        *,
+        action_factory,
+        action_guard=None,
+        render_update=None,
+    ):
         self.config, self.world, self.robot = config, world, robot
         self.cameras, self.action_factory = cameras, action_factory
         self.render_update = render_update
@@ -135,6 +147,7 @@ class IsaacSimEnvironment:
         """Attach an existing, authored USD scene after SimulationApp has started."""
         try:
             import importlib.metadata
+
             import omni.kit.app
 
             major = int(importlib.metadata.version("isaacsim").split(".")[0])
@@ -181,12 +194,14 @@ class IsaacSimEnvironment:
                 # Ideal robot gravity compensation; object gravity stays enabled.
                 robot.disable_gravity()
             if config.drive_kp is not None:
-                controller=robot.get_articulation_controller()
-                kp,kd=controller.get_gains()
-                indices=[list(robot.dof_names).index(n) for n in config.joint_names]
-                kp=np.asarray(kp).copy();kd=np.asarray(kd).copy()
-                kp[indices]=config.drive_kp;kd[indices]=config.drive_kd
-                controller.set_gains(kps=kp,kds=kd)
+                controller = robot.get_articulation_controller()
+                kp, kd = controller.get_gains()
+                indices = [list(robot.dof_names).index(n) for n in config.joint_names]
+                kp = np.asarray(kp).copy()
+                kd = np.asarray(kd).copy()
+                kp[indices] = config.drive_kp
+                kd[indices] = config.drive_kd
+                controller.set_gains(kps=kp, kds=kd)
             for camera in cameras.values():
                 camera.initialize()
             env = cls(
@@ -196,7 +211,7 @@ class IsaacSimEnvironment:
                 cameras,
                 action_factory=ArticulationAction,
                 action_guard=action_guard,
-            render_update=world.render if major >= 6 else None,
+                render_update=world.render if major >= 6 else None,
             )
             # Warm-up is bounded and never substitutes black images for missing sensors.
             for _ in range(config.warmup_steps):
@@ -230,7 +245,11 @@ class IsaacSimEnvironment:
             # never advance physics or manufacture a capture timestamp.
             for _ in range(4):
                 stamp = frame.get("rendering_time")
-                if self.render_update is None or stamp is None or stamp != self._last_camera_times.get(name):
+                if (
+                    self.render_update is None
+                    or stamp is None
+                    or stamp != self._last_camera_times.get(name)
+                ):
                     break
                 self.render_update()
                 if float(self.world.current_time) != now:
@@ -291,6 +310,32 @@ class IsaacSimEnvironment:
     def pause(self):
         self._paused = True
         self.world.pause()
+
+    def resume(self):
+        """Resume a checked recovery without resetting the scene or advancing physics.
+
+        Replace the controller's old target with a measured-position hold before
+        starting the timeline. The next policy command still passes every guard.
+        """
+        if not self._paused:
+            return
+        try:
+            state = self._positions()
+            if np.any(state < self.config.lower_limits) or np.any(state > self.config.upper_limits):
+                raise SimulationBackendError("Cannot resume outside configured joint limits")
+            if self.action_guard is not None:
+                self.action_guard(state.copy(), state.copy())
+            self.robot.apply_action(
+                self.action_factory(joint_positions=state.copy(), joint_indices=self.indices.copy())
+            )
+            before = float(self.world.current_time)
+            self.world.play()
+            if float(self.world.current_time) != before:
+                raise SimulationBackendError("Resume advanced the physics clock")
+            self._paused = False
+        except BaseException:
+            self.pause()
+            raise
 
     def reset(self):
         self.world.reset()

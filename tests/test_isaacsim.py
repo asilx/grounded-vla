@@ -54,6 +54,9 @@ class World:
     def pause(self):
         self.paused = True
 
+    def play(self):
+        self.paused = False
+
     def reset(self):
         self.current_time = 0.0
         self.paused = False
@@ -75,6 +78,31 @@ class Camera:
             "rgba": self.rgba,
             "rendering_time": self.world.current_time if self.timestamp is None else self.timestamp,
         }
+
+
+def test_resume_holds_measured_joints_without_resetting_or_advancing_clock(env):
+    env.step(np.array([0.01, 0.02], np.float32))
+    now, state = env.world.current_time, env._positions()
+    env.pause()
+    env.resume()
+    assert env.world.current_time == now
+    np.testing.assert_array_equal(env._positions(), state)
+    np.testing.assert_array_equal(env.robot.commands[-1].joint_positions, state)
+    assert not env._paused and not env.world.paused
+    env.step(state)
+    assert env.world.current_time > now
+
+
+def test_resume_guard_failure_keeps_world_paused(env):
+    env.pause()
+
+    def veto(state, target):
+        raise ValueError("blocked hold")
+
+    env.action_guard = veto
+    with pytest.raises(ValueError, match="blocked hold"):
+        env.resume()
+    assert env._paused and env.world.paused and not env.robot.commands
 
 
 @pytest.fixture
@@ -125,30 +153,35 @@ def snapshot(obs):
 
 def test_duplicate_camera_waits_for_real_new_capture_without_physics(env):
     env.observe()
-    env.world.current_time = .01
-    camera = env.cameras['base_0_rgb']
-    camera.timestamp = 0.
+    env.world.current_time = 0.01
+    camera = env.cameras["base_0_rgb"]
+    camera.timestamp = 0.0
     calls = []
+
     def render():
         calls.append(env.world.current_time)
-        camera.timestamp = .01
+        camera.timestamp = 0.01
+
     env.render_update = render
     obs = env.observe()
-    assert obs.timestamp == .01 and calls == [.01]
-    assert env._last_camera_times['base_0_rgb'] == .01
+    assert obs.timestamp == 0.01 and calls == [0.01]
+    assert env._last_camera_times["base_0_rgb"] == 0.01
 
 
 def test_render_wait_cannot_fabricate_freshness_or_advance_clock(env):
     env.observe()
-    env.world.current_time = .01
-    env.cameras['base_0_rgb'].timestamp = 0.
+    env.world.current_time = 0.01
+    env.cameras["base_0_rgb"].timestamp = 0.0
     calls = []
     env.render_update = lambda: calls.append(env.world.current_time)
-    with pytest.raises(CameraNotReady): env.observe()
-    assert calls == [.01]*4 and env.world.current_time == .01
+    with pytest.raises(CameraNotReady):
+        env.observe()
+    assert calls == [0.01] * 4 and env.world.current_time == 0.01
     from grounded_vla.backends.isaacsim import SimulationBackendError
-    env.render_update = lambda: setattr(env.world,'current_time',.02)
-    with pytest.raises(SimulationBackendError,match='advanced'): env.observe()
+
+    env.render_update = lambda: setattr(env.world, "current_time", 0.02)
+    with pytest.raises(SimulationBackendError, match="advanced"):
+        env.observe()
 
 
 @pytest.mark.parametrize(
@@ -163,7 +196,7 @@ def test_render_wait_cannot_fabricate_freshness_or_advance_clock(env):
         {"robot_gravity_compensation": "yes"},
         {"drive_kp": (1, 1)},
         {"drive_kp": (1, -1), "drive_kd": (1, 1)},
-        {"drive_kp": (1, 1), "drive_kd": (float('nan'), 1)},
+        {"drive_kp": (1, 1), "drive_kd": (float("nan"), 1)},
     ],
 )
 def test_config_rejects_invalid_contract(changes):
@@ -352,23 +385,24 @@ def test_policy_timeout_pauses_without_command(env):
 
 
 def test_render_update_runs_for_valid_steps_only(env):
-    rendered=[]
-    env.render_update=lambda: rendered.append(env.world.current_time)
-    target=env.observe().state
-    obs=env.step(target)
-    assert len(rendered)==env.config.steps_per_action
-    assert rendered[-1]==obs.timestamp
-    before=env.world.current_time
-    with pytest.raises(ValueError,match="joint limits"):
-        env.step(np.full_like(target,1e6))
-    assert env.world.current_time==before
-    assert len(rendered)==env.config.steps_per_action
+    rendered = []
+    env.render_update = lambda: rendered.append(env.world.current_time)
+    target = env.observe().state
+    obs = env.step(target)
+    assert len(rendered) == env.config.steps_per_action
+    assert rendered[-1] == obs.timestamp
+    before = env.world.current_time
+    with pytest.raises(ValueError, match="joint limits"):
+        env.step(np.full_like(target, 1e6))
+    assert env.world.current_time == before
+    assert len(rendered) == env.config.steps_per_action
 
 
 def test_render_update_failure_pauses_environment(env):
     def failed_render():
         raise RuntimeError("renderer failed")
-    env.render_update=failed_render
-    with pytest.raises(RuntimeError,match="renderer failed"):
+
+    env.render_update = failed_render
+    with pytest.raises(RuntimeError, match="renderer failed"):
         env.step(env.observe().state)
     assert env.world.paused
