@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from dataclasses import asdict
 from pathlib import Path
@@ -192,9 +193,16 @@ def main():
             if environment is not None:
                 environment.pause()
             if grounder is not None:
-                (out / "scene-measurements.jsonl").write_text(
-                    "".join(json.dumps(row, allow_nan=False) + "\n" for row in grounder.records)
-                )
+                digest = hashlib.sha256()
+                with (out / "scene-measurements.jsonl").open("wb") as stream:
+                    for row in grounder.records:
+                        line = (json.dumps(row, allow_nan=False) + "\n").encode("utf-8")
+                        stream.write(line)
+                        digest.update(line)
+                summary["scene_measurements"] = {
+                    "sha256": digest.hexdigest(),
+                    "samples": len(grounder.records),
+                }
             if executor is not None:
                 executor.journal.save(out / "execution-trace.jsonl")
             if evaluator is not None:

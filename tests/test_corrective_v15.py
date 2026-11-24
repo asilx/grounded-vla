@@ -1,19 +1,15 @@
 """Check the physical-loss decoder matches the independently used runtime decoder."""
 
-import importlib.util
 import json
 from pathlib import Path
 
 import numpy as np
 import torch
+from experiments.runpod import learned_corrective_v15 as module
 
 
 def test_physical_loss_runtime_decoder_parity():
     root = Path(__file__).resolve().parents[1]
-    path = root / "experiments/runpod/learned_corrective_v15.py"
-    spec = importlib.util.spec_from_file_location("corrective_v15", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
     meta = json.loads((root / "artifacts/isaac-v18/model/metadata.json").read_text())["dataset"]
     q = np.asarray([0.012, -0.57, 0.0, -2.81, 0.0, 3.037, 0.741, 0.02, 0.02], np.float32)
     prediction = torch.linspace(-2.0, 2.0, 9)[None].requires_grad_()

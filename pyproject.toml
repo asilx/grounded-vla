@@ -39,7 +39,7 @@ grounded_vla = ["data/*.json", "data/*.html", "training/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", ".", "experiments.zip", "experiments.zip/experiments/runpod"]
 addopts = "-ra"
 
 [tool.ruff]

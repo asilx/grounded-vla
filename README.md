@@ -47,6 +47,12 @@ included. This uses explicitly labelled simulator-oracle geometry. CPU integrati
 tests are available; the new native contact path and pretrained-policy physics
 performance still require an Isaac GPU run.
 
+Recorded task outcomes can now be independently re-scored on a CPU with
+`grounded-vla-evaluate-pick-place ... --verify-measurements --out comparison.json`.
+The evaluator checks raw contact/pose continuity, measurement digests and sample
+counts, preserves failed attempts, and reports nominal/disturbed scenarios and
+measurement sources separately. See [the replay workflow](docs/isaac-pick-place.md#critic-and-recordings).
+
 Docker setup: [two-container build and run instructions](docs/docker.md).
 `Dockerfile.train` includes π0 and ViT training/serving;
 `Dockerfile.isaacsim` uses the official NVIDIA runtime for simulation and online

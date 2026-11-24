@@ -203,12 +203,10 @@ No trained task critic or measured performance improvement is supplied.
 
 ## Tests
 
-The delivery ZIP includes the original experiment sources unpacked from
-`experiments.zip`; the original archive is preserved. When applying only the patch
-to the GitHub branch, unpack it first with `python -m zipfile -e experiments.zip .`.
-Three legacy tests now resolve source paths relative to the repository instead
-of requiring `/workspace/grounded-vla`; the decoder parity test uses the existing
-checked-in V18 metadata instead of an external training dataset.
+Pytest imports historical experiment sources directly from the tracked
+`experiments.zip` if there is no unpacked `experiments/` directory. No manual
+extraction or `/workspace/grounded-vla` path is required. The decoder parity test
+uses the checked-in V18 metadata instead of an external training dataset.
 
 ```bash
 python -m pip install torch==2.7.1 torchvision==0.22.1 --index-url https://download.pytorch.org/whl/cpu

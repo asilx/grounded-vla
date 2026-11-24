@@ -12,31 +12,14 @@ import numpy as np
 
 from grounded_vla.belief import Atom, BeliefStore, Truth
 from grounded_vla.execution import ExecutionView
+from grounded_vla.perception.isaac_scene import (
+    bilateral_contact,
+    near_goal,
+    released,
+    validate_initial_sample,
+)
 from grounded_vla.simulation import GraphSnapshot
 from grounded_vla.training.graph import encode_belief_graph
-
-
-def near_goal(sample, config):
-    offset = np.asarray(sample.object_position) - sample.goal_position
-    return (
-        np.linalg.norm(offset[:2]) <= config.goal_xy_tolerance
-        and abs(offset[2]) <= config.goal_z_tolerance
-    )
-
-
-def bilateral_contact(sample, config):
-    return (
-        min(sample.finger_forces) >= config.contact_force_min
-        and config.grasp_width_min <= sample.width <= config.grasp_width_max
-        and np.linalg.norm(sample.relative_position) <= config.max_grasp_distance
-    )
-
-
-def released(sample, config):
-    return (
-        sample.width >= config.release_width_min
-        and max(sample.finger_forces) < config.contact_force_min
-    )
 
 
 class PickPlaceGrounder:
@@ -63,6 +46,7 @@ class PickPlaceGrounder:
             if sample.source != self.previous.source:
                 raise ValueError("Cannot switch measurement provenance within an episode")
         if self.initial is None:
+            validate_initial_sample(sample, c)
             self.initial = sample
         dt = sample.timestamp - self.previous.timestamp if self.previous else None
         continuous = dt is not None and dt <= c.max_sample_gap + 1e-8
@@ -97,6 +81,7 @@ class PickPlaceGrounder:
             if drift > c.relative_tolerance:
                 self.contact_start = sample
                 self.held = False
+                self.ever_held = False
             motion = np.linalg.norm(
                 np.subtract(sample.gripper_position, self.contact_start.gripper_position)
             )
@@ -120,9 +105,9 @@ class PickPlaceGrounder:
             if released(sample, c) or separated or supported_without_grasp
             else Truth.UNKNOWN
         )
-        if held == Truth.REFUTED and not (released(sample, c) and near_goal(sample, c)):
-            # A dropped object later sliding/pushed into the goal needs a new
-            # verified grasp, not historical credit from an earlier attempt.
+        if not contact and not (released(sample, c) and near_goal(sample, c)):
+            # Inconclusive contact also breaks the acquisition-to-release chain.
+            # A later arrival at the goal needs a newly verified grasp.
             self.ever_held = False
         stable_release = (
             self.ever_held

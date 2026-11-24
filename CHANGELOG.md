@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased — trustworthy pick/place evidence and replay
+
+- Revoke placement eligibility after inconclusive contact or relative slip;
+  require a newly confirmed grasp before a later release can succeed.
+- Validate the initial support state and measurement provenance, and align
+  grasp confirmation after sampling gaps between grounding and evaluation.
+- Fix NumPy contact booleans breaking JSON artifact persistence on completed
+  runs. Record measurement byte digests and sample counts in run summaries.
+- Add `--verify-measurements` to replay raw records without PyTorch or Isaac,
+  retain missing/corrupt recordings as failed attempts, and report groups by
+  scenario and measurement source. Identify the revised scoring protocol as v2.
+- Make the full CPU suite run from a clean checkout by importing archived
+  experiment sources directly through pytest's configured Python path.
+- Validation: 237 CPU tests passed, four OpenPI-dependent tests skipped;
+  native Isaac GPU execution and trained-policy performance remain unvalidated.
+
 ## Unreleased — grounded Isaac pick/place application
 
 - Add typed Isaac scene/contact measurements, causal grasp/release evidence and

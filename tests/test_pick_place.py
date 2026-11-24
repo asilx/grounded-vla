@@ -1,13 +1,21 @@
 """Raw-measurement and composed executor tests; no GPU task metrics."""
 
-from dataclasses import replace
+import hashlib
+import json
+import subprocess
+import sys
+from dataclasses import asdict, replace
 from types import SimpleNamespace
 
 import numpy as np
 import pytest
 
 from grounded_vla.belief import Atom, Truth
-from grounded_vla.benchmarks.isaac_pick_place import PickPlaceEvaluator, aggregate
+from grounded_vla.benchmarks.isaac_pick_place import (
+    PickPlaceEvaluator,
+    aggregate,
+    replay_measurements,
+)
 from grounded_vla.contracts import Requirement
 from grounded_vla.execution import ChunkBinding, PositionDependency
 from grounded_vla.grounding.pick_place import PickPlaceGrounder
@@ -399,6 +407,7 @@ def test_evaluation_counts_failed_attempts_and_rejects_duplicate_paths(tmp_path)
         {"gripper_offset": [0, 0]},
         {"object_id": "goal"},
         {"contact_force_min": float("nan")},
+        {"description": None},
     ],
 )
 def test_invalid_configuration_rejected(changes):
@@ -474,3 +483,289 @@ def test_drop_then_slide_into_goal_does_not_reuse_old_grasp(config):
     assert e.verified_grasp  # Historical measurement remains in diagnostics.
     assert not e.success
     assert truth(g, "at_tray") != Truth.SUPPORTED
+
+
+@pytest.mark.parametrize("fault", ["uncertain_contact", "relative_slip"])
+def test_interrupted_grasp_cannot_claim_later_release(config, fault):
+    g, e = PickPlaceGrounder(config), PickPlaceEvaluator(config)
+    interrupted = replace(trajectory()[3], timestamp=0.4)
+    if fault == "uncertain_contact":
+        interrupted = replace(interrupted, finger_forces=(2, 0))
+    else:
+        # Both fingers still report contact, but the cargo slipped in the hand.
+        interrupted = replace(interrupted, object_position=(0.42, 0, 0.09))
+    for row in trajectory()[:4] + [interrupted] + trajectory()[5:]:
+        g.ingest(row)
+        e.update(row)
+    assert e.verified_grasp  # Historical diagnostics must survive invalidation.
+    assert truth(g, "at_tray") != Truth.SUPPORTED
+    assert not e.success
+
+    # A new, independently confirmed acquisition restores eligibility.
+    for row in trajectory():
+        row = replace(row, timestamp=row.timestamp + 0.9)
+        g.ingest(row)
+        e.update(row)
+    assert truth(g, "at_tray") == Truth.SUPPORTED and e.success
+
+
+def test_contact_confirmation_restarts_at_first_sample_after_gap(config):
+    g, e = PickPlaceGrounder(config), PickPlaceEvaluator(config)
+    rows = [trajectory()[0], replace(trajectory()[1], timestamp=1.0)]
+    rows += [replace(row, timestamp=row.timestamp + 0.9) for row in trajectory()[2:]]
+    for row in rows:
+        g.ingest(row)
+        e.update(row)
+        if row.timestamp == pytest.approx(1.1):
+            assert truth(g, "held") == Truth.SUPPORTED
+            assert e.verified_grasp
+    assert e.success
+
+
+@pytest.mark.parametrize("kind", ["airborne", "already_grasped"])
+def test_episode_requires_initial_supported_ungrasped_object(config, kind):
+    row = replace(trajectory()[0], support_force=0) if kind == "airborne" else trajectory()[1]
+    for consumer in (PickPlaceGrounder(config).ingest, PickPlaceEvaluator(config).update):
+        with pytest.raises(ValueError, match="initial.*support"):
+            consumer(row)
+
+
+def test_evaluator_rejects_provenance_switch(config):
+    evaluator = PickPlaceEvaluator(config)
+    evaluator.update(trajectory()[0])
+    with pytest.raises(ValueError, match="provenance"):
+        evaluator.update(replace(trajectory()[1], source="different_sensor"))
+
+
+def recorded_run(directory, config, rows, **overrides):
+    directory.mkdir()
+    data = "".join(json.dumps(asdict(row)) + "\n" for row in rows).encode()
+    (directory / "scene-measurements.jsonl").write_bytes(data)
+    path = directory / "result.json"
+    result = {
+        "format": "grounded-vla-pick-place-v1",
+        "task_config": asdict(config),
+        "scenario": "nominal",
+        "task_success": True,
+        "reason": "no_plan",
+        "scene_measurements": {"sha256": hashlib.sha256(data).hexdigest(), "samples": len(rows)},
+        **overrides,
+    }
+    path.write_text(json.dumps(result))
+    return path
+
+
+def test_replay_ignores_recorded_predicates_and_score_claims(config, tmp_path):
+    rows = [sample(t / 10, cargo=(0.6, 0, 0.02)) for t in range(9)]
+    path = tmp_path / "measurements.jsonl"
+    path.write_text(
+        "".join(
+            json.dumps(
+                {**asdict(row), "held": "supported", "at_tray": "supported", "task_success": True}
+            )
+            + "\n"
+            for row in rows
+        )
+    )
+    measured = replay_measurements(path, config)
+    assert not measured["task_success"] and not measured["verified_grasp"]
+    assert measured["measurement_samples"] == 9
+
+
+def test_verified_aggregation_keeps_failures_and_separates_scenarios(config, tmp_path):
+    good = recorded_run(tmp_path / "good", config, trajectory())
+    false_claim = recorded_run(tmp_path / "false-claim", config, [sample(0), sample(0.1)])
+    not_applied = recorded_run(
+        tmp_path / "not-applied",
+        config,
+        trajectory(),
+        scenario="target-shift",
+        perturbation_applied=False,
+    )
+    disturbed = recorded_run(
+        tmp_path / "disturbed",
+        config,
+        trajectory(),
+        scenario="target-shift",
+        perturbation_applied=True,
+    )
+    failed = recorded_run(
+        tmp_path / "startup-error", config, [], reason="error", task_success=False
+    )
+    (failed.parent / "scene-measurements.jsonl").unlink()
+    result = aggregate(
+        [good, false_claim, not_applied, disturbed, failed], verify_measurements=True
+    )
+    assert result["started_runs"] == 5 and result["successful_runs"] == 2
+    assert result["success_rate"] == 0.4 and result["error_runs"] == 1
+    assert result["verification_error_runs"] == 1
+    assert result["score_mode"] == "verified_raw_measurements"
+    assert not result["runs"][1]["replayed_measurements"]["task_success"]
+    assert result["runs"][2]["replayed_measurements"]["task_success"]
+    assert not result["runs"][2]["success"]
+    assert "verification_error" in result["runs"][-1]
+    groups = {(g["scenario"], g["measurement_source"]): g for g in result["groups"]}
+    assert groups[("target-shift", "cpu_measurement_fixture")]["success_rate"] == 0.5
+    assert groups[("nominal", "cpu_measurement_fixture")]["success_rate"] == 0.5
+    # Even reported-only mode must not credit an unapplied disturbance.
+    assert aggregate([not_applied])["successful_runs"] == 0
+
+
+@pytest.mark.parametrize(
+    "fault", ["malformed", "missing_field", "nan", "duplicate", "source", "empty"]
+)
+def test_replay_rejects_invalid_measurements_with_location(config, tmp_path, fault):
+    records = [asdict(row) for row in trajectory()]
+    if fault == "missing_field":
+        records[1].pop("source")
+    elif fault == "nan":
+        records[1]["timestamp"] = float("nan")
+    elif fault == "duplicate":
+        records[1] = records[0]
+    elif fault == "source":
+        records[1]["source"] = "other"
+    data = "".join(json.dumps(row) + "\n" for row in records)
+    if fault == "malformed":
+        data = data.splitlines()[0] + "\n{\n"
+    elif fault == "empty":
+        data = ""
+    path = tmp_path / "measurements.jsonl"
+    path.write_text(data)
+    with pytest.raises(ValueError, match="no scene measurements" if fault == "empty" else ":2:"):
+        replay_measurements(path, config)
+
+
+@pytest.mark.parametrize(
+    "fault", ["digest", "count", "legacy_count", "truncated", "missing_config"]
+)
+def test_audit_failure_cannot_remove_a_run_from_the_denominator(config, tmp_path, fault):
+    path = recorded_run(tmp_path / "run", config, trajectory())
+    result = json.loads(path.read_text())
+    if fault == "digest":
+        result["scene_measurements"]["sha256"] = "wrong"
+    elif fault == "count":
+        result["scene_measurements"]["samples"] += 1
+    elif fault == "legacy_count":
+        result.pop("scene_measurements")
+        result["physical_measurements"] = {"measurement_samples": 100}
+    elif fault == "missing_config":
+        result.pop("task_config")
+    else:
+        measurements = path.parent / "scene-measurements.jsonl"
+        measurements.write_text("\n".join(measurements.read_text().splitlines()[:-1]) + "\n")
+    path.write_text(json.dumps(result))
+    score = aggregate([path], verify_measurements=True)
+    assert score["started_runs"] == 1 and score["successful_runs"] == 0
+    assert score["verification_error_runs"] == 1
+
+
+def test_replay_supports_existing_records_without_artifact_digest(config, tmp_path):
+    path = recorded_run(tmp_path / "legacy", config, trajectory())
+    result = json.loads(path.read_text())
+    result.pop("scene_measurements")
+    path.write_text(json.dumps(result))
+    assert aggregate([path], verify_measurements=True)["successful_runs"] == 1
+
+
+def test_evaluation_cli_does_not_import_torch_or_isaac(config, tmp_path):
+    path = recorded_run(tmp_path / "run", config, trajectory())
+    output = tmp_path / "score.json"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            (
+                "import sys; from grounded_vla.benchmarks.isaac_pick_place import main; "
+                "main(); assert 'torch' not in sys.modules; assert 'isaacsim' not in sys.modules"
+            ),
+            str(path),
+            "--verify-measurements",
+            "--out",
+            str(output),
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+    assert json.loads(output.read_text())["successful_runs"] == 1
+
+
+@pytest.mark.parametrize("fail_read", [False, True])
+def test_run_cli_saves_replayable_measurements_and_digest(config, tmp_path, monkeypatch, fail_read):
+    from grounded_vla import pick_place_cli
+    from grounded_vla.backends import isaacsim, openpi
+
+    env = ReplayEnvironment(trajectory())
+    reader = ReplayReader(env)
+    client = Client()
+    sim = isaacsim.IsaacSimConfig(
+        stage_path="fixture.usda",
+        robot_prim_path="/World/Robot",
+        camera_paths={"base_0_rgb": "/World/Camera"},
+        joint_names=tuple(f"q{i}" for i in range(9)),
+        lower_limits=(-3,) * 9,
+        upper_limits=(3,) * 9,
+        max_joint_step=(0.1,) * 9,
+        physics_dt=0.1,
+        steps_per_action=1,
+    )
+    client.metadata["action_convention"] = sim.action_convention
+    closed = []
+    client.close = lambda: closed.append("client")
+    monkeypatch.setitem(
+        sys.modules,
+        "isaacsim",
+        SimpleNamespace(
+            SimulationApp=lambda options: SimpleNamespace(close=lambda: closed.append("app"))
+        ),
+    )
+    monkeypatch.setattr(openpi, "OpenPiTransport", lambda *args, **kwargs: client)
+    monkeypatch.setattr(IsaacSceneReader, "attach", lambda *args: reader)
+
+    def create_environment(config, *, scene_setup, action_guard):
+        scene_setup(None, None)
+        return env
+
+    monkeypatch.setattr(isaacsim.IsaacSimEnvironment, "from_config", create_environment)
+    if fail_read:
+        original_read = reader.read
+
+        def read(observation):
+            if env.index == 3:
+                raise RuntimeError("scene read failed")
+            return original_read(observation)
+
+        reader.read = read
+    sim_path, task_path, out = tmp_path / "sim.json", tmp_path / "task.json", tmp_path / "run"
+    sim_path.write_text(json.dumps(asdict(sim)))
+    task_path.write_text(json.dumps(asdict(config)))
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "grounded-vla-pick-place",
+            str(sim_path),
+            str(task_path),
+            "--out",
+            str(out),
+            "--no-critic",
+            "--max-steps",
+            "8",
+            "--execute-steps",
+            "3",
+        ],
+    )
+    if fail_read:
+        with pytest.raises(RuntimeError, match="scene read failed"):
+            pick_place_cli.main()
+    else:
+        pick_place_cli.main()
+    assert env.paused and closed == ["client", "app"]
+    result = json.loads((out / "result.json").read_text())
+    measurements = (out / "scene-measurements.jsonl").read_bytes()
+    assert result["scene_measurements"]["sha256"] == hashlib.sha256(measurements).hexdigest()
+    assert result["scene_measurements"]["samples"] == (3 if fail_read else 9)
+    audited = aggregate([out / "result.json"], verify_measurements=True)
+    assert audited["verification_error_runs"] == 0
+    assert audited["successful_runs"] == (0 if fail_read else 1)

@@ -1,14 +1,5 @@
-import importlib.util
-from pathlib import Path
-
 import numpy as np
-
-spec = importlib.util.spec_from_file_location(
-    "gripper_direction_v17",
-    Path(__file__).resolve().parents[1] / "experiments/runpod/gripper_direction_v17.py",
-)
-module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(module)
+from experiments.runpod import gripper_direction_v17 as module
 
 
 def test_contact_limited_grasp_and_initial_opening_are_opposite_directions():

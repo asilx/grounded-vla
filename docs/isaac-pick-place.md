@@ -25,6 +25,11 @@ threshold, a nonempty measured aperture, proximity to the configured TCP,
 lifting above the initial object height, and persistent co-motion in the
 gripper frame. A closed-gripper command or a single contact frame is insufficient.
 The initial scene must have the object resting on the support, not already held.
+Both grounding and evaluation reject an initial sample without measured support
+or with an existing bilateral grasp. Inconclusive finger contact and excessive
+relative slip revoke placement eligibility, even when historical grasp diagnostics
+remain true. A later release requires a new verified acquisition. After a long
+sampling gap, the first new contact sample starts a fresh confirmation window.
 
 In the pick phase the world position dependency detects an externally displaced
 target. Once fresh measured bilateral contact is established, that dependency
@@ -163,6 +168,7 @@ The run writes:
 
 - `result.json`: configuration, source scope, policy metadata, termination,
   attempts/replans, perturbation status, measured score and any runtime error.
+  New results include the measurement log's SHA-256 and sample count.
 - `scene-measurements.jsonl`: immutable numeric oracle observations and derived
   predicate statuses; useful for independently inspecting the score.
 - `execution-trace.jsonl`: selected contracts, dependency exemptions, discarded
@@ -180,13 +186,33 @@ started run to the aggregator, including retries and failures:
 ~~~bash
 python -m grounded_vla.benchmarks.isaac_pick_place \
   runs/pick-place-nominal-0/result.json runs/pick-place-shift-0/result.json \
+  --verify-measurements \
   --out runs/pick-place-comparison.json
 ~~~
 
-The aggregator reports success over all supplied attempts; it cannot discover
-attempts omitted by the caller. Keep nominal and disturbed groups separate when
-reporting rates. These are oracle-control metrics, not learned-perception or
-real-robot generalization measurements.
+With `--verify-measurements`, the evaluator reconstructs typed samples from each
+sibling `scene-measurements.jsonl`, using the saved `task_config`. It ignores
+recorded predicates, critic scores and claimed physical outcomes. The replay needs
+only NumPy (`pip install -e '.[simulation]'`), without PyTorch, Isaac or a policy
+server. Nonfinite, malformed, out-of-order, repeated and mixed-source observations
+are rejected, with a file and line number. Saved digests/counts are checked when
+present. Older records without digests can still be replayed. Digests detect
+changed bytes; they do not authenticate the sensor or attest to real physics.
+
+Verified success requires the reported run to have succeeded without a runtime
+error, independent raw-measurement success, and an actually applied disturbance
+for `target-shift`. Missing or corrupt recordings remain failed attempts in the
+denominator with a `verification_error`. Replaying valid measurements does not
+turn a failed runtime into a successful run. Without the flag, `score_mode` is
+`reported` and the aggregator trusts stored outcomes. Revised raw scoring is
+explicitly identified as `grounded-vla-pick-place-measurements-v2`.
+
+The report includes overall counts and separate groups by scenario and measurement
+source. Startup failures with no observations have an unknown source; retain that
+group and the overall denominator when reporting results. The aggregator cannot
+discover attempts omitted by the caller or deduplicate copied result files under
+new names. These are oracle-control metrics, not learned-perception or real-robot
+generalization measurements. CPU fixture records retain their own source label.
 
 ## CPU checks and native validation boundary
 
@@ -208,6 +234,13 @@ Local validation on 2026-11-15: **213 passed, 4 skipped** in the complete CPU
 suite (the four skips require the separate OpenPI runtime). This includes 31 new
 pick/place tests. CLI help, missing-Isaac startup failure persistence and failed-run
 aggregation were also exercised. Ruff checks cover the changed Python files.
+
+The 2026-11-24 follow-up passed **237 tests, with four OpenPI-dependent skips**.
+It adds contact-continuity, initial-state and provenance regressions; raw replay
+and artifact-integrity checks; and successful/interrupted CLI runs using explicit
+CPU environment/transport doubles. The CLI checks exercise actual artifact writes
+and re-scoring, including the NumPy boolean serialization regression. See
+[validation details](validation.md) for the remaining lint and runtime boundaries.
 
 Native API choices were checked against the
 [Isaac Sim 5.1 core prim API](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/py/source/extensions/isaacsim.core.prims/docs/index.html).

@@ -1,16 +1,5 @@
-import importlib.util
-import sys
-from pathlib import Path
-
 import torch
-
-experiment_dir = Path(__file__).resolve().parents[1] / "experiments/runpod"
-sys.path.insert(0, str(experiment_dir))
-spec = importlib.util.spec_from_file_location(
-    "learned_recurrent_v17b", experiment_dir / "learned_recurrent_v17b.py"
-)
-module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(module)
+from experiments.runpod import learned_recurrent_v17b as module
 
 
 def test_causal_gru_streaming_and_episode_reset_match_full_sequence():

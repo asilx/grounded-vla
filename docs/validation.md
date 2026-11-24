@@ -1,5 +1,33 @@
 # Packaged validation
 
+## Pick/place evidence and replay — 24 November 2026
+
+Validated from a fresh Git checkout with Python 3.12.14, PyTorch 2.7.1+cpu,
+torchvision 0.22.1+cpu, NumPy 2.3.5, pytest 9.2.0 and Ruff 0.17.6.
+
+| Check | Result |
+| --- | --- |
+| Complete CPU suite | **237 passed, 4 skipped**; the skips require OpenPI |
+| Clean-checkout reproducibility | Archived experiment modules import through pytest without manual extraction |
+| Evidence continuity | Uncertain contact/slip revoke placement credit; regrasp restores it; sampling-gap confirmation, initial support and source consistency are checked |
+| Actual CLI artifact path with CPU doubles | Successful and interrupted runs write JSON, sample counts and SHA-256 digests; raw replay agrees and failures remain failures |
+| Independent replay | Ignores predicate annotations; rejects malformed, missing, nonfinite, repeated or mixed-source samples; checks digests/counts; does not import torch or Isaac |
+| Aggregation | All supplied attempts retained, including missing/corrupt logs; unapplied disturbances cannot succeed; groups distinguish scenario and measurement source |
+| Existing CPU belief-aware demo | Displaced-target suffix cancelled, replanned, and observed effect verified |
+| Changed Python files | Ruff lint and formatting pass; `git diff --check` passes |
+
+Repo-wide Ruff commands were also run. They still report the **same pre-existing
+85 lint findings and 17 files requiring formatting** as the untouched baseline;
+this patch does not claim a clean repository-wide lint result. The host's external
+AnyIO pytest plugin emits one pytest deprecation warning. No remote CI run is
+claimed; the current checkout has no GitHub Actions workflow.
+
+All new task trajectories and CLI backend/transport instances in this validation
+are CPU fixtures. Native Isaac GPU execution, full OpenPI integration, a trained
+policy/critic and physical task performance were not exercised. The revised
+measurement protocol is `grounded-vla-pick-place-measurements-v2`; retain that
+identifier when comparing replayed outcomes to historical results.
+
 ## Version 0.2 — native π0 integration
 
 Validation date: **18 September 2026**. The current source was exercised locally with Python 3.12.14, PyTorch 2.7.1+cpu, NumPy 1.26.4, Transformers 4.53.2 with official openpi replacements, and openpi revision 215abfb217dbac7d5f1273282331b9b1866c0479.

@@ -132,8 +132,10 @@ class PickPlaceConfig:
         ):
             raise ValueError("Configure distinct exact absolute scene paths")
         if (
-            not self.object_id
+            not isinstance(self.object_id, str)
+            or not self.object_id
             or self.object_id in {"goal", "gripper"}
+            or not isinstance(self.description, str)
             or not self.description.strip()
         ):
             raise ValueError("Provide an unambiguous object identity and description")
@@ -171,6 +173,35 @@ class PickPlaceConfig:
     @classmethod
     def load(cls, path):
         return cls(**json.loads(Path(path).read_text()))
+
+
+def near_goal(sample, config):
+    offset = np.asarray(sample.object_position) - sample.goal_position
+    return bool(
+        np.linalg.norm(offset[:2]) <= config.goal_xy_tolerance
+        and abs(offset[2]) <= config.goal_z_tolerance
+    )
+
+
+def bilateral_contact(sample, config):
+    return bool(
+        min(sample.finger_forces) >= config.contact_force_min
+        and config.grasp_width_min <= sample.width <= config.grasp_width_max
+        and np.linalg.norm(sample.relative_position) <= config.max_grasp_distance
+    )
+
+
+def released(sample, config):
+    return (
+        sample.width >= config.release_width_min
+        and max(sample.finger_forces) < config.contact_force_min
+    )
+
+
+def validate_initial_sample(sample, config):
+    """A measured support height anchors lift; do not start from an acquired grasp."""
+    if sample.support_force < config.contact_force_min or bilateral_contact(sample, config):
+        raise ValueError("The initial object must rest on the support without a bilateral grasp")
 
 
 class IsaacSceneReader:
