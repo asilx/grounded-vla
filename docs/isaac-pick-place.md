@@ -98,6 +98,30 @@ nine-joint Panda naming used by the example config. The robot asset is external;
 the script deliberately takes its path instead of downloading vendor assets.
 If using an existing scene, configure its exact paths and skip scene creation.
 
+### Check the initial scene
+
+Run the scene check in the Isaac Sim environment before starting a policy server.
+
+~~~bash
+grounded-vla-pick-place \
+  configs/isaac-pick-place.example.json configs/pick-place.example.json \
+  --check-scene --out runs/pick-place-scene-check
+~~~
+
+The check uses the rollout's scene setup and reads one observation after the usual
+camera warm-up. It submits zero robot actions. `scene-check.json` contains the
+camera shapes, named joint positions, object, goal and TCP positions, gripper
+orientation and aperture, and the force on each finger and the support. `ready`
+becomes true when the readers accept the measurements and the initial sample
+shows the object on its support without a bilateral grasp.
+
+After the output directory is created, a simulator or sensor failure exits with
+a nonzero status and saves the error and any measurements already read. For low
+support force, compare the measured value with `task_config.contact_force_min`
+and check the configured support collider. A passing check covers the initial
+observation. Finger contact under load and closed-loop execution require a
+rollout. Scene checks have their own report format and do not count as attempts.
+
 ## Policy compatibility
 
 Use the existing pinned OpenPI environment and serving instructions in

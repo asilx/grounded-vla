@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased — pick/place scene check
+
+- Add `grounded-vla-pick-place --check-scene` to inspect the initial measured
+  scene before connecting a policy. The command writes a separate diagnostic
+  with joint positions, TCP geometry, contact forces and any startup error.
+
 ## Unreleased — trustworthy pick/place evidence and replay
 
 - Revoke placement eligibility after inconclusive contact or relative slip;

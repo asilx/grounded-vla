@@ -5,8 +5,66 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+from contextlib import ExitStack
 from dataclasses import asdict
 from pathlib import Path
+
+
+def _attach_scene(sim_config, task_config, *, action_guard=None):
+    from grounded_vla.backends.isaacsim import IsaacSimEnvironment
+    from grounded_vla.perception.isaac_scene import IsaacSceneReader
+
+    attached = {}
+
+    def setup_scene(world, robot):
+        attached["reader"] = IsaacSceneReader.attach(task_config, world, sim_config.joint_names)
+
+    environment = IsaacSimEnvironment.from_config(
+        sim_config, scene_setup=setup_scene, action_guard=action_guard
+    )
+    return environment, attached["reader"]
+
+
+def _check_scene(sim_config, task_config, out, *, gui):
+    """Inspect the first rollout observation after normal scene warm-up."""
+    from grounded_vla.perception.isaac_scene import validate_initial_sample
+
+    path = out / "scene-check.json"
+    report = {
+        "format": "grounded-vla-pick-place-scene-check-v1",
+        "ready": False,
+        "simulation_config": asdict(sim_config),
+        "task_config": asdict(task_config),
+    }
+    try:
+        from isaacsim import SimulationApp
+
+        with ExitStack() as resources:
+            app = SimulationApp({"headless": not gui})
+            resources.callback(app.close)
+            environment, reader = _attach_scene(sim_config, task_config)
+            resources.callback(environment.pause)
+            observation = environment.observe()
+            report["observation"] = {
+                "timestamp": observation.timestamp,
+                "joint_positions": dict(
+                    zip(sim_config.joint_names, observation.state.tolist(), strict=True)
+                ),
+                "camera_shapes": {
+                    name: list(image.shape) for name, image in observation.images.items()
+                },
+            }
+            sample = reader.read(observation)
+            report["measurement"] = asdict(sample)
+            report["gripper_width_m"] = sample.width
+            validate_initial_sample(sample, task_config)
+        report["ready"] = True
+    except BaseException as exc:
+        report.update(error_type=type(exc).__name__, error=str(exc))
+        raise
+    finally:
+        path.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
+    print(f"Wrote pick/place scene check to {path}")
 
 
 def main():
@@ -26,13 +84,24 @@ def main():
     parser.add_argument("--max-plans", type=int, default=30)
     parser.add_argument("--timeout", type=float, default=10)
     parser.add_argument("--action-guard", help="module:function(state, target); raises to veto")
-    critic = parser.add_mutually_exclusive_group(required=True)
-    critic.add_argument("--critic-checkpoint")
-    critic.add_argument("--no-critic", action="store_true")
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--critic-checkpoint")
+    mode.add_argument("--no-critic", action="store_true")
+    mode.add_argument(
+        "--check-scene",
+        action="store_true",
+        help="Check initial scene measurements without a policy",
+    )
     parser.add_argument("--critic-device", default="cpu")
     parser.add_argument("--critic-camera", default="base_0_rgb")
     parser.add_argument("--record-critic-context", action="store_true")
     args = parser.parse_args()
+    if args.check_scene and (
+        args.scenario != "nominal" or args.record_critic_context or args.action_guard
+    ):
+        parser.error(
+            "--check-scene cannot apply a disturbance, record critic context or run an action guard"
+        )
     from grounded_vla.backends.isaacsim import IsaacSimConfig
     from grounded_vla.perception.isaac_scene import PickPlaceConfig
 
@@ -40,7 +109,7 @@ def main():
     task_config = PickPlaceConfig.load(args.task_config)
     if sim_config.control_period_seconds > task_config.max_sample_gap:
         parser.error("Control period exceeds the task's maximum sample interval")
-    if (
+    if not args.check_scene and (
         args.seed < 0
         or args.perturb_step < 1
         or not 0 < args.shift_metres <= 0.2
@@ -52,6 +121,9 @@ def main():
         parser.error("Invalid budgets, seed or perturbation magnitude (0, 0.2] m")
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=False)
+    if args.check_scene:
+        _check_scene(sim_config, task_config, out, gui=args.gui)
+        return
     summary = {
         "format": "grounded-vla-pick-place-v1",
         "seed": args.seed,
@@ -73,26 +145,18 @@ def main():
         app = SimulationApp({"headless": not args.gui})
         import numpy as np
 
-        from grounded_vla.backends.isaacsim import IsaacSimEnvironment
         from grounded_vla.backends.openpi import OpenPiTransport
         from grounded_vla.benchmarks.isaac_pick_place import PickPlaceEvaluator
         from grounded_vla.isaacsim_cli import _callable
-        from grounded_vla.perception.isaac_scene import IsaacSceneReader
         from grounded_vla.simulation import CanonicalSimPolicy
         from grounded_vla.tasks.pick_place import build_pick_place
         from grounded_vla.training.recording import CriticObservationRecorder, EpisodeRecorder
 
-        attached = {}
-
-        def setup_scene(world, robot):
-            attached["reader"] = IsaacSceneReader.attach(task_config, world, sim_config.joint_names)
-
-        environment = IsaacSimEnvironment.from_config(
+        environment, reader = _attach_scene(
             sim_config,
-            scene_setup=setup_scene,
+            task_config,
             action_guard=_callable(args.action_guard) if args.action_guard else None,
         )
-        reader = attached["reader"]
         client = OpenPiTransport(args.uri, timeout=args.timeout)
         canonical = CanonicalSimPolicy(client, sim_config)
         evaluator = PickPlaceEvaluator(task_config)

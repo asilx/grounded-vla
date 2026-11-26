@@ -47,6 +47,10 @@ included. This uses explicitly labelled simulator-oracle geometry. CPU integrati
 tests are available; the new native contact path and pretrained-policy physics
 performance still require an Isaac GPU run.
 
+Use `grounded-vla-pick-place ... --check-scene --out runs/scene-check` to inspect
+the initial camera, joint, TCP and contact measurements before starting a policy
+server. See the [scene check example](docs/isaac-pick-place.md#check-the-initial-scene).
+
 Recorded task outcomes can now be independently re-scored on a CPU with
 `grounded-vla-evaluate-pick-place ... --verify-measurements --out comparison.json`.
 The evaluator checks raw contact/pose continuity, measurement digests and sample

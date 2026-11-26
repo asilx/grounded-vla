@@ -4,7 +4,7 @@ Version 0.2 implements the native π0 adapter insertion, data/training pipeline,
 checkpoints and serving. Items concerning pretrained integration refer to
 validation at full scale and π0.5 extensions, not the absence of a π0 code path.
 
-## Priority review — 24 November 2026
+## Priority review — 26 November 2026
 
 The latest main branch already connects oracle Isaac observations to grounded
 pick/place execution. Before collecting new performance numbers, the immediate
@@ -14,8 +14,8 @@ priority is correct evidence, durable outputs, and reproducible scoring.
 | --- | --- | --- |
 | P0 | Inconclusive contact or slip could retain old placement credit; NumPy booleans could crash JSON saving | Fixed and covered by regressions, including successful and interrupted CLI artifact writes |
 | P1 | Aggregation trusted stored success flags; saved raw samples had no replay command or integrity check | Implemented optional raw replay, protocol version, digests/counts and scenario/source groups; failed records remain in totals |
-| P1 | Clean-checkout tests could not import experiment sources stored only in ZIP | Fixed pytest archive imports; 237 CPU tests pass, four OpenPI tests skip |
-| P1 — next | Native contact APIs, scene configuration and compatible trained policy are still unvalidated together | Run nominal and displaced-target episodes on Isaac GPU; calibrate TCP/contact/units; retain every started run and verify its raw records |
+| P1 | Clean-checkout tests could not import experiment sources stored only in ZIP | Pytest imports the archived sources. The CPU suite passes 243 tests and skips four that require OpenPI |
+| P1 — next | Native contact APIs, scene configuration and compatible trained policy are still unvalidated together | Use the [policy-free scene check](isaac-pick-place.md#check-the-initial-scene) to inspect the initial TCP and contact readings. Calibrate on Isaac GPU, run nominal and displaced-target episodes, and verify the raw records for every attempt |
 | P2 | No matched evidence of benefit from the graph/critic on real demonstrations | Train compatible adapters/critic and compare direct VLA, graph-disabled and grounded variants with equal observations, episode budgets and seeds |
 | P2 | No current GitHub Actions workflow; existing repo-wide lint debt | Restore automated CPU checks and resolve the pre-existing 85 lint findings / 17 formatting failures without changing archived experiment semantics |
 
